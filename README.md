@@ -8,4 +8,4 @@ This is a react project, created with next.js.
 
 # Deployment
 
-AWS Amplify.
+AWS Amplify.!
