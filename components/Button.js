@@ -8,7 +8,7 @@ export default function Button() {
       // `styles` object.
       className={styles.error}
     >
-      Destroy
+      Destroy 1
     </button>
   )
 }
