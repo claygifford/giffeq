@@ -1,17 +1,23 @@
-import Head from 'next/head'
-
 export default function Home() {
   return (
     <div className="container">
-      <Head>
-        <title>Giff Eq</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <h1 className="title">
-          Hello World. This is just the beginning!
+          Hello World. This is just the beginning!          
         </h1>
+        <section>
+          This site is built with next.js and react
+        </section>
+        <div>
+          I thought it would be a good idea to collect my thoughts. This site is just that.
+        </div>
+
+        <div>
+          To Do (this site):
+            1. Add in a search       
+            2. Setup the twitter handle?
+        </div>
+
       </main>
 
       <footer>
@@ -146,21 +152,6 @@ export default function Home() {
             width: 100%;
             flex-direction: column;
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
         }
       `}</style>
     </div>
