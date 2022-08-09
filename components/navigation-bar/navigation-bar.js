@@ -13,11 +13,11 @@ export default function NavigationBar() {
       <Link href="/concepts">
         <a>Concepts</a>
       </Link>
-      <Link href="/to-do">
-        <a>To Do</a>
-      </Link>
       <Link href="/how-to">
         <a>How To</a>
+      </Link>
+      <Link href="/timeline">
+        <a>Timeline</a>
       </Link>
     </div>
   );
