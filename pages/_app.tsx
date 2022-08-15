@@ -1,8 +1,9 @@
 import React from 'react';
 import App from 'next/app';
-import SiteLayout from '../components/site-layout';
+import Header from "../components/header/header";
 import Head from 'next/head';
 import '../styles/global.css';
+import Footer from '../components/footer/footer';
 
 class GiffEq extends App {
   render() {
@@ -18,14 +19,13 @@ class GiffEq extends App {
             name="viewport"
             content="width=device-width, initial-scale=1, viewport-fit=cover"
           />
-          <meta
-            name="Description"
-            content="My video game project. This site is to track the progress of my video game development."
-          />
+          <meta name="Description" content="This is my React Portfolio" />
         </Head>
-        <SiteLayout>
+        <Header></Header>
+        <div className="container">
           <Component {...pageProps} />
-        </SiteLayout>
+        </div>
+        <Footer></Footer>
       </React.Fragment>
     );
   }

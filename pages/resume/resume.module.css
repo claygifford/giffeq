@@ -1,0 +1,50 @@
+.Important {
+  font-weight: bold;
+}
+
+.Box {
+  padding: 40px;
+}
+
+.DownloadSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.DownloadContainer {
+  display: flex;
+}
+
+.DownloadButton {
+  margin: 0px 10px;
+  font-size: 1.2rem;
+
+  background-color: #ff3131;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  height: 50px;
+  list-style: none;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.DownloadButton:hover,
+.DownloadButton:focus {
+  background-color: #ff3131b3;
+}

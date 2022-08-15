@@ -1,0 +1,23 @@
+.ProjectContainer {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.ProjectImage {
+  width: 600px;
+}
+
+.ProjectTitle {
+  font-size: 2rem;
+}
+
+.ProjectLink {
+  display: flex;
+  align-items: center;
+}
+
+.ProjectLinkContainer {
+    display: flex;
+    gap: 10px;
+    padding: 20px 0px;
+}
