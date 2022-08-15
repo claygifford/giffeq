@@ -5,34 +5,34 @@ import styles from "./portfolio.module.css";
 const projects = [
   {
     title: "Clay Gifford",
-    image: "./img/profile-1.png",
+    image: "/img/profile-1.png",
     url: "http://www.claygifford.com/",
     github: "https://github.com/claygifford/crowd-strike",
   },
   {
     title: "Sky Specs",
-    image: "./img/profile-2.png",
+    image: "/img/profile-2.png",
     url: "https://github.com/claygifford/sky-specs",
     github: "https://github.com/claygifford/sky-specs",
   },
   {
     title: "Toni Gerber",
-    image: "./img/profile-3.png",
+    image: "/img/profile-3.png",
     github: "https://github.com/claygifford/toni-gerber",
   },
   {
     title: "Senwell Advisors",
-    image: "./img/profile-4.png",
+    image: "/img/profile-4.png",
     url: "https://senwelladvisors.com/",
   },
   {
     title: "Bed License Exchange",
-    image: "./img/profile-5.png",
+    image: "/img/profile-5.png",
     github: "https://github.com/claygifford/BLE",
   },
   {
     title: "Video Game",
-    image: "./img/profile-6.png",
+    image: "/img/profile-6.png",
     github: "https://github.com/claygifford/video-game",
   },
 ];
