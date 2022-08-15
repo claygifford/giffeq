@@ -84,7 +84,7 @@ export default function Contact() {
               name="message"
               defaultValue={message}
               onBlur={handleChange}
-              rows="5"
+              rows={5}
             />
           </div>
           {errorMessage && (
