@@ -1,6 +1,6 @@
 # Intro
 
-Hey there. I thought it would be good idea to write some of my concepts down on paper.
+Hey there my name is Clayton Gifford. Here is my submission for my React Portfolio. 
 
 # About
 
