@@ -21,7 +21,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Playlist!</h1>
-        <button>Sign in</button>
+        <button>Sign in!</button>
       </main>
 
       <footer className={styles.footer}>footer</footer>
