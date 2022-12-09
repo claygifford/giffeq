@@ -3,6 +3,11 @@ import React from 'react';
 
 import styles from '../styles/Home.module.css';
 
+import { Amplify } from 'aws-amplify';
+import awsExports from '../src/aws-exports';
+
+Amplify.configure(awsExports);
+
 export default function Home() {
   return (
     <React.Fragment>
@@ -16,6 +21,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Playlist!</h1>
+        <button>Sign in</button>
       </main>
 
       <footer className={styles.footer}>footer</footer>
