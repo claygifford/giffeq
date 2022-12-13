@@ -1,15 +1,20 @@
 {
-  "dev": {
+  "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-giffeq-dev-220826-authRole",
-      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-220826-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-220826-authRole",
+      "AuthRoleName": "amplify-giffeq-main-54108-authRole",
+      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-main-54108-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-main-54108-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-giffeq-dev-220826-deployment",
-      "UnauthRoleName": "amplify-giffeq-dev-220826-unauthRole",
-      "StackName": "amplify-giffeq-dev-220826",
-      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-dev-220826/c0928890-776e-11ed-9725-063d62b91a84",
-      "AmplifyAppId": "d3a3hgtjbfwi2n"
+      "DeploymentBucketName": "amplify-giffeq-main-54108-deployment",
+      "UnauthRoleName": "amplify-giffeq-main-54108-unauthRole",
+      "StackName": "amplify-giffeq-main-54108",
+      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-main-54108/14c9a0a0-7784-11ed-a445-0a91f248a73e",
+      "AmplifyAppId": "d1eebkx801r2j4"
+    },
+    "categories": {
+      "auth": {
+        "giffeqbcc88498": {}
+      }
     }
   }
 }

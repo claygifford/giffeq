@@ -2450,7 +2450,7 @@ ast-types-flow@^0.0.7:
 
 aws-amplify@^5.0.5:
   version "5.0.5"
-  resolved "https://registry.npmjs.org/aws-amplify/-/aws-amplify-5.0.5.tgz"
+  resolved "https://registry.yarnpkg.com/aws-amplify/-/aws-amplify-5.0.5.tgz#fc3de88b6484aa7ad6960469db3281dde0293f3d"
   integrity sha512-f57N/ZGNJEpZkK1tP9Bj5qjx0WfAGEoHSbjOXVMqkcqWyXM8iQz/adP5cx1Ve2pYy5odkCA10g+dQNuerzMT2w==
   dependencies:
     "@aws-amplify/analytics" "6.0.5"

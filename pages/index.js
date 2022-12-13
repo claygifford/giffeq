@@ -5,6 +5,9 @@ import styles from '../styles/Home.module.css';
 
 import { Amplify } from 'aws-amplify';
 import awsExports from '../src/aws-exports';
+import SignIn from './../components/auth/sign-in';
+import SignUp from './../components/auth/sign-up';
+import SignOut from './../components/auth/sign-out';
 
 Amplify.configure(awsExports);
 
@@ -22,6 +25,9 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Playlist!</h1>
         <button>Sign in!</button>
+        <SignIn></SignIn>
+        <SignUp></SignUp>
+        <SignOut></SignOut>
       </main>
 
       <footer className={styles.footer}>footer</footer>
