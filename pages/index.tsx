@@ -5,13 +5,15 @@ import styles from '../styles/Home.module.css';
 
 import { Amplify } from 'aws-amplify';
 import awsExports from '../src/aws-exports';
-import SignIn from './../components/auth/sign-in';
-import SignUp from './../components/auth/sign-up';
-import SignOut from './../components/auth/sign-out';
+import SignIn from '../components/auth/sign-in';
+import SignUp from '../components/auth/sign-up';
+import SignOut from '../components/auth/sign-out';
+import { useAuth } from '../lib/context/auth-context';
 
 Amplify.configure(awsExports);
 
 export default function Home() {
+  const { userName, createAccount } = useAuth();
   return (
     <React.Fragment>
       <Head>
@@ -24,7 +26,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Playlist!</h1>
-        <button>Sign in!</button>
+        <h1 className="text-3xl font-bold underline">{userName}</h1>
+        <button onClick={() => createAccount()}>Sign in!</button>
         <SignIn></SignIn>
         <SignUp></SignUp>
         <SignOut></SignOut>
