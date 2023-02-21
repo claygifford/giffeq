@@ -1,6 +1,6 @@
 export default function Privacy() {
   return (
-    <>
+    <div className='md:container md:mx-auto py-4'>
       <h1>Privacy Policy</h1>
       <p>Last updated: February 18, 2023</p>
       <p>
@@ -509,7 +509,7 @@ export default function Privacy() {
       <ul>
         <li>By email: giffeq@gmail.com</li>
       </ul>
-    </>
+    </div>
   );
 }
 
