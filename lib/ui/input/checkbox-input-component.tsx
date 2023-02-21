@@ -16,7 +16,7 @@ export default function CheckboxInputComponent(props: CheckboxInputProps) {
         name={name}
         type="checkbox"
         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-        value={value}
+        checked={value}
         onChange={onChange}
       />
       <label htmlFor={name} className="ml-2 block text-sm text-gray-900">
