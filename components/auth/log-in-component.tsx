@@ -8,7 +8,7 @@ import { useAuth } from '../../lib/context/auth-context';
 import ErrorMessageComponent from '../../lib/ui/messages/error-message-component';
 
 export default function LogInComponent() {
-  const {signIn, signInAction} = useAuth();
+  const { signIn, signInAction } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -29,7 +29,9 @@ export default function LogInComponent() {
             Sign in to your account
           </h2>
         </div>
-        <ErrorMessageComponent message={signInAction.errorMessage}/>
+        <ErrorMessageComponent
+          message={signInAction.errorMessage}
+        />
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <InputComponent
             id={'email-address'}

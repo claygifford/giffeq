@@ -2,6 +2,7 @@ import { Auth } from 'aws-amplify';
 import router from 'next/router';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
+import LoadingComponent from '../ui/loading/loading-component';
 
 type Action = {
   isBusy: boolean;
@@ -18,11 +19,13 @@ type AuthValue = {
   forgotPasswordAction: Action;
   forgotPasswordSubmit: ({ email, code, newPassword }) => void;
   signUp: ({ username, password, rememberMe }) => void;
+  signOut: () => void;
 };
 
 const AuthContext = createContext({} as AuthValue);
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = (props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
   const [forgotPasswordAction, setForgotPasswordAction] = useState<Action>({
@@ -41,6 +44,7 @@ const AuthProvider = ({ children }) => {
         isBusy: false,
         errorMessage: undefined,
       });
+      router.push('/');
     } catch (error) {
       console.log('error signing in', error);
       setSignInAction({
@@ -64,7 +68,8 @@ const AuthProvider = ({ children }) => {
             enabled: true,
           },
         });
-        console.log(user);
+        setUser(user);
+        router.push('/');
       } catch (error) {
         console.log('error signing up:', error);
       }
@@ -142,19 +147,40 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const initializeUser = async () => {
+  const signOut = async () => {
     try {
-      const user = await Auth.currentUserInfo();
-      setUser(user);
-    } catch (error) {      
-      router.push({
-        pathname: '/login',
-        query: { returnUrl: router.asPath },
-      });
+      await Auth.signOut();
+      setUser(undefined);
+      router.push('/about');
+    } catch (error) {
+      console.log('error sign out', error);
     }
   };
-  
+
+  const initializeUser = async () => {
+    setIsLoading(true);
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      setUser(user);
+    } catch (error) {
+       
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffectOnce(initializeUser);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (user) return;
+    if (props.protected) {
+      console.log('yes protected');
+      router.push('/about');
+    } else {
+      console.log('not protected');
+    }    
+  }, [user, isLoading, props]);
 
   const value = {
     user,
@@ -162,11 +188,18 @@ const AuthProvider = ({ children }) => {
     signIn,
     signInAction,
     signUp,
+    signOut,
     forgotPassword,
     forgotPasswordAction,
     forgotPasswordSubmit,
   } as AuthValue;
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
+  if (isLoading || (props.protected && !user))
+    return <LoadingComponent></LoadingComponent>;
+
+  return (
+    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
+  );
 };
 
 const useAuth = () => {

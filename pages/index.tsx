@@ -27,3 +27,9 @@ export default function Home() {
     </PageComponent>
   );
 }
+
+export function getServerSideProps() {
+  return {
+    props: { protected: true },
+  };
+}

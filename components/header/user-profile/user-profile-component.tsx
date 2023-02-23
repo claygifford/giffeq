@@ -10,7 +10,7 @@ type UserProfileProps = {
 
 export default function UserProfileComponent(props: UserProfileProps) {
   //const { children } = props;
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClick(() => setIsOpen(false));
 
@@ -27,10 +27,10 @@ export default function UserProfileComponent(props: UserProfileProps) {
           <div className={styles.dropdowntop}>Profile</div>
           <div className={styles.dropdownitem}>{user.username}</div>
           <div
-            className={`${styles.dropdownitem} py-2 flex gap-2 hover:bg-indigo-100 rounded`}
-            onClick={() => console.log('asd')}
+            className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-indigo-100`}
+            onClick={signOut}
           >
-            <ArrowLeftOnRectangleIcon className="text-indigo-500 max-w-[24px] max-h-[24px]" />
+            <ArrowLeftOnRectangleIcon className="text-black-200 max-w-[24px] max-h-[24px]" />
             Sign out
           </div>
           <div className={styles.dropdownbottom}></div>

@@ -7,7 +7,7 @@ Amplify.configure(awsExports);
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
+    <AuthProvider {...pageProps}>
       <Component {...pageProps} />
     </AuthProvider>
   );
