@@ -11,7 +11,7 @@ export default function LogInComponent() {
   const { signIn, signInAction } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   
   function handleSubmit(event) {
     signIn({username, password, rememberMe});
@@ -29,9 +29,7 @@ export default function LogInComponent() {
             Sign in to your account
           </h2>
         </div>
-        <ErrorMessageComponent
-          message={signInAction.errorMessage}
-        />
+        <ErrorMessageComponent message={signInAction.errorMessage} />
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <InputComponent
             id={'email-address'}
@@ -61,7 +59,7 @@ export default function LogInComponent() {
               name={'remember-me'}
               label={'Remember me'}
               value={rememberMe}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => setRememberMe(event.target.value)}
             />
             <div className="text-sm">
               <Link href="/about/recovery">

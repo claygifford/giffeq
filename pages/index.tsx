@@ -1,16 +1,15 @@
-import Head from 'next/head';
 import React from 'react';
 
-import styles from '../styles/Home.module.css';
-
 import PageComponent from '../components/page-component';
-import LogInComponent from '../components/auth/log-in-component';
 import ButtonComponent from '../lib/ui/button/button-component';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import { useMusic } from '../lib/context/music-context';
 
 export default function Home() {
+  const { playMusic } = useMusic();
     function play() {
       console.log('You clicked submit.');      
+      playMusic();
     }
     
   return (
