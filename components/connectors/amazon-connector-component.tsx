@@ -28,6 +28,7 @@ export default function AmazonConnectorComponent() {
     if (tokenResponse) {
       console.log('Cached Access Token: ' + tokenResponse.access_token);
       return;
+    } else {
     }
 
     const options = {
@@ -39,16 +40,28 @@ export default function AmazonConnectorComponent() {
       console.log('Now in here?');
 
       if (response.error) {
-        alert('oauth error ' + response.error);
+        alert('oauth error authorize' + response.error);
         return;
       }
       alert('success: ' + response.code);
 
-      amazon.Login.retrieveProfile(response.access_token, function (response) {
-        alert('Hello, ' + response.profile.Name);
-        alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-        alert('Your unique ID is ' + response.profile.CustomerId);
-        if (window.console && window.console.log) window.console.log(response);
+      amazon.Login.retrieveToken(response.code, async (response) => {
+        if (response.error) {
+          alert('oauth error retrieveToken' + response.error);
+          return;
+        }
+        alert('Access Token: ' + response.access_token);
+
+        amazon.Login.retrieveProfile(
+          response.access_token,
+          function (response) {
+            alert('Hello, ' + response.profile.Name);
+            alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+            alert('Your unique ID is ' + response.profile.CustomerId);
+            if (window.console && window.console.log)
+              window.console.log(response);
+          }
+        );
       });
     });
 
