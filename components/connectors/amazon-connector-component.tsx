@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React, { useEffect } from 'react';
+import { useMusic } from '../../lib/context/music-context';
 import { useEffectOnce } from '../../lib/hooks/use-effect-once';
 
 declare global {
@@ -14,6 +15,7 @@ const Env = {
 };
 
 export default function AmazonConnectorComponent() {
+  const { setAmazonAccessToken } = useMusic();
   var amazon;
 
   const logIn = async (e) => {
@@ -27,6 +29,7 @@ export default function AmazonConnectorComponent() {
     var tokenResponse = await amazon.Login.retrieveToken();
     if (tokenResponse) {
       console.log('Cached Access Token: ' + tokenResponse.access_token);
+      setAmazonAccessToken(tokenResponse.access_token);
       return;
     } else {
     }
@@ -116,3 +119,4 @@ export default function AmazonConnectorComponent() {
     </div>
   );
 }
+

@@ -1,7 +1,8 @@
-import React, { createContext, useCallback } from 'react';
+import React, { createContext, Dispatch, useCallback, useState } from 'react';
 
 type MusicValue = {
   playMusic: () => void;
+  setAmazonAccessToken: Dispatch<any>;
 };
 
 const MusicContext = createContext({} as MusicValue);
@@ -12,13 +13,14 @@ const Env = {
 };
 
 const MusicProvider = (props) => {
-    
+  const [amazonAccessToken, setAmazonAccessToken] = useState<any>(null);
+
   const playMusic = useCallback(async () => {
     // try {
     //     console.log(
     //       `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID} ${process.env.CLIENT_SECRET}`
     //     );
-        
+
     //   const request = await fetch('https://www.amazon.com/ap/oa', {
     //     method: 'get',
     //     headers: new Headers({
@@ -45,7 +47,7 @@ const MusicProvider = (props) => {
     //       client_secret: Env.CLIENT_SECRET,
     //     }),
     //   });
-    //   console.log(`wowzers -- token: ${JSON.stringify(token)}`);      
+    //   console.log(`wowzers -- token: ${JSON.stringify(token)}`);
     // } catch (error) {
     //   console.log('error getting the token', error);
     // } finally {
@@ -59,8 +61,8 @@ const MusicProvider = (props) => {
           method: 'get',
           headers: new Headers({
             'x-api-key': Env.CLIENT_ID,
-            
-          })
+            Authorization: amazonAccessToken,
+          }),
         }
       );
       console.log(`wowzers -- play music: ${JSON.stringify(results)}`);
@@ -71,6 +73,7 @@ const MusicProvider = (props) => {
 
   const value = {
     playMusic,
+    setAmazonAccessToken,
   } as MusicValue;
 
   return (
