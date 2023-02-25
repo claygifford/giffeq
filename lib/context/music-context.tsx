@@ -12,12 +12,13 @@ const Env = {
 };
 
 const MusicProvider = (props) => {
-console.log(
-  `testing ${process.env.TESTINGENV} ${process.env.CLIENT_ID} ${process.env.CLIENT_SECRET}`
-);
     
   const playMusic = useCallback(async () => {
     try {
+        console.log(
+          `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID} ${process.env.CLIENT_SECRET}`
+        );
+        
       const request = await fetch('https://www.amazon.com/ap/oa', {
         method: 'get',
         headers: new Headers({
