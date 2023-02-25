@@ -16,12 +16,14 @@ const Env = {
 export default function AmazonConnectorComponent() {
   var amazon;
 
-  const logIn = async () => {
+  const logIn = async (e) => {
+    e.preventDefault();
+    console.log('The link was clicked.');
+
     console.log(
       `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID}`
     );
 
-    
     var tokenResponse = await amazon.Login.retrieveToken();
     if (tokenResponse) {
       console.log('Cached Access Token: ' + tokenResponse.access_token);
@@ -33,20 +35,24 @@ export default function AmazonConnectorComponent() {
       response_type: 'code',
       pkce: true,
     };
-     await amazon.Login.authorize(options, async (response) => {
-       if (response.error) {
-         alert('oauth error ' + response.error);
-         return;
-       }
-       alert('success: ' + response.code);
+    await amazon.Login.authorize(options, async (response) => {
+      console.log('Now in here?');
 
-       amazon.Login.retrieveProfile(response.access_token, function (response) {
-         alert('Hello, ' + response.profile.Name);
-         alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-         alert('Your unique ID is ' + response.profile.CustomerId);
-         if (window.console && window.console.log) window.console.log(response);
-       });
-     });
+      if (response.error) {
+        alert('oauth error ' + response.error);
+        return;
+      }
+      alert('success: ' + response.code);
+
+      amazon.Login.retrieveProfile(response.access_token, function (response) {
+        alert('Hello, ' + response.profile.Name);
+        alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+        alert('Your unique ID is ' + response.profile.CustomerId);
+        if (window.console && window.console.log) window.console.log(response);
+      });
+    });
+
+    console.log('Waited all the way to here?');
   };
 
   const onLoginReady = (event) => {
