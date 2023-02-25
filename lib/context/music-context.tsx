@@ -55,7 +55,7 @@ const MusicProvider = (props) => {
 
     try {
       // play music
-      console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`)
+      console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`);
       const results = await fetch(
         'https://api.music.amazon.dev/v1/albums/?ids=B0064UPU4G,B091BHTFTZ,B0869N1S7F',
         {
@@ -70,7 +70,7 @@ const MusicProvider = (props) => {
     } catch (error) {
       console.log('error playing music', error);
     }
-  }, []);
+  }, [amazonAccessToken]);
 
   const value = {
     playMusic,

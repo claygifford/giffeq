@@ -25,7 +25,6 @@ export default function AmazonConnectorComponent() {
     console.log(
       `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID}`
     );
-
     var tokenResponse = await amazon.Login.retrieveToken();
     if (tokenResponse) {
       console.log('Cached Access Token: ' + tokenResponse.access_token);
