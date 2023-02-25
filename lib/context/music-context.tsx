@@ -8,7 +8,7 @@ type MusicValue = {
 const MusicContext = createContext({} as MusicValue);
 
 const Env = {
-  CLIENT_ID: process.env.CLIENT_ID,
+  CLIENT_ID: process.env.NEXT_PUBLIC_CLIENT_ID,
   CLIENT_SECRET: process.env.CLIENT_SECRET,
 };
 
@@ -55,6 +55,7 @@ const MusicProvider = (props) => {
 
     try {
       // play music
+      console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`)
       const results = await fetch(
         'https://api.music.amazon.dev/v1/albums/?ids=B0064UPU4G,B091BHTFTZ,B0869N1S7F',
         {
