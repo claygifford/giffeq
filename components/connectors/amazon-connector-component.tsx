@@ -18,12 +18,13 @@ export default function AmazonConnectorComponent() {
 
   const logIn = () => {
     console.log(
-        `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID}`
+      `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID}`
     );
 
     const options = {
       scope: 'profile',
-      response_type: 'code',
+      //response_type: 'code',
+      pkce: true,
     };
     amazon.Login.authorize(options, (response) => {
       if (response.error) {
@@ -31,6 +32,13 @@ export default function AmazonConnectorComponent() {
         return;
       }
       alert('success: ' + response.code);
+
+      amazon.Login.retrieveProfile(response.access_token, function (response) {
+        alert('Hello, ' + response.profile.Name);
+        alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+        alert('Your unique ID is ' + response.profile.CustomerId);
+        if (window.console && window.console.log) window.console.log(response);
+      });
     });
   };
 
