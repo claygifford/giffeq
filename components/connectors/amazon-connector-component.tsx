@@ -16,30 +16,37 @@ const Env = {
 export default function AmazonConnectorComponent() {
   var amazon;
 
-  const logIn = () => {
+  const logIn = async () => {
     console.log(
       `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID}`
     );
 
+    
+    var tokenResponse = await amazon.Login.retrieveToken();
+    if (tokenResponse) {
+      console.log('Cached Access Token: ' + tokenResponse.access_token);
+      return;
+    }
+
     const options = {
       scope: 'profile',
-      //response_type: 'code',
+      response_type: 'code',
       pkce: true,
     };
-    amazon.Login.authorize(options, (response) => {
-      if (response.error) {
-        alert('oauth error ' + response.error);
-        return;
-      }
-      alert('success: ' + response.code);
+     await amazon.Login.authorize(options, async (response) => {
+       if (response.error) {
+         alert('oauth error ' + response.error);
+         return;
+       }
+       alert('success: ' + response.code);
 
-      amazon.Login.retrieveProfile(response.access_token, function (response) {
-        alert('Hello, ' + response.profile.Name);
-        alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-        alert('Your unique ID is ' + response.profile.CustomerId);
-        if (window.console && window.console.log) window.console.log(response);
-      });
-    });
+       amazon.Login.retrieveProfile(response.access_token, function (response) {
+         alert('Hello, ' + response.profile.Name);
+         alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+         alert('Your unique ID is ' + response.profile.CustomerId);
+         if (window.console && window.console.log) window.console.log(response);
+       });
+     });
   };
 
   const onLoginReady = (event) => {
