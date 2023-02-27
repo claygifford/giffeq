@@ -70,6 +70,21 @@ const MusicProvider = (props) => {
     } catch (error) {
       console.log('error playing music', error);
     }
+
+      try {
+        // play music
+        console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`);
+        const results = await fetch('https://music-api.amazon.com/', {
+          method: 'get',
+          headers: new Headers({
+            'x-api-key': Env.CLIENT_ID,
+            Authorization: amazonAccessToken,
+          }),
+        });
+        console.log(`wowzers -- play music: ${JSON.stringify(results)}`);
+      } catch (error) {
+        console.log('error playing music', error);
+      }
   }, [amazonAccessToken]);
 
   const value = {

@@ -34,7 +34,7 @@ export default function AmazonConnectorComponent() {
     }
 
     const options = {
-      scope: 'profile',
+      scope: 'profile, amazon_music:access',
       response_type: 'code',
       pkce: true,
     };
