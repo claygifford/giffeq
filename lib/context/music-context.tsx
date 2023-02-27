@@ -55,7 +55,26 @@ const MusicProvider = (props) => {
 
     try {
       // play music
-      console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`);
+      console.log(
+        `old school way token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`
+      );
+      const results = await fetch('https://music-api.amazon.com/', {
+        method: 'get',
+        headers: new Headers({
+          'x-api-key': Env.CLIENT_ID,
+          Authorization: amazonAccessToken,
+        }),
+      });
+      console.log(`old school way -- play music: ${JSON.stringify(results)}`);
+    } catch (error) {
+      console.log('error playing music old school way', error);
+    }
+
+    try {
+      // play music
+      console.log(
+        `new school way token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`
+      );
       const results = await fetch(
         'https://api.music.amazon.dev/v1/albums/?ids=B0064UPU4G,B091BHTFTZ,B0869N1S7F',
         {
@@ -66,25 +85,10 @@ const MusicProvider = (props) => {
           }),
         }
       );
-      console.log(`wowzers -- play music: ${JSON.stringify(results)}`);
+      console.log(`new school way -- play music: ${JSON.stringify(results)}`);
     } catch (error) {
-      console.log('error playing music', error);
+      console.log('error playing music new school way', error);
     }
-
-      try {
-        // play music
-        console.log(`token: ${amazonAccessToken} client: ${Env.CLIENT_ID}`);
-        const results = await fetch('https://music-api.amazon.com/', {
-          method: 'get',
-          headers: new Headers({
-            'x-api-key': Env.CLIENT_ID,
-            Authorization: amazonAccessToken,
-          }),
-        });
-        console.log(`wowzers -- play music: ${JSON.stringify(results)}`);
-      } catch (error) {
-        console.log('error playing music', error);
-      }
   }, [amazonAccessToken]);
 
   const value = {

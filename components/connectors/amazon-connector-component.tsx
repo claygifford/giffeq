@@ -53,7 +53,7 @@ export default function AmazonConnectorComponent() {
           return;
         }
         alert('Access Token: ' + response.access_token);
-
+        setAmazonAccessToken(tokenResponse.access_token);
         amazon.Login.retrieveProfile(
           response.access_token,
           function (response) {
