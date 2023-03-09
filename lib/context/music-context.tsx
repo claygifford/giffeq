@@ -1,58 +1,41 @@
-import React, { createContext, Dispatch, useCallback, useState } from 'react';
+import React, { createContext, Dispatch, useCallback, useEffect, useState } from 'react';
+import { useEffectOnce } from '../hooks/use-effect-once';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 type MusicValue = {
   playMusic: () => void;
+  playSpotifyMusic: () => void;
   setAmazonAccessToken: Dispatch<any>;
+  setSpotifyAccessToken: Dispatch<any>;
+  searchMusic: (search: string) => void;
+  currentSong: any;
 };
 
 const MusicContext = createContext({} as MusicValue);
 
 const Env = {
   CLIENT_ID: process.env.NEXT_PUBLIC_CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET,
 };
 
 const MusicProvider = (props) => {
+  const router = useRouter();
+
+  const {
+    query: { spotify_activated },
+  } = useRouter();
+  //const searchParams = new URLSearchParams(search);
+  //const param = searchParams.get('account_activated');
+
+  //useEffect(() => {
+  //  console.log('account just got activated~');
+  //}, [param]);
+  
   const [amazonAccessToken, setAmazonAccessToken] = useState<any>(null);
+  const [spotifyAccessToken, setSpotifyAccessToken] = useState<any>(null);
+  const [currentSong, setCurrentSong] = useState<any>(null);
 
   const playMusic = useCallback(async () => {
-    // try {
-    //     console.log(
-    //       `testing ${process.env.NEXT_PUBLIC_TESTINGENV} ${process.env.NEXT_PUBLIC_CLIENT_ID} ${process.env.CLIENT_SECRET}`
-    //     );
-
-    //   const request = await fetch('https://www.amazon.com/ap/oa', {
-    //     method: 'get',
-    //     headers: new Headers({
-    //       client_id: Env.CLIENT_ID,
-    //       scope: 'profile',
-    //       response_type: 'code',
-    //       redirect_uri: 'https://www.giffeq.com/about/login',
-    //     }),
-    //   });
-    //   console.log(`wowzers -- request: ${JSON.stringify(request)}`);
-    // } catch (error) {
-    //   console.log('error getting the request', error);
-    // } finally {
-    // }
-
-    // try {
-    //   const token = await fetch('https://api.amazon.com/auth/o2/token', {
-    //     method: 'get',
-    //     headers: new Headers({
-    //       grant_type: 'Authorization_code',
-    //       code: '',
-    //       //redirect_uri: '',
-    //       client_id: Env.CLIENT_ID,
-    //       client_secret: Env.CLIENT_SECRET,
-    //     }),
-    //   });
-    //   console.log(`wowzers -- token: ${JSON.stringify(token)}`);
-    // } catch (error) {
-    //   console.log('error getting the token', error);
-    // } finally {
-    // }
-
     try {
       // play music
       console.log(
@@ -91,9 +74,89 @@ const MusicProvider = (props) => {
     }
   }, [amazonAccessToken]);
 
+  const playSpotifyMusic = useCallback(async () => {
+    try {
+      // play music
+      console.log(`about to play spotify music!`);
+
+      //
+      const results1 = await fetch(
+        'https://api.spotify.com/v1/me/player/play',
+        {
+          method: 'put',
+          headers: new Headers({
+            Authorization: 'Bearer ' + spotifyAccessToken,
+            'Content-Type': 'application/json',
+          }),
+        }
+      );
+      console.log(`old school way -- play music: ${JSON.stringify(results1)}`);
+
+      const results2 = await fetch('https://api.spotify.com/v1/me/player', {
+        method: 'get',
+        headers: new Headers({
+          'Authorization': 'Bearer ' + spotifyAccessToken,
+          'Content-Type': 'application/json',
+        }),
+      });
+      console.log(`old school way -- play music: ${JSON.stringify(results2)}`);
+    } catch (error) {
+      console.log('error playing music old school way', error);
+    }
+  }, [spotifyAccessToken]);
+  
+    const searchMusic = useCallback(
+      async (search: string) => {
+        try {
+          // play music
+          console.log(`about to play spotify music!`);
+
+          //
+          const response = await fetch(
+            `https://api.spotify.com/v1/search?q=${search}&type=album,track`,
+            {
+              method: 'get',
+              headers: new Headers({
+                Authorization: 'Bearer ' + spotifyAccessToken,
+                'Content-Type': 'application/json',
+              }),
+            }
+          );
+          const data = await response.json() as {tracks: { items: any[] }, albums: { items: any[] }};  
+          console.log(`searching music: ${JSON.stringify(data)}`);
+          if (data && data.tracks && data.tracks.items) {
+            const [first] = data.tracks.items;
+            setCurrentSong(first);
+          }
+        } catch (error) {
+          console.log('error searching music', error);
+        }
+      },
+      [spotifyAccessToken]
+    );
+
+  const getCookies = useCallback(() => {    
+    if (spotify_activated) {
+      console.log('account activated! -- need to remove cookies');
+    }
+    const value = Cookies.get('spotify_tokens');
+    if (value) {
+      var tokens = JSON.parse(value) as { access_token; refresh_token };
+      setSpotifyAccessToken(tokens.access_token);
+      console.log('wow I actually have the cookie');
+    }
+  }, [spotify_activated]);  
+
+  useEffectOnce(getCookies);
+
   const value = {
+    getCookies,
     playMusic,
+    playSpotifyMusic,
     setAmazonAccessToken,
+    setSpotifyAccessToken,
+    searchMusic,
+    currentSong,
   } as MusicValue;
 
   return (
