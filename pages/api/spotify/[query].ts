@@ -87,10 +87,17 @@ const callback = (req: NextApiRequest, res: NextApiResponse) => {
   var storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
+    let output = '';
+    if (state === null) {
+      output += 'state is null';
+    }
+    if (storedState === null) {
+      output += 'storedState is null';
+    }
     res.redirect(
       '/#' +
         querystring.stringify({
-          error: 'state_mismatch',
+          error: 'state_mismatch_' + output,
         })
     );
   } else {
