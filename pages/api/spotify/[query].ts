@@ -20,6 +20,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return login(res);
   } else if (method === 'GET' && query === 'callback') {
     return callback(req, res);
+  } else if (method === 'GET' && query === 'testing') {
+    res.end(
+      `Query: ${query} Method: ${method} ${req.query} ${req.query.state} ${req.query.code}`
+    );
+    return;
   }
 
   res.end(`Query: ${query} Method: ${method}`);
