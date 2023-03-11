@@ -10,9 +10,21 @@ type InputProps = {
   required?: boolean;
   value?: string | ReadonlyArray<string> | number | undefined;
   onChange?: any;
+  onKeyDown?: any;
 };
 export default function InputComponent(props: InputProps) {
-  const { label, name, id, type, autoComplete, placeHolder, required, value, onChange } = props;
+  const {
+    label,
+    name,
+    id,
+    type,
+    autoComplete,
+    placeHolder,
+    required,
+    value,
+    onChange,
+    onKeyDown,
+  } = props;
   return (
     <div className="-space-y-px rounded-md shadow-sm">
       <div>
@@ -29,6 +41,7 @@ export default function InputComponent(props: InputProps) {
           placeholder={placeHolder}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
         />
       </div>
     </div>

@@ -1,4 +1,10 @@
-import React, { createContext, Dispatch, useCallback, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -10,6 +16,9 @@ type MusicValue = {
   setSpotifyAccessToken: Dispatch<any>;
   searchMusic: (search: string) => void;
   currentSong: any;
+  currentResults: any;
+  clearResults: () => void;
+  selectItem: (item: any) => void;
 };
 
 const MusicContext = createContext({} as MusicValue);
@@ -24,16 +33,11 @@ const MusicProvider = (props) => {
   const {
     query: { spotify_activated },
   } = useRouter();
-  //const searchParams = new URLSearchParams(search);
-  //const param = searchParams.get('account_activated');
 
-  //useEffect(() => {
-  //  console.log('account just got activated~');
-  //}, [param]);
-  
   const [amazonAccessToken, setAmazonAccessToken] = useState<any>(null);
   const [spotifyAccessToken, setSpotifyAccessToken] = useState<any>(null);
   const [currentSong, setCurrentSong] = useState<any>(null);
+  const [currentResults, setCurrentResults] = useState<any>(null);
 
   const playMusic = useCallback(async () => {
     try {
@@ -95,7 +99,7 @@ const MusicProvider = (props) => {
       const results2 = await fetch('https://api.spotify.com/v1/me/player', {
         method: 'get',
         headers: new Headers({
-          'Authorization': 'Bearer ' + spotifyAccessToken,
+          Authorization: 'Bearer ' + spotifyAccessToken,
           'Content-Type': 'application/json',
         }),
       });
@@ -104,48 +108,67 @@ const MusicProvider = (props) => {
       console.log('error playing music old school way', error);
     }
   }, [spotifyAccessToken]);
-  
-    const searchMusic = useCallback(
-      async (search: string) => {
-        try {
-          // play music
-          console.log(`about to play spotify music!`);
 
-          //
-          const response = await fetch(
-            `https://api.spotify.com/v1/search?q=${search}&type=album,track`,
-            {
-              method: 'get',
-              headers: new Headers({
-                Authorization: 'Bearer ' + spotifyAccessToken,
-                'Content-Type': 'application/json',
-              }),
-            }
-          );
-          const data = await response.json() as {tracks: { items: any[] }, albums: { items: any[] }};  
-          console.log(`searching music: ${JSON.stringify(data)}`);
-          if (data && data.tracks && data.tracks.items) {
-            const [first] = data.tracks.items;
-            setCurrentSong(first);
+  const searchMusic = useCallback(
+    async (search: string) => {
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/search?q=${search}&type=album,track,artist`,
+          {
+            method: 'get',
+            headers: new Headers({
+              Authorization: 'Bearer ' + spotifyAccessToken,
+              'Content-Type': 'application/json',
+            }),
           }
-        } catch (error) {
-          console.log('error searching music', error);
-        }
-      },
-      [spotifyAccessToken]
-    );
+        );
+        const data = (await response.json()) as {
+          tracks: { items: any[] };
+          albums: { items: any[] };
+          artists: { items: any[] };
+        };
 
-  const getCookies = useCallback(() => {    
+        if (data && data.tracks && data.tracks.items) {
+          const all = [
+            ...data.tracks.items,
+            ...data.artists.items,
+            ...data.albums.items,
+          ];
+          setCurrentResults(all);
+          const [first] = data.tracks.items;
+          setCurrentSong(first);
+        }
+      } catch (error) {
+        console.log('error searching music', error);
+      }
+    },
+    [spotifyAccessToken]
+  );
+
+  const selectItem = useCallback((item: any) => {
+    if (item.type === 'track') {
+      setCurrentSong(item);
+    }
+  }, []);
+
+  const clearResults = useCallback(() => {
+    setCurrentResults(undefined);
+  }, []);
+
+  const getCookies = useCallback(() => {
     if (spotify_activated) {
-      console.log('account activated! -- need to remove cookies');
+      const { ['spotify_activated']: removedProperty, ...rest } = router.query;
+
+      router.replace({
+        query: rest,
+      });
     }
     const value = Cookies.get('spotify_tokens');
     if (value) {
       var tokens = JSON.parse(value) as { access_token; refresh_token };
       setSpotifyAccessToken(tokens.access_token);
-      console.log('wow I actually have the cookie');
     }
-  }, [spotify_activated]);  
+  }, [spotify_activated, router]);
 
   useEffectOnce(getCookies);
 
@@ -157,6 +180,9 @@ const MusicProvider = (props) => {
     setSpotifyAccessToken,
     searchMusic,
     currentSong,
+    currentResults,
+    clearResults,
+    selectItem,
   } as MusicValue;
 
   return (
