@@ -7,26 +7,45 @@ import { useMusic } from '../lib/context/music-context';
 import Link from 'next/link';
 import InputComponent from '../lib/ui/input/input-component';
 
-const ItemTemplate = ({ item, onClick }) => {
+const ItemTemplate = ({ item, onClick, isSelected }) => {
   const artist = (i) => {
     if (i.type === 'album' || i.type === 'track')
-      return <div className="flex px-2 gap-2">| {i.artists.map((artist, i) => {
-        return <div key={artist.id}>{artist.name}</div>;
-      })}</div>;
+      return (
+        <div className="flex px-2 gap-2 truncate">
+          |{' '}
+          {i.artists.map((artist, i) => {
+            return <span key={artist.id}>{artist.name}</span>;
+          })}
+        </div>
+      );
   };
 
   const onItemClick = () => {
     onClick(item);
   }
 
+  const getClass = () => {
+    switch (item.type) {
+      case 'track':
+        return 'bg-red-300';
+      case 'album':
+        return 'bg-blue-300';
+      case 'artist':
+        return 'bg-yellow-300';
+    }
+    return 'bg-gray-300';
+  }
+
   return (
     <div
-      className="flex py-1 items-center cursor-pointer"
+      className={`flex py-1 items-center cursor-pointer ${isSelected ? 'bg-orange-300': ''}`}
       onClick={onItemClick}
     >
-      <div className="font-medium">{item.name}</div>
+      <div className="font-medium truncate">{item.name}</div>
       {artist(item)}
-      <div className="bg-red-300 rounded px-2 py-1 text-white ml-2">
+      <div
+        className={`${getClass()} rounded px-2 py-1 text-white ml-auto`}
+      >
         {item.type}
       </div>
     </div>
@@ -34,8 +53,15 @@ const ItemTemplate = ({ item, onClick }) => {
 };
 
 export default function Home() {
-  const { searchMusic, currentSong, currentResults, clearResults, selectItem } = useMusic();
-  const [songSearch, setSongSearch] = useState('');
+  const {
+    searchMusic,
+    currentSong,
+    currentResults,
+    clearResults,
+    selectItem,
+    spotifyConnectorStatus,    
+  } = useMusic();
+  const [songSearch, setSongSearch] = useState(''); 
 
   const play = () => {
     if (videoRef && videoRef.current) videoRef.current.play();
@@ -67,8 +93,8 @@ export default function Home() {
 
   return (
     <PageComponent>
-      <div className="flex w-full overflow-hidden">
-        <div className="flex-1 overflow-y-auto">
+      <div className="flex flex-1 w-full overflow-hidden">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
           <div className="sticky top-0 bg-white dark:bg-slate-900">
             <div className="p-4">
               <div>Search</div>
@@ -82,6 +108,7 @@ export default function Home() {
                   value={songSearch}
                   onKeyDown={handleKeyDown}
                   onChange={(event) => setSongSearch(event.target.value)}
+                  autoComplete={'off'}
                 />
                 <div className="flex gap-2">
                   <ButtonComponent onClick={onSearch}>Search</ButtonComponent>
@@ -98,12 +125,13 @@ export default function Home() {
                     onClick={onItemClick}
                     item={result}
                     key={result.id}
+                    isSelected={currentSong.id === result.id}
                   />
                 );
               })}
           </div>
         </div>
-        <div className="flex-1 bg-orange-500 p-4 overflow-y-auto">
+        <div className="flex-1 p-4 overflow-y-auto">
           <div>Play</div>
           {currentSong && (
             <div>
@@ -120,8 +148,9 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="flex-1 bg-green-500 p-4 overflow-y-auto">
+        <div className="flex-1 p-4 overflow-y-auto">
           <div>Connector</div>
+          <div>Status: {spotifyConnectorStatus}</div>
           <ButtonComponent>
             <Link href="/api/spotify/login">Login with Spotify</Link>
           </ButtonComponent>

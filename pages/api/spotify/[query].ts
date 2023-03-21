@@ -20,6 +20,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return login(res);
   } else if (method === 'GET' && query === 'callback') {
     return callback(req, res);
+  } else if (method === 'GET' && query === 'refresh_token') {
+    return refreshToken(req, res);
   } else if (method === 'GET' && query === 'testing') {
     res.end(
       `Query: ${query} Method: ${method} ${req.query} ${req.query.state} ${req.query.code}`
@@ -168,4 +170,32 @@ const callback = (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
   }
+};
+
+const refreshToken = (req: NextApiRequest, res: NextApiResponse) => {
+  var refresh_token = req.query.refresh_token;
+
+  var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    headers: {
+      Authorization:
+        'Basic ' +
+        new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString(
+          'base64'
+        ),
+    },
+    json: true,
+  };
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'access_token': access_token,
+      });
+    }
+  });
 };

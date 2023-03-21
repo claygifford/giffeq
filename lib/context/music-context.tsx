@@ -8,6 +8,8 @@ import React, {
 import { useEffectOnce } from '../hooks/use-effect-once';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useDialog } from './dialog-context';
+import ErrorDialog from '../ui/dialog/error-dialog';
 
 type MusicValue = {
   playMusic: () => void;
@@ -19,6 +21,7 @@ type MusicValue = {
   currentResults: any;
   clearResults: () => void;
   selectItem: (item: any) => void;
+  spotifyConnectorStatus: string;
 };
 
 const MusicContext = createContext({} as MusicValue);
@@ -29,6 +32,7 @@ const Env = {
 
 const MusicProvider = (props) => {
   const router = useRouter();
+  const dialog = useDialog();
 
   const {
     query: { spotify_activated },
@@ -36,8 +40,11 @@ const MusicProvider = (props) => {
 
   const [amazonAccessToken, setAmazonAccessToken] = useState<any>(null);
   const [spotifyAccessToken, setSpotifyAccessToken] = useState<any>(null);
+  const [spotifyRefreshToken, setSpotifyRefreshToken] = useState<any>(null);
   const [currentSong, setCurrentSong] = useState<any>(null);
   const [currentResults, setCurrentResults] = useState<any>(null);
+  const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
+    useState<any>(null);
 
   const playMusic = useCallback(async () => {
     try {
@@ -122,6 +129,12 @@ const MusicProvider = (props) => {
             }),
           }
         );
+
+        if (response.status !== 200) {
+          dialog.showDialog({ dialog: ErrorDialog({ response }) });
+          return;
+        }
+
         const data = (await response.json()) as {
           tracks: { items: any[] };
           albums: { items: any[] };
@@ -139,10 +152,10 @@ const MusicProvider = (props) => {
           setCurrentSong(first);
         }
       } catch (error) {
-        console.log('error searching music', error);
+        dialog.showDialog({ dialog: ErrorDialog({ error }) });
       }
     },
-    [spotifyAccessToken]
+    [spotifyAccessToken, dialog]
   );
 
   const selectItem = useCallback((item: any) => {
@@ -155,10 +168,32 @@ const MusicProvider = (props) => {
     setCurrentResults(undefined);
   }, []);
 
+  const refreshToken = useCallback(async (refreshToken) => {
+    try {
+      const response = await fetch(
+        `/api/spotify/refresh_token?refresh_token=${refreshToken}`,
+        {
+          method: 'get'
+        }
+      );
+
+      if (response.status !== 200) {
+        dialog.showDialog({ dialog: ErrorDialog({ response }) });
+        return;
+      }
+      
+      const tokens = (await response.json()) as { access_token: string };
+      setSpotifyAccessToken(tokens.access_token);
+      setSpotifyConnectorStatus('Spotify Connected');
+    } catch (error) {
+      dialog.showDialog({ dialog: ErrorDialog({ error }) });
+    }
+  }, [spotifyAccessToken, dialog]);
+
   const getCookies = useCallback(() => {
     if (spotify_activated) {
       const { ['spotify_activated']: removedProperty, ...rest } = router.query;
-
+      setSpotifyConnectorStatus('Spotify Activated');
       router.replace({
         query: rest,
       });
@@ -167,8 +202,12 @@ const MusicProvider = (props) => {
     if (value) {
       var tokens = JSON.parse(value) as { access_token; refresh_token };
       setSpotifyAccessToken(tokens.access_token);
+      setSpotifyRefreshToken(tokens.refresh_token);
+      setSpotifyConnectorStatus('Has Spotify Tokens');
+      refreshToken(tokens.refresh_token);
+      // refresh token
     }
-  }, [spotify_activated, router]);
+  }, [spotify_activated, router, refreshToken]);
 
   useEffectOnce(getCookies);
 
@@ -183,6 +222,7 @@ const MusicProvider = (props) => {
     currentResults,
     clearResults,
     selectItem,
+    spotifyConnectorStatus,
   } as MusicValue;
 
   return (
