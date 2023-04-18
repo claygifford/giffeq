@@ -1,0 +1,22 @@
+.SideBarButton {
+  @apply relative flex border border-transparent py-2 px-2 text-base font-medium text-white focus:outline-none focus:ring-2;
+  @apply hover:bg-gray-200 text-blue-900;
+
+  transition: 0.3s;
+}
+
+.SideBarButtonSelected {
+  @apply bg-blue-300 hover:bg-blue-100 ring-blue-200 ring-2 font-bold;
+}
+
+.SideBarButtonOpen {
+  @apply rounded-r-full;
+}
+
+.SideBarButtonDefault {
+  @apply rounded-full justify-center;
+}
+
+.SideBarInnerButtonOpen {
+  padding-left: 10px;
+}

@@ -4,13 +4,15 @@ type InputProps = {
   id: string;
   name: string;
   type: string;
-  label: string;
+  label?: string;
   autoComplete?: string;
+  spellCheck?: boolean;
   placeHolder?: string;
   required?: boolean;
   value?: string | ReadonlyArray<string> | number | undefined;
   onChange?: any;
   onKeyDown?: any;
+  children: any;
 };
 export default function InputComponent(props: InputProps) {
   const {
@@ -19,30 +21,34 @@ export default function InputComponent(props: InputProps) {
     id,
     type,
     autoComplete,
+    spellCheck,
     placeHolder,
     required,
     value,
     onChange,
     onKeyDown,
+    children,
   } = props;
   return (
-    <div className="-space-y-px rounded-md shadow-sm">
-      <div>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+        {label}
+      </label>
+      <div className="flex items-center mt-2 gap-2">
         <input
           id={id}
           name={name}
           type={type}
           autoComplete={autoComplete}
           required={required}
-          className="relative mt-2 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-indigo-500 sm:text-sm"
+          className="bg-blue-100 shadow-sm max-w-[400px] relative block w-full appearance-none rounded-md px-3 py-2 text-gray-900 placeholder-gray-700 sm:text-sm border-transparent focus:outline-none focus:ring focus:ring-blue-300"
           placeholder={placeHolder}
           value={value}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          spellCheck={spellCheck}
         />
+        {children}
       </div>
     </div>
   );

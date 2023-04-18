@@ -4,17 +4,20 @@ import { Amplify } from 'aws-amplify';
 import awsExports from '../src/aws-exports';
 import { MusicProvider } from '../lib/context/music-context';
 import { DialogProvider } from '../lib/context/dialog-context';
+import { LayoutProvider } from '../lib/context/layout-context';
 
 Amplify.configure(awsExports);
 
 function MyApp({ Component, pageProps }) {
   return (
     <DialogProvider>
-      <AuthProvider {...pageProps}>
-        <MusicProvider>
-          <Component {...pageProps} />
-        </MusicProvider>
-      </AuthProvider>
+      <LayoutProvider>
+        <AuthProvider {...pageProps}>
+          <MusicProvider>
+            <Component {...pageProps} />
+          </MusicProvider>
+        </AuthProvider>
+      </LayoutProvider>
     </DialogProvider>
   );
 }

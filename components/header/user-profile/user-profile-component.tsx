@@ -1,6 +1,10 @@
 import { useAuth } from '../../../lib/context/auth-context';
 import { useState } from 'react';
-import { ArrowLeftOnRectangleIcon, BeakerIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import {
+  ArrowLeftOnRectangleIcon,
+  BeakerIcon,
+  UserCircleIcon,
+} from '@heroicons/react/24/outline';
 import styles from './user-profile.module.css';
 import { useOutsideClick } from '../../../lib/hooks/use-outside-click';
 
@@ -18,9 +22,9 @@ export default function UserProfileComponent(props: UserProfileProps) {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex w-full justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        className="group relative flex w-full justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
       >
-        <UserCircleIcon className="h-6 w-6 text-indigo-500" />
+        <UserCircleIcon className="h-6 w-6 text-blue-500" />
       </button>
       {isOpen ? (
         <div ref={ref} className={`${styles.dropdown} rounded-lg`}>

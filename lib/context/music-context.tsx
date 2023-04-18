@@ -10,12 +10,14 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useDialog } from './dialog-context';
 import ErrorDialog from '../ui/dialog/error-dialog';
+import debounce from 'lodash.debounce';
 
 type MusicValue = {
   playMusic: () => void;
   playSpotifyMusic: () => void;
   setAmazonAccessToken: Dispatch<any>;
   setSpotifyAccessToken: Dispatch<any>;
+  isSearchingMusic: boolean;
   searchMusic: (search: string) => void;
   currentSong: any;
   currentResults: any;
@@ -45,6 +47,8 @@ const MusicProvider = (props) => {
   const [currentResults, setCurrentResults] = useState<any>(null);
   const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
     useState<any>(null);
+
+  const [isSearchingMusic, setIsSearchingMusic] = useState<boolean>(false);
 
   const playMusic = useCallback(async () => {
     try {
@@ -116,9 +120,11 @@ const MusicProvider = (props) => {
     }
   }, [spotifyAccessToken]);
 
-  const searchMusic = useCallback(
+
+  const searchMusicHandler = useCallback(
     async (search: string) => {
       try {
+        setIsSearchingMusic(true);
         const response = await fetch(
           `https://api.spotify.com/v1/search?q=${search}&type=album,track,artist`,
           {
@@ -153,10 +159,14 @@ const MusicProvider = (props) => {
         }
       } catch (error) {
         dialog.showDialog({ dialog: ErrorDialog({ error }) });
+      } finally {
+        setIsSearchingMusic(false);
       }
     },
     [spotifyAccessToken, dialog]
   );
+  
+  const searchMusic = debounce(searchMusicHandler, 300);
 
   const selectItem = useCallback((item: any) => {
     if (item.type === 'track') {
@@ -217,6 +227,7 @@ const MusicProvider = (props) => {
     playSpotifyMusic,
     setAmazonAccessToken,
     setSpotifyAccessToken,
+    isSearchingMusic,
     searchMusic,
     currentSong,
     currentResults,

@@ -1,0 +1,42 @@
+.Player {
+  display: flex;
+  padding: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.CurrentSongContainer {
+  padding-left: 10px;
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.CurrentSong {
+
+}
+
+.AudioPlayer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.ActionPanel {
+  padding-right: 10px;
+
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.AudioPlayerPlay {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
