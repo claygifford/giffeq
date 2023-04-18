@@ -26,22 +26,22 @@ export default function AboutHeaderComponent(props: Props) {
     >
       <header className={styles.header}>
         <div className="flex px-3">
-          <Link href="/">
+          <Link href="/about">
             <div className="flex gap-3 items-center">
-              <NoteIcon height={32} width={32} className="fill-indigo-600" />{' '}
+              <NoteIcon height={32} width={32} className="fill-blue-900" />{' '}
               Playlist
             </div>
           </Link>
         </div>
 
-        <div className="flex flex-1 gap-3 px-3 h-full">
+        <div className="flex flex-1 gap-6 px-3 h-full">
           {sections?.map((s) => {
             return (
               <div
-                className={`border-b-2 flex ${
+                className={`border-b-2 flex cursor-pointer text-base font-medium hover:text-gray-900 ${
                   selectedSection.name == s.name
-                    ? ' border-indigo-500'
-                    : 'border-white'
+                    ? ' border-blue-900 text-gray-900'
+                    : 'border-white text-gray-500'
                 }`}
                 onClick={() => onSelectSection(s)}
                 key={s.name}

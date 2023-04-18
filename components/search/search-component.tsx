@@ -1,7 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useState } from 'react';
 import { useMusic } from '../../lib/context/music-context';
-import ButtonComponent from '../../lib/ui/button/button-component';
 import BusyIcon from '../../lib/ui/icons/busy-icon';
 import InputComponent from '../../lib/ui/input/input-component';
 import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
@@ -73,6 +72,7 @@ export default function SearchComponent() {
     if (songSearch) {
       searchMusic(songSearch);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songSearch]);
 
   const onSearch = (search: string) => {

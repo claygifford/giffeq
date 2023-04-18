@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import XMarkIcon from '../icons/close-icon';
 import HandRaisedIcon from '../icons/hand-raised-icon';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 type ErrorMessageProps = {
     message?: string;

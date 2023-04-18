@@ -2,7 +2,6 @@ import React, {
   createContext,
   Dispatch,
   useCallback,
-  useEffect,
   useState,
 } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
@@ -198,7 +197,7 @@ const MusicProvider = (props) => {
     } catch (error) {
       dialog.showDialog({ dialog: ErrorDialog({ error }) });
     }
-  }, [spotifyAccessToken, dialog]);
+  }, [dialog]);
 
   const getCookies = useCallback(() => {
     if (spotify_activated) {

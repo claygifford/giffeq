@@ -1,7 +1,7 @@
-import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useMusic } from '../../lib/context/music-context';
 import { useEffectOnce } from '../../lib/hooks/use-effect-once';
+import Image from 'next/image';
 
 declare global {
   interface Window {
@@ -105,7 +105,7 @@ export default function AmazonConnectorComponent() {
       <div>wuf?</div>
       <div id="amazon-root"></div>
       <a href="" id="LoginWithAmazon" onClick={logIn}>
-        <img
+        <Image
           style={{
             border: 0,
           }}

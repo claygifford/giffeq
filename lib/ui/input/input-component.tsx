@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, PropsWithChildren } from 'react';
 
 type InputProps = {
   id: string;
@@ -12,9 +12,8 @@ type InputProps = {
   value?: string | ReadonlyArray<string> | number | undefined;
   onChange?: any;
   onKeyDown?: any;
-  children: any;
 };
-export default function InputComponent(props: InputProps) {
+export default function InputComponent(props: PropsWithChildren<InputProps>) {
   const {
     label,
     name,
