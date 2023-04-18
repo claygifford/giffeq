@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useDialog } from './dialog-context';
 import ErrorDialog from '../ui/dialog/error-dialog';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 
 type MusicValue = {
   playMusic: () => void;

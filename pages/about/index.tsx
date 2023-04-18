@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import PageComponent from '../../components/page-component';
 import AboutHeaderComponent from '../../components/about-header/about-header-component';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 
 export default function About() {
   const pageRef = useRef(null);
