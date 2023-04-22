@@ -9,11 +9,10 @@ import PageComponent from '../../components/page-component';
 import AboutHeaderComponent from '../../components/about-header/about-header-component';
 import debounce from 'lodash/debounce';
 
+import styles from './about.module.css';
+
 export default function About() {
-  const pageRef = useRef(null);
-  const [node, setNode] = useState<HTMLDivElement>();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  
   const section1 = useRef(null);
   const section2 = useRef(null);
   const section3 = useRef(null);
@@ -52,15 +51,18 @@ export default function About() {
   );
 
   useEffect(() => {
-    const sectionRefs = [section1, section2, section3, section4, section5];
-    let top = 0,
-      bottom = 0;
+    const sectionRefs = [
+      section1,
+      section2,
+      section3,
+      section4,
+      section5,
+    ];
+    
     for (var i = 0; i < sectionRefs.length; i++) {
       const position = sections[i].position;
-      position.top = top;
-      position.bottom = bottom =
-        sectionRefs[i].current.getBoundingClientRect().height + top;
-      top = bottom;
+      position.top = sectionRefs[i].current.offsetTop;
+      position.bottom = position.top + sectionRefs[i].current.offsetHeight;
     }
   }, [sections]);
 
@@ -74,13 +76,13 @@ export default function About() {
   };
   const handleScroll = useCallback(
     (event) => {
-      const target = event.target;
-      setIsScrolled(target.scrollTop > 1);
+      const scrollTop = Math.round(window.pageYOffset);
+      setIsScrolled(scrollTop > 1);
       for (var i = 0; i < sections.length; i++) {
         const section = sections[i];
         if (
-          section.position.top <= target.scrollTop &&
-          section.position.bottom >= target.scrollTop
+          section.position.top <= scrollTop &&
+          section.position.bottom >= scrollTop
         ) {
           setSelectedSection(section);
         }
@@ -94,66 +96,124 @@ export default function About() {
   }, [handleScroll]);
 
   useEffect(() => {
-    if (!node) return;
+    if (!window) return;
 
-    node.addEventListener('scroll', debouncedChangeHandler);
+    window.addEventListener('scroll', debouncedChangeHandler);
 
     return () => {
-      node.removeEventListener('scroll', debouncedChangeHandler);
+      window.removeEventListener('scroll', debouncedChangeHandler);
     };
-  }, [node, debouncedChangeHandler]);
-
-  useEffect(() => {
-    if (pageRef && pageRef.current) {
-      setNode(pageRef.current);
-    }
-  }, [pageRef]);
+  }, [debouncedChangeHandler]);
 
   return (
-    <PageComponent innerRef={pageRef}>
+    <PageComponent>
       <AboutHeaderComponent
         sections={sections}
         isScrolled={isScrolled}
         onSelectSection={onSelectSection}
         selectedSection={selectedSection}
       ></AboutHeaderComponent>
-      <div className="bg-orange-500 flex-1 flex-col w-full">
+      <div className="flex-1 w-full">
         <div
           id="section1"
           ref={section1}
-          className="bg-red-500 h-5/6 flex justify-center items-center"
+          className="pt-[60px] h-5/6 flex justify-center items-center bg-red-400"
         >
-          <div className="flex">Section 1</div>
+          <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+              <h1 className={styles.AboutHeader1}>
+                Playlist words that describe the product
+              </h1>
+              <h2 className={styles.AboutHeader3}>
+                Playlist words that describe the product
+              </h2>
+              <div>
+                <div>Go to Playlist</div>
+                <div>button 2</div>
+              </div>
+            </div>
+            <div className="flex flex-1 bg-red-500 rounded-lg justify-center items-center">
+              Section 1 Image
+            </div>
+          </div>
         </div>
         <div
           id="section2"
           ref={section2}
-          className="bg-blue-500 h-5/6 flex justify-center items-center"
+          className="pt-[60px] h-5/6 flex justify-center items-center bg-blue-400"
         >
-          <div className="flex">Section 2</div>
+          <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
+            <div className="flex flex-1 bg-blue-500 rounded-lg justify-center items-center">
+              Section 1 Image
+            </div>
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20">
+              <h1 className={styles.AboutHeader2}>
+                Playlist words that describe the product
+              </h1>
+              <h2 className={styles.AboutHeader4}>
+                Playlist words that describe the product
+              </h2>
+            </div>
+          </div>
         </div>
         <div
           id="section3"
           ref={section3}
-          className="bg-green-500 h-5/6 flex justify-center items-center"
+          className="pt-[60px] h-5/6 flex justify-center items-center bg-green-400"
         >
-          <div>Section 3</div>
+          <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+              <h1 className={styles.AboutHeader2}>
+                Playlist words that describe the product
+              </h1>
+              <h2 className={styles.AboutHeader4}>
+                Playlist words that describe the product
+              </h2>
+            </div>
+            <div className="flex flex-1 bg-green-500 rounded-lg justify-center items-center">
+              Section 3 Image
+            </div>
+          </div>
         </div>
         <div
           id="section4"
           ref={section4}
-          className="bg-yellow-500 h-5/6 flex justify-center items-center"
+          className="pt-[60px] h-5/6 flex justify-center items-center bg-orange-400"
         >
-          <div>Section 4</div>
+          <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
+            <div className="flex flex-1 bg-yellow-500 rounded-lg justify-center items-center">
+              Section 4 Image
+            </div>
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20">
+              <h1 className={styles.AboutHeader2}>
+                Playlist words that describe the product
+              </h1>
+              <h2 className={styles.AboutHeader4}>
+                Playlist words that describe the product
+              </h2>
+            </div>
+          </div>
         </div>
         <div
           id="section5"
           ref={section5}
-          className="bg-purple-500 h-5/6 flex justify-center items-center"
+          className="pt-[60px] h-5/6 flex justify-center items-center bg-brown-400"
         >
-          <div>Section 5</div>
+          <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+              <h1 className={styles.AboutHeader2}>
+                Playlist words that describe the product
+              </h1>
+              <h2 className={styles.AboutHeader4}>
+                Playlist words that describe the product
+              </h2>
+            </div>
+            <div className="flex flex-1 bg-purple-500 rounded-lg justify-center items-center">
+              Section 5 Image
+            </div>
+          </div>
         </div>
-        <div className="bg-indigo-500 h-1/5 flex justify-center items-center">
+        <div className="bg-blue-200 h-1/5 flex justify-center items-center">
           Footer
         </div>
       </div>

@@ -7,15 +7,17 @@ type Props = {
   head?: any;
   footer?: any;
   children: any;
-  innerRef?: any;
+  classes?: string;
 };
 
 export default function PageComponent(props: Props) {
-  const { children, innerRef } = props;
+  const { children, classes } = props;
   return (
     <React.Fragment>
       <HeadComponent />
-      <MainComponent innerRef={innerRef}>{children}</MainComponent>
+      <MainComponent classes={classes}>
+        {children}
+      </MainComponent>
     </React.Fragment>
   );
 }

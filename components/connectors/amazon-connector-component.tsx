@@ -82,7 +82,6 @@ export default function AmazonConnectorComponent() {
     };
     // cleanup this component
     return () => {
-      console.log('hey');
       window.removeEventListener('onAmazonLoginReady ', onLoginReady);
     };
   });
@@ -96,7 +95,6 @@ export default function AmazonConnectorComponent() {
     document.getElementById('amazon-root').appendChild(script);
 
     return () => {
-      console.log('hey yup');
       document.getElementById('amazon-root').removeChild(script);
     };
   });

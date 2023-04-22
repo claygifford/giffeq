@@ -1,20 +1,12 @@
 import { Bars3Icon } from '@heroicons/react/24/solid';
-import { PanelMode, useLayout } from '../../lib/context/layout-context';
 
-type SideBarMainButtonProps = {
+type MenuButtonProps = {
   //children: React.ReactNode;
-  //onClick: () => void;
+  onClick: () => void;
 };
 
-export default function SideBarMainButtonComponent(props: SideBarMainButtonProps) {
-  const { sideBarPane, changeSideBarPane } = useLayout();
-
-  const onClick = () => {
-    if (sideBarPane === PanelMode.Collapsed)
-      changeSideBarPane(PanelMode.Expanded);
-    else changeSideBarPane(PanelMode.Collapsed);
-  };
-
+export default function MenuButtonComponent(props: MenuButtonProps) {
+  const { onClick } = props;
   return (
     <div className="relative pl-2">
       <button

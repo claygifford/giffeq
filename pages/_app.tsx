@@ -5,6 +5,7 @@ import awsExports from '../src/aws-exports';
 import { MusicProvider } from '../lib/context/music-context';
 import { DialogProvider } from '../lib/context/dialog-context';
 import { LayoutProvider } from '../lib/context/layout-context';
+import { PlaylistProvider } from '../lib/context/playlist-context';
 
 Amplify.configure(awsExports);
 
@@ -13,9 +14,11 @@ function MyApp({ Component, pageProps }) {
     <DialogProvider>
       <LayoutProvider>
         <AuthProvider {...pageProps}>
-          <MusicProvider>
-            <Component {...pageProps} />
-          </MusicProvider>
+          <PlaylistProvider>
+            <MusicProvider>
+              <Component {...pageProps} />
+            </MusicProvider>
+          </PlaylistProvider>
         </AuthProvider>
       </LayoutProvider>
     </DialogProvider>

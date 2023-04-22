@@ -110,7 +110,7 @@ export default function PlayerComponent() {
             {isPlaying ? (
               <PauseIcon className="h-6 w-6" />
             ) : (
-              <PlayIcon className="h-6 w-6" />
+              <PlayIcon className="h-6 w-6 pl-[2px]" />
             )}
           </button>
           {elapsed ? <div>{elapsed}</div> : <div>-</div>}

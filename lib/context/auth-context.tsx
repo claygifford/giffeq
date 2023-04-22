@@ -3,6 +3,7 @@ import router from 'next/router';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import LoadingComponent from '../ui/loading/loading-component';
+import { PageMode, useLayout } from './layout-context';
 
 type Action = {
   isBusy: boolean;
@@ -25,6 +26,7 @@ type AuthValue = {
 const AuthContext = createContext({} as AuthValue);
 
 const AuthProvider = (props) => {
+  const { changePageMode } = useLayout();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
@@ -162,6 +164,12 @@ const AuthProvider = (props) => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       setUser(user);
+
+      //has user now get details of the user
+      //if there is a playlist id then use that.
+
+      //set mode -> playlist or not
+      changePageMode(PageMode.Playlist);
     } catch (error) {
        
     } finally {

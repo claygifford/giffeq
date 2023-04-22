@@ -3,13 +3,13 @@ import styles from './main.module.css';
 
 type Props = {
   children: any;
-  innerRef?: any;
+  classes?: string;
 };
 
 export default function MainComponent(props: Props) {
-  const { children, innerRef } = props;
+  const { children, classes } = props;
   return (
-    <main ref={innerRef} className={styles.main}>
+    <main className={`${styles.main} ${classes}`}>
       {children}
     </main>
   );

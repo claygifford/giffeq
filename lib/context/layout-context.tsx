@@ -9,8 +9,9 @@ import React, {
 export const PanelMode = {
   Collapsed: 1,
   Expanded: 2,
-};
+} as const;
 type PanelModeType = typeof PanelMode[keyof typeof PanelMode];
+
 export const MainMode = {
   Search: 1,
   NextSong: 2,
@@ -18,36 +19,60 @@ export const MainMode = {
   History: 4,
   Settings: 5,
 } as const;
-
 type MainModeType = typeof MainMode[keyof typeof MainMode];
+
+export const PageMode = {
+  Playlist: 1,
+  Listening: 2,
+} as const;
+type PageModeType = typeof PageMode[keyof typeof PageMode];
 
 type LayoutValue = {
   connectorPane: number;
-  setConnectorPane: Dispatch<SetStateAction<number>>;
+  changeConnectorPane: (pane: PanelModeType) => void;
   sideBarPane: number;
-  setSideBarPane: Dispatch<SetStateAction<number>>;
+  changeSideBarPane: (pane: PanelModeType) => void;
   mainPane: number;
   showMainPane: (pane: MainModeType) => void;
+  pageMode: number;
+  changePageMode: (mode: PageModeType) => void;
 };
 
 const LayoutContext = createContext({} as LayoutValue);
 
 const LayoutProvider = (props) => {
-  const [connectorPane, setConnectorPane] = useState(PanelMode.Collapsed);
-  const [sideBarPane, setSideBarPane] = useState(PanelMode.Collapsed);
+  const [connectorPane, setConnectorPane] =
+    useState<PanelModeType>(PanelMode.Collapsed);
+  const [sideBarPane, setSideBarPane] =
+    useState<PanelModeType>(PanelMode.Collapsed);
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
+  const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Listening);
+
+  const changeConnectorPane = useCallback((pane: PageModeType) => {
+    setConnectorPane(pane);
+  }, []);
+
+  const changeSideBarPane = useCallback((pane: PageModeType) => {
+    setSideBarPane(pane);
+  }, []);
 
   const showMainPane = useCallback((pane: MainModeType) => {
     setMainPane(pane);
   }, []);
 
+  const changePageMode = useCallback((pane: PageModeType) => {
+    setPageMode(pane);
+  }, []);
+
   const value = {
     connectorPane,
-    setConnectorPane,
+    changeConnectorPane,
     sideBarPane,
-    setSideBarPane,
+    changeSideBarPane,
     mainPane,
     showMainPane,
+    pageMode,
+    changePageMode,
   } as LayoutValue;
 
   return (

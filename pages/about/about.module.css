@@ -1,0 +1,19 @@
+.AboutHeader1 {
+    @apply text-6xl text-gray-800;
+    padding: 20px 0px 10px 0px;  
+}
+
+.AboutHeader2 {
+    @apply text-4xl;
+    padding: 20px 0px 10px 0px;  
+}
+
+.AboutHeader3 {
+    @apply text-2xl text-gray-600;
+    padding: 20px 0px 10px 0px;  
+}
+
+.AboutHeader4 {
+    @apply text-xl text-gray-600;
+    padding: 20px 0px 10px 0px;  
+}

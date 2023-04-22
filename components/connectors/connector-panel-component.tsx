@@ -11,13 +11,13 @@ type ConnectorPanelProps = {
 };
 
 export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
-  const { connectorPane, setConnectorPane } = useLayout();
+  const { connectorPane, changeConnectorPane } = useLayout();
   const {
     spotifyConnectorStatus,
   } = useMusic();
   
   const onClose = () => {
-    setConnectorPane(PanelMode.Collapsed);
+    changeConnectorPane(PanelMode.Collapsed);
   }
 
   if (connectorPane === PanelMode.Collapsed) return;

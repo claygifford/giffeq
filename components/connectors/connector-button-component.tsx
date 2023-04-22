@@ -9,12 +9,12 @@ type ConnectorButtonProps = {
 };
 
 export default function ConnectorButtonComponent(props: ConnectorButtonProps) {
-  const { connectorPane, setConnectorPane } = useLayout();
+  const { connectorPane, changeConnectorPane } = useLayout();
 
   const onClick = () => {
     if (connectorPane === PanelMode.Collapsed)
-      setConnectorPane(PanelMode.Expanded);
-    else setConnectorPane(PanelMode.Collapsed);
+      changeConnectorPane(PanelMode.Expanded);
+    else changeConnectorPane(PanelMode.Collapsed);
   };
 
   return (
