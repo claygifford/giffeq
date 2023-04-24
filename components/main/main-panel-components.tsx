@@ -1,6 +1,6 @@
 import { MainMode, useLayout } from '../../lib/context/layout-context';
 import DecisionsComponent from '../decisions/decisions-component';
-import NextSongComponent from '../next-song/next-song-component';
+import NextSongComponent from '../song/song-component';
 import SearchComponent from '../search/search-component';
 import SettingsComponent from '../settings/settings-component';
 import HistoryComponent from './../history/history-component';

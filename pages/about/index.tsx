@@ -8,7 +8,7 @@ import React, {
 import PageComponent from '../../components/page-component';
 import AboutHeaderComponent from '../../components/about-header/about-header-component';
 import debounce from 'lodash/debounce';
-
+import router from 'next/router';
 import styles from './about.module.css';
 
 export default function About() {
@@ -117,10 +117,10 @@ export default function About() {
         <div
           id="section1"
           ref={section1}
-          className="pt-[60px] h-5/6 flex justify-center items-center bg-red-400"
+          className={`${styles.AboutSection} bg-red-400`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader1}>
                 Playlist words that describe the product
               </h1>
@@ -128,11 +128,16 @@ export default function About() {
                 Playlist words that describe the product
               </h2>
               <div>
-                <div>Go to Playlist</div>
+                <button
+                  onClick={() => router.push('/')}
+                  className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  Go to Playlist
+                </button>
                 <div>button 2</div>
               </div>
             </div>
-            <div className="flex flex-1 bg-red-500 rounded-lg justify-center items-center">
+            <div className="flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10">
               Section 1 Image
             </div>
           </div>
@@ -140,13 +145,13 @@ export default function About() {
         <div
           id="section2"
           ref={section2}
-          className="pt-[60px] h-5/6 flex justify-center items-center bg-blue-400"
+          className={`${styles.AboutSection} bg-blue-400`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 bg-blue-500 rounded-lg justify-center items-center">
+            <div className="flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10">
               Section 1 Image
             </div>
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -159,10 +164,10 @@ export default function About() {
         <div
           id="section3"
           ref={section3}
-          className="pt-[60px] h-5/6 flex justify-center items-center bg-green-400"
+          className={`${styles.AboutSection} bg-green-400`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -170,7 +175,7 @@ export default function About() {
                 Playlist words that describe the product
               </h2>
             </div>
-            <div className="flex flex-1 bg-green-500 rounded-lg justify-center items-center">
+            <div className="flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10">
               Section 3 Image
             </div>
           </div>
@@ -178,13 +183,13 @@ export default function About() {
         <div
           id="section4"
           ref={section4}
-          className="pt-[60px] h-5/6 flex justify-center items-center bg-orange-400"
+          className={`${styles.AboutSection} bg-orange-400`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 bg-yellow-500 rounded-lg justify-center items-center">
+            <div className="flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10">
               Section 4 Image
             </div>
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -197,10 +202,10 @@ export default function About() {
         <div
           id="section5"
           ref={section5}
-          className="pt-[60px] h-5/6 flex justify-center items-center bg-brown-400"
+          className={`${styles.AboutSection}`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20">
+            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -208,7 +213,7 @@ export default function About() {
                 Playlist words that describe the product
               </h2>
             </div>
-            <div className="flex flex-1 bg-purple-500 rounded-lg justify-center items-center">
+            <div className="flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10">
               Section 5 Image
             </div>
           </div>

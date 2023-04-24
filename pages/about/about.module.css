@@ -17,3 +17,8 @@
     @apply text-xl text-gray-600;
     padding: 20px 0px 10px 0px;  
 }
+
+.AboutSection {
+    @apply pt-[60px] flex justify-center items-center;
+    height: calc(80% - 60px);
+}

@@ -1,0 +1,14 @@
+.SelectorItem {
+  @apply flex items-center justify-center cursor-pointer bg-slate-300 rounded border-2 border-slate-400;
+  @apply hover:bg-slate-500;
+  width: 160px;
+  height: 240px;
+
+}
+
+.SelectorNewItem {
+  @apply flex items-center justify-center cursor-pointer bg-red-300 rounded border-2 border-red-400;
+  @apply hover:bg-red-500;
+  width: 160px;
+  height: 240px;
+}

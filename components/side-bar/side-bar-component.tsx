@@ -66,7 +66,7 @@ export default function SideBarComponent() {
           ) : (
             <BeakerOutlineIcon className="h-6 w-6" />
           )}
-          {isOpen ? <div>Next Song</div> : null}
+          {isOpen ? <div>Song</div> : null}
         </SideBarButtonComponent>
         <SideBarButtonComponent
           isOpen={isOpen}

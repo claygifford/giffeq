@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 
 import { createPortal } from 'react-dom';
-import ModalComponent, { Dialog } from '../ui/dialog/modal';
+import ModalComponent, { Dialog, DialogContainer } from '../ui/dialog/modal-component';
+import SlideInComponent from '../ui/dialog/slide-in-component';
 
 type DialogValue = {
   showDialog: ({ dialog }) => void;
@@ -27,7 +28,36 @@ const DialogProvider = (props) => {
   const showDialog = useCallback(
     async ( {dialog} : {dialog: Dialog}) => {
       if (isBrowser) {
-        setWindows([<ModalComponent key={'1'} onClose={() => { setWindows([]); }}>{dialog}</ModalComponent>]);
+        switch (dialog.Type) {
+          case DialogContainer.SlideIn:
+          {
+            setWindows([
+              <SlideInComponent
+                key={'1'}
+                onClose={() => {
+                  setWindows([]);
+                }}
+              >
+                {dialog}
+              </SlideInComponent>,
+            ]);
+            break;
+          }
+          case DialogContainer.Modal:
+          default:
+          {
+            setWindows([
+              <ModalComponent
+                key={'1'}
+                onClose={() => {
+                  setWindows([]);
+                }}
+              >
+                {dialog}
+              </ModalComponent>,
+            ]);
+          }
+        }        
       }
     },
     [isBrowser]

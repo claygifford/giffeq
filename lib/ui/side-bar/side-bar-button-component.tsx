@@ -6,16 +6,17 @@ type SideBarButtonProps = {
   onClick?;
   isSelected?: boolean;
   isOpen?: boolean;
+  classes?: string;
 };
 
 export default function SideBarButtonComponent(props: SideBarButtonProps) {
-  const { isSelected, children, onClick, isOpen } = props;
+  const { isSelected, children, onClick, isOpen, classes = 'px-2 py-2' } = props;
 
   return (
     <button
       onClick={onClick}
       type="submit"
-      className={`${styles.SideBarButton} ${
+      className={`${styles.SideBarButton} ${classes} ${
         isSelected ? styles.SideBarButtonSelected : ''
       } ${isOpen ? styles.SideBarButtonOpen : styles.SideBarButtonDefault}`}
     >

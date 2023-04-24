@@ -1,16 +1,23 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { ReactNode } from 'react';
-import styles from './modal.module.css';
+import styles from './modal-component.module.css';
 
 type ModalProps = {
   children: Dialog;
   onClose: () => void;
 };
 
+export const DialogContainer = {
+  Modal: 1,
+  SlideIn: 2,
+} as const;
+type DialogContainerType = typeof DialogContainer[keyof typeof DialogContainer];
+
 export type Dialog = {
   Header: ReactNode;
   Body: ReactNode;
   Footer?: ReactNode;
+  Type: DialogContainerType;
 };
 
 export default function ModalComponent(props: ModalProps) {

@@ -1,12 +1,12 @@
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { PanelMode, useLayout } from '../../lib/context/layout-context';
 
-type SideBarMainButtonProps = {
+type HamburgerButtonProps = {
   //children: React.ReactNode;
   //onClick: () => void;
 };
 
-export default function SideBarMainButtonComponent(props: SideBarMainButtonProps) {
+export default function HamburgerButtonComponent(props: HamburgerButtonProps) {
   const { sideBarPane, changeSideBarPane } = useLayout();
 
   const onClick = () => {

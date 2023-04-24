@@ -6,21 +6,12 @@ import HeaderComponent from '../components/header/header-component';
 import PlayerComponent from '../components/player/player-component';
 import SideBarComponent from '../components/side-bar/side-bar-component';
 import MainPanelComponent from '../components/main/main-panel-components';
-import { usePlaylist } from '../lib/context/playlist-context';
 import { PageMode, useLayout } from '../lib/context/layout-context';
 import ContainerComponent from '../lib/ui/container/container';
+import PlaylistSelectorComponent from '../components/playlist-selector/playlist-selector.component';
 
 export default function Home() {
-  const { playlist, selectPlaylist } = usePlaylist();
   const { pageMode } = useLayout();
-
-  const onSelectPlaylist = (playlist) => {
-    selectPlaylist(playlist);
-  };
-
-  const onNewPlaylist = () => {
-    selectPlaylist('+ new playlist');
-  };
 
   const renderPage = () => {
     switch (pageMode) {
@@ -40,13 +31,7 @@ export default function Home() {
         return (
           <>
             <ContainerComponent>
-              {playlist}
-              <div>
-                <div onClick={() => onSelectPlaylist('Playlist 1')}>
-                  Playlist 1
-                </div>
-                <div onClick={() => onNewPlaylist()}>+ New</div>
-              </div>
+              <PlaylistSelectorComponent></PlaylistSelectorComponent>
               <ConnectorPanel />
             </ContainerComponent>
           </>

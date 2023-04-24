@@ -1,5 +1,5 @@
 import React, { Children } from 'react';
-import { Dialog } from './modal';
+import { Dialog, DialogContainer } from './modal-component';
 
 type ErrorDialogProps = {
   response?: Response;
@@ -22,5 +22,6 @@ export default function ErrorDialogComponent(props: ErrorDialogProps): Dialog {
   return {
     Header: <div>{header}</div>,
     Body: <div className="bg-red-300">{body}</div>,
+    Type: DialogContainer.Modal
   };
 }

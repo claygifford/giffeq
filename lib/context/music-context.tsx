@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useDialog } from './dialog-context';
 import ErrorDialog from '../ui/dialog/error-dialog';
 import debounce from 'lodash/debounce';
+import { usePlaylist } from './playlist-context';
 
 type MusicValue = {
   playMusic: () => void;
@@ -34,6 +35,7 @@ const Env = {
 const MusicProvider = (props) => {
   const router = useRouter();
   const dialog = useDialog();
+  const { saveSearch } = usePlaylist();
 
   const {
     query: { spotify_activated },
@@ -119,11 +121,11 @@ const MusicProvider = (props) => {
     }
   }, [spotifyAccessToken]);
 
-
   const searchMusicHandler = useCallback(
     async (search: string) => {
       try {
         setIsSearchingMusic(true);
+        saveSearch(search);
         const response = await fetch(
           `https://api.spotify.com/v1/search?q=${search}&type=album,track,artist`,
           {
@@ -162,7 +164,7 @@ const MusicProvider = (props) => {
         setIsSearchingMusic(false);
       }
     },
-    [spotifyAccessToken, dialog]
+    [spotifyAccessToken, dialog, saveSearch]
   );
   
   const searchMusic = debounce(searchMusicHandler, 300);
