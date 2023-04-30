@@ -2966,7 +2966,7 @@ escape-string-regexp@^4.0.0:
 
 eslint-config-next@^13.3.2:
   version "13.3.2"
-  resolved "https://registry.npmjs.org/eslint-config-next/-/eslint-config-next-13.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-13.3.2.tgz#4f8b1717e0caa2126e1e8141e4e6808d2da95dcd"
   integrity sha512-SHhE2Jo06wL3Y/hkb0in2FPXZJY3Q+6sTMUtlQkAYZFldRxoK4C5siXmuOcwSKBnaddVM1Az6GpTIDwFmKRwbg==
   dependencies:
     "@next/eslint-plugin-next" "13.3.2"
@@ -3914,7 +3914,7 @@ natural-compare@^1.4.0:
 
 next@^13.3.2:
   version "13.3.2"
-  resolved "https://registry.npmjs.org/next/-/next-13.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/next/-/next-13.3.2.tgz#3409425593410571aa835867865b6db9c3fddd68"
   integrity sha512-82VuWoMGWFqGUwCEWcqkIhGgdRry+VKVBZ9KNte1Uk2byZKvPZrC5c62fYHrIhSf36YKY6m21hxdyDzn6MDHFA==
   dependencies:
     "@next/env" "13.3.2"
@@ -4248,7 +4248,7 @@ quick-lru@^5.1.1:
 
 react-dom@^18.2.0:
   version "18.2.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
   dependencies:
     loose-envify "^1.1.0"
@@ -4268,7 +4268,7 @@ react-native-get-random-values@^1.4.0:
 
 react@^18.2.0:
   version "18.2.0"
-  resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
