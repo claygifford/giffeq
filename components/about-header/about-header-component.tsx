@@ -43,10 +43,10 @@ export default function AboutHeaderComponent(props: Props) {
           {sections?.map((s) => {
             return (
               <div
-                className={`p-5 border-b-2 flex cursor-pointer text-base font-medium hover:text-gray-900 ${
+                className={`p-5 flex cursor-pointer text-base font-medium hover:text-gray-900 ${
                   selectedSection.name == s.name
-                    ? ' border-blue-900 text-gray-900'
-                    : 'border-white text-gray-500'
+                    ? 'font-bold text-gray-900'
+                    : 'hover:bg-gray-100 text-gray-500'
                 }`}
                 onClick={() => onSelectSection(s)}
                 key={s.name}
@@ -76,9 +76,7 @@ export default function AboutHeaderComponent(props: Props) {
     >
       <header className={styles.header}>
         <div className="lg:hidden block">
-          <MenuButtonComponent
-            onClick={showSlideIn}
-          ></MenuButtonComponent>
+          <MenuButtonComponent onClick={showSlideIn}></MenuButtonComponent>
         </div>
 
         <div className="flex px-3">
@@ -119,16 +117,16 @@ export default function AboutHeaderComponent(props: Props) {
               <UserProfileComponent></UserProfileComponent>
             </div>
           ) : (
-            <div className="flex gap-1">
+            <div className="flex gap-3">
               <button
                 onClick={() => router.push('/about/signup')}
-                className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
               >
                 Sign up
               </button>
               <button
                 onClick={() => router.push('/about/login')}
-                className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
               >
                 Log in
               </button>

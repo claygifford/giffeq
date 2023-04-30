@@ -23,7 +23,7 @@ export default function LogInComponent() {
       <div className="w-full max-w-md space-y-8">
         <div>
           <div className="flex justify-center">
-            <NoteIcon className="fill-indigo-600" />
+            <NoteIcon className="fill-blue-600" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign in to your account
@@ -63,7 +63,7 @@ export default function LogInComponent() {
             />
             <div className="text-sm">
               <Link href="/about/recovery">
-                <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
                 </a>
               </Link>
@@ -75,7 +75,7 @@ export default function LogInComponent() {
           <p className="mt-2 text-center text-lg text-gray-600">
             Don&apos;t have account?
             <Link href="/about/signup">
-              <a className="font-medium text-indigo-600 hover:text-indigo-500 pl-4">
+              <a className="font-medium text-blue-600 hover:text-blue-500 pl-4">
                 Sign up for free
               </a>
             </Link>

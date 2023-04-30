@@ -4,7 +4,7 @@ import { MainMode, PageMode, useLayout } from './layout-context';
 export type Playlist = {
   name: string;
   id: string;
-  history: [];
+  history: any[];
   searches: string[];
 };
 
@@ -12,6 +12,7 @@ type PlaylistValue = {
   playlist: Playlist;
   selectPlaylist: (list?: Playlist) => void;
   saveSearch: (search: string) => void;
+  songPlayed: (song: any) => void;
 };
 
 const PlaylistContext = createContext({} as PlaylistValue);
@@ -27,6 +28,20 @@ const PlaylistProvider = (props) => {
             playlist.searches = [search];            
           } else {
             playlist.searches.push(search);
+          }
+        }
+      },
+      [playlist]
+    );
+
+    const songPlayed = useCallback(
+      (song: any) => {
+        if (song && playlist && !song.recorded) {
+          song.recorded = true;
+          if (!playlist.history) {
+            playlist.history = [song];
+          } else {
+            playlist.history.push(song);
           }
         }
       },
@@ -50,6 +65,7 @@ const PlaylistProvider = (props) => {
     playlist,
     selectPlaylist,
     saveSearch,
+    songPlayed,
   } as PlaylistValue;
 
   return (

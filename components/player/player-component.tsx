@@ -9,9 +9,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useMusic } from '../../lib/context/music-context';
 import { useEffectOnce } from '../../lib/hooks/use-effect-once';
 import styles from './player.module.css';
+import { usePlaylist } from '../../lib/context/playlist-context';
 
 export default function PlayerComponent() {
   const { currentSong } = useMusic();
+  const { songPlayed } = usePlaylist();
   const [isPlaying, setIsPlaying] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
   const [duration, setDuration] = useState(null);
@@ -21,14 +23,17 @@ export default function PlayerComponent() {
 
   const onPlay = () => {
     if (audioRef && audioRef.current) {
-      if (audioRef.current.paused) audioRef.current.play();
+      if (audioRef.current.paused) {
+        audioRef.current.play();
+        songPlayed(currentSong);
+      }
       else audioRef.current.pause();
     }
   };
 
-  const onAudioPlay = () => {setIsPlaying(true);};
+  const onAudioPlay = () => setIsPlaying(true);
+  const onAudioPause = () => setIsPlaying(false);
 
-  const onAudioPause = () => {setIsPlaying(false);}
   const onAudioTimeUpdate = () => {
     if (audioRef && audioRef.current) {
       setElapsed(Math.round(audioRef.current.currentTime));

@@ -183,10 +183,8 @@ const AuthProvider = (props) => {
     if (isLoading) return;
     if (user) return;
     if (props.protected) {
-      console.log('yes protected');
       router.push('/about');
     } else {
-      console.log('not protected');
     }    
   }, [user, isLoading, props]);
 

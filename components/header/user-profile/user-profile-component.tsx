@@ -7,13 +7,13 @@ import {
 } from '@heroicons/react/24/outline';
 import styles from './user-profile.module.css';
 import { useOutsideClick } from '../../../lib/hooks/use-outside-click';
+import router from 'next/router';
 
 type UserProfileProps = {
   //children: React.ReactNode;
 };
 
 export default function UserProfileComponent(props: UserProfileProps) {
-  //const { children } = props;
   const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClick(() => setIsOpen(false));
@@ -31,7 +31,13 @@ export default function UserProfileComponent(props: UserProfileProps) {
           <div className={styles.dropdowntop}>Profile</div>
           <div className={styles.dropdownitem}>{user.username}</div>
           <div
-            className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-indigo-100`}
+            className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-blue-100`}
+            onClick={() => {router.push('/about')}}
+          >
+            About
+          </div>
+          <div
+            className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-blue-100`}
             onClick={signOut}
           >
             <ArrowLeftOnRectangleIcon className="text-black-200 max-w-[24px] max-h-[24px]" />

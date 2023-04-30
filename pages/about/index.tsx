@@ -10,8 +10,15 @@ import AboutHeaderComponent from '../../components/about-header/about-header-com
 import debounce from 'lodash/debounce';
 import router from 'next/router';
 import styles from './about.module.css';
+import { useAuth } from '../../lib/context/auth-context';
+
+import localFont from 'next/font/local';
+
+const traveler = localFont({ src: './Traveler.ttf' });
+const selfish = localFont({ src: './Selfish.ttf' });
 
 export default function About() {
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const section1 = useRef(null);
   const section2 = useRef(null);
@@ -114,11 +121,7 @@ export default function About() {
         selectedSection={selectedSection}
       ></AboutHeaderComponent>
       <div className="flex-1 w-full">
-        <div
-          id="section1"
-          ref={section1}
-          className={`${styles.AboutSection} bg-red-400`}
-        >
+        <div id="section1" ref={section1} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader1}>
@@ -127,17 +130,35 @@ export default function About() {
               <h2 className={styles.AboutHeader3}>
                 Playlist words that describe the product
               </h2>
-              <div>
-                <button
-                  onClick={() => router.push('/')}
-                  className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                >
-                  Go to Playlist
-                </button>
-                <div>button 2</div>
+              <div className="pt-5">
+                {user ? (
+                  <button
+                    onClick={() => router.push('/')}
+                    className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  >
+                    Go to Playlist
+                  </button>
+                ) : (
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => router.push('/about/signup')}
+                      className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    >
+                      Sign up
+                    </button>
+                    <button
+                      onClick={() => router.push('/about/login')}
+                      className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    >
+                      Log in
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-            <div className="flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10">
+            <div
+              className={`${traveler.className} flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+            >
               Section 1 Image
             </div>
           </div>
@@ -148,8 +169,10 @@ export default function About() {
           className={`${styles.AboutSection} bg-blue-400`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10">
-              Section 1 Image
+            <div
+              className={`${selfish.className} flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+            >
+              Section 2 Image
             </div>
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
               <h1 className={styles.AboutHeader2}>
@@ -161,11 +184,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div
-          id="section3"
-          ref={section3}
-          className={`${styles.AboutSection} bg-green-400`}
-        >
+        <div id="section3" ref={section3} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader2}>
@@ -175,7 +194,9 @@ export default function About() {
                 Playlist words that describe the product
               </h2>
             </div>
-            <div className="flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10">
+            <div
+              className={`${traveler.className} flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+            >
               Section 3 Image
             </div>
           </div>
@@ -183,10 +204,12 @@ export default function About() {
         <div
           id="section4"
           ref={section4}
-          className={`${styles.AboutSection} bg-orange-400`}
+          className={`${styles.AboutSection} bg-yellow-200`}
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10">
+            <div
+              className={`${selfish.className} flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+            >
               Section 4 Image
             </div>
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
@@ -199,11 +222,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div
-          id="section5"
-          ref={section5}
-          className={`${styles.AboutSection}`}
-        >
+        <div id="section5" ref={section5} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
               <h1 className={styles.AboutHeader2}>
@@ -213,7 +232,9 @@ export default function About() {
                 Playlist words that describe the product
               </h2>
             </div>
-            <div className="flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10">
+            <div
+              className={`${traveler.className} flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+            >
               Section 5 Image
             </div>
           </div>

@@ -5,12 +5,12 @@ export default function LoadingComponent() {
   return (
     <div className="flex flex-1 gap-4 flex-col items-center justify-center">
       <div className="flex gap-4">
-        <NoteIcon height={64} width={64} className="fill-indigo-600" />
+        <NoteIcon height={64} width={64} className="fill-blue-900" />
         <div className="text-5xl font-medium">Playlist</div>
       </div>
       <div>
         <svg
-          className="animate-spin -ml-1 mr-3 h-10 w-10 text-indigo-500"
+          className="animate-spin -ml-1 mr-3 h-12 w-12 text-blue-900"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
