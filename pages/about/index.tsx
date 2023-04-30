@@ -12,10 +12,10 @@ import router from 'next/router';
 import styles from './about.module.css';
 import { useAuth } from '../../lib/context/auth-context';
 
-import localFont from 'next/font/local';
+//import localFont from 'next/font/local';
 
-const traveler = localFont({ src: './Traveler.ttf' });
-const selfish = localFont({ src: './Selfish.ttf' });
+//const traveler = localFont({ src: './Traveler.ttf' });
+//const selfish = localFont({ src: './Selfish.ttf' });
 
 export default function About() {
   const { user } = useAuth();
@@ -157,7 +157,7 @@ export default function About() {
               </div>
             </div>
             <div
-              className={`${traveler.className} flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
               Section 1 Image
             </div>
@@ -170,7 +170,7 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${selfish.className} flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Selfish} flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
               Section 2 Image
             </div>
@@ -195,7 +195,7 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${traveler.className} flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
               Section 3 Image
             </div>
@@ -208,7 +208,7 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${selfish.className} flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Selfish} flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
               Section 4 Image
             </div>
@@ -233,7 +233,7 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${traveler.className} flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
               Section 5 Image
             </div>

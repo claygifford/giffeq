@@ -54,3 +54,17 @@ a {
     background: black;
   }
 }
+
+@font-face {
+  font-family: "Traveler";
+  src: url('../fonts/Traveler.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+  
+@font-face {
+  font-family: "Selfish";
+  src: url('../fonts/Selfish.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
