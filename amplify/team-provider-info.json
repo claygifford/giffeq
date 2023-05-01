@@ -1,37 +1,19 @@
 {
-  "main": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-giffeq-main-54108-authRole",
-      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-main-54108-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-main-54108-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-giffeq-main-54108-deployment",
-      "UnauthRoleName": "amplify-giffeq-main-54108-unauthRole",
-      "StackName": "amplify-giffeq-main-54108",
-      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-main-54108/14c9a0a0-7784-11ed-a445-0a91f248a73e",
-      "AmplifyAppId": "d1eebkx801r2j4"
-    },
-    "categories": {
-      "auth": {
-        "giffeqbcc88498": {}
-      }
-    }
-  },
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-giffeq-dev-90945-authRole",
-      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-90945-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-90945-authRole",
+      "AuthRoleName": "amplify-giffeq-dev-151706-authRole",
+      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-151706-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-151706-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-giffeq-dev-90945-deployment",
-      "UnauthRoleName": "amplify-giffeq-dev-90945-unauthRole",
-      "StackName": "amplify-giffeq-dev-90945",
-      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-dev-90945/73178740-e821-11ed-b447-02902cc7e505",
-      "AmplifyAppId": "dy4zd63k67zgu"
+      "DeploymentBucketName": "amplify-giffeq-dev-151706-deployment",
+      "UnauthRoleName": "amplify-giffeq-dev-151706-unauthRole",
+      "StackName": "amplify-giffeq-dev-151706",
+      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-dev-151706/c4913160-e854-11ed-900c-0604ee0f160f",
+      "AmplifyAppId": "decx4fuguj6gr"
     },
     "categories": {
       "auth": {
-        "giffeqbcc88498": {}
+        "giffeq70151cc1": {}
       }
     }
   }
