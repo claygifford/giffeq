@@ -10,7 +10,7 @@
     "export": "next export"
   },
   "dependencies": {
-    "aws-amplify": "^5.0.5",
+    "aws-amplify": "^5.1.4",
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {

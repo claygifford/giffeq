@@ -2598,7 +2598,7 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-amplify@^5.0.5:
+aws-amplify@^5.1.4:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/aws-amplify/-/aws-amplify-5.1.4.tgz#7f918574a7efe4f7b65bfad7ddb96520524187af"
   integrity sha512-EtFxC0/hcXWyFyelkgHZCQIZchSaPnCmsUF4PNG90jEDtHclzmfpEQmltHJ0DjO+xOlQ9LYX6z4YeBHzUO+xPw==
