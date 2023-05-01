@@ -16,5 +16,23 @@
         "giffeqbcc88498": {}
       }
     }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-giffeq-dev-90945-authRole",
+      "UnauthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-90945-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::962750310083:role/amplify-giffeq-dev-90945-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-giffeq-dev-90945-deployment",
+      "UnauthRoleName": "amplify-giffeq-dev-90945-unauthRole",
+      "StackName": "amplify-giffeq-dev-90945",
+      "StackId": "arn:aws:cloudformation:us-east-2:962750310083:stack/amplify-giffeq-dev-90945/73178740-e821-11ed-b447-02902cc7e505",
+      "AmplifyAppId": "dy4zd63k67zgu"
+    },
+    "categories": {
+      "auth": {
+        "giffeqbcc88498": {}
+      }
+    }
   }
 }
