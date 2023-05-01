@@ -62,7 +62,7 @@ export default function LogInComponent() {
               onChange={(event) => setRememberMe(event.target.value)}
             />
             <div className="text-sm">
-              <Link href="/about/recovery">
+              <Link legacyBehavior href="/about/recovery">
                 <a className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
                 </a>
@@ -74,7 +74,7 @@ export default function LogInComponent() {
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">
             Don&apos;t have account?
-            <Link href="/about/signup">
+            <Link legacyBehavior href="/about/signup">
               <a className="font-medium text-blue-600 hover:text-blue-500 pl-4">
                 Sign up for free
               </a>
