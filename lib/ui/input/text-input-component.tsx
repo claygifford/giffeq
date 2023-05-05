@@ -23,7 +23,7 @@ export default function TextInputComponent(props: TextInputProps) {
           type={type}
           autoComplete={autoComplete}
           required={required}
-          className="shadow-sm relative mt-2 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="shadow-sm relative mt-2 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           placeholder={placeHolder}
         />
       </div>

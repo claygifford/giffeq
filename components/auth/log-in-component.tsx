@@ -20,7 +20,7 @@ export default function LogInComponent() {
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
+      <div className="w-[400px] max-w-[400px] space-y-8">
         <div>
           <div className="flex justify-center">
             <NoteIcon className="fill-blue-600" />

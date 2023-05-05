@@ -20,10 +20,10 @@ export default function SignUpComponent() {
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
+      <div className="w-full max-w-[400px] space-y-8">
         <div>
           <div className="flex justify-center">
-            <NoteIcon className="fill-indigo-600" />
+            <NoteIcon className="fill-blue-600" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign up with your email address
@@ -70,10 +70,11 @@ export default function SignUpComponent() {
           <p className="mt-2 text-center text-lg text-gray-600">
             Already have an account?
             <Link
+              legacyBehavior
               href="/about/login"
-              className="font-medium text-indigo-600 hover:text-indigo-500 pl-4"
+              className="font-medium text-blue-600 hover:text-blue-500 pl-4"
             >
-              <a className="font-medium text-indigo-600 hover:text-indigo-500 pl-4">
+              <a className="font-medium text-blue-600 hover:text-blue-500 pl-4">
                 Log in
               </a>
             </Link>

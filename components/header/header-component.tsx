@@ -31,7 +31,7 @@ export default function HeaderComponent() {
           <SideBarButtonComponent
             classes="py-1 px-1"
             onClick={() => {
-              selectPlaylist()
+              selectPlaylist();
             }}
           >
             <XMarkIcon className="h-4 w-4" />
@@ -46,13 +46,13 @@ export default function HeaderComponent() {
           <div className="flex gap-1">
             <button
               onClick={() => router.push('/about/signup')}
-              className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
               Sign up
             </button>
             <button
               onClick={() => router.push('/about/login')}
-              className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
               Log in
             </button>

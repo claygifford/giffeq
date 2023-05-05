@@ -134,7 +134,7 @@ export default function About() {
                 {user ? (
                   <button
                     onClick={() => router.push('/')}
-                    className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   >
                     Go to Playlist
                   </button>
@@ -142,13 +142,13 @@ export default function About() {
                   <div className="flex gap-3">
                     <button
                       onClick={() => router.push('/about/signup')}
-                      className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                      className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Sign up
                     </button>
                     <button
                       onClick={() => router.push('/about/login')}
-                      className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                      className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Log in
                     </button>
@@ -157,9 +157,10 @@ export default function About() {
               </div>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-col flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
-              Section 1 Image
+              <div>Section 1</div>
+              <div>Image</div>
             </div>
           </div>
         </div>
@@ -170,9 +171,10 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${styles.Selfish} flex flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Selfish} flex flex-col flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
-              Section 2 Image
+              <div>Section 2</div>
+              <div>Image</div>
             </div>
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
               <h1 className={styles.AboutHeader2}>
@@ -195,9 +197,10 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-col flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
-              Section 3 Image
+              <div>Section 3</div>
+              <div>Image</div>
             </div>
           </div>
         </div>
@@ -208,9 +211,10 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${styles.Selfish} flex flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Selfish} flex flex-col flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
-              Section 4 Image
+              <div>Section 4</div>
+              <div>Image</div>
             </div>
             <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
               <h1 className={styles.AboutHeader2}>
@@ -233,9 +237,10 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.Traveler} flex flex-col flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
             >
-              Section 5 Image
+              <div>Section 5</div>
+              <div>Image</div>
             </div>
           </div>
         </div>
