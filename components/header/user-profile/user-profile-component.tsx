@@ -13,6 +13,10 @@ type UserProfileProps = {
   //children: React.ReactNode;
 };
 
+const Env = {
+  APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,
+};
+
 export default function UserProfileComponent(props: UserProfileProps) {
   const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +36,9 @@ export default function UserProfileComponent(props: UserProfileProps) {
           <div className={styles.dropdownitem}>{user.username}</div>
           <div
             className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-blue-100`}
-            onClick={() => {router.push('/about')}}
+            onClick={() => {
+              router.push('/about');
+            }}
           >
             About
           </div>
@@ -43,6 +49,7 @@ export default function UserProfileComponent(props: UserProfileProps) {
             <ArrowLeftOnRectangleIcon className="text-black-200 max-w-[24px] max-h-[24px]" />
             Sign out
           </div>
+          <div>Build {Env.APP_VERSION}</div>
           <div className={styles.dropdownbottom}></div>
         </div>
       ) : undefined}
