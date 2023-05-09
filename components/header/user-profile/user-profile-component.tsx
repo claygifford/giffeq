@@ -49,7 +49,7 @@ export default function UserProfileComponent(props: UserProfileProps) {
             <ArrowLeftOnRectangleIcon className="text-black-200 max-w-[24px] max-h-[24px]" />
             Sign out
           </div>
-          <div>Build {Env.APP_VERSION}</div>
+          <div className={styles.dropdownitem}>Build {Env.APP_VERSION}</div>
           <div className={styles.dropdownbottom}></div>
         </div>
       ) : undefined}
