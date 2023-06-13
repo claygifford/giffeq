@@ -123,7 +123,7 @@ export default function About() {
       <div className="flex-1 w-full">
         <div id="section1" ref={section1} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
+            <div className={`${styles.AboutSectionTextLeft}`}>
               <h1 className={styles.AboutHeader1}>
                 Playlist words that describe the product
               </h1>
@@ -157,7 +157,7 @@ export default function About() {
               </div>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-col flex-1 bg-red-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.AboutSubsection} ${styles.Traveler} bg-red-500`}
             >
               <div>Section 1</div>
               <div>Image</div>
@@ -171,12 +171,12 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${styles.Selfish} flex flex-col flex-1 bg-blue-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.AboutSubsection} ${styles.Selfish} bg-blue-500`}
             >
               <div>Section 2</div>
               <div>Image</div>
             </div>
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
+            <div className={`${styles.AboutSectionTextRight}`}>
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -188,7 +188,7 @@ export default function About() {
         </div>
         <div id="section3" ref={section3} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
+            <div className={`${styles.AboutSectionTextLeft}`}>
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -197,7 +197,7 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-col flex-1 bg-green-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.AboutSubsection} ${styles.Traveler} bg-green-500`}
             >
               <div>Section 3</div>
               <div>Image</div>
@@ -211,12 +211,12 @@ export default function About() {
         >
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div
-              className={`${styles.Selfish} flex flex-col flex-1 bg-yellow-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.AboutSubsection} ${styles.Selfish} bg-yellow-500`}
             >
               <div>Section 4</div>
               <div>Image</div>
             </div>
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10">
+            <div className={`${styles.AboutSectionTextRight}`}>
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -228,7 +228,7 @@ export default function About() {
         </div>
         <div id="section5" ref={section5} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
-            <div className="flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10">
+            <div className={`${styles.AboutSectionTextLeft}`}>
               <h1 className={styles.AboutHeader2}>
                 Playlist words that describe the product
               </h1>
@@ -237,7 +237,7 @@ export default function About() {
               </h2>
             </div>
             <div
-              className={`${styles.Traveler} flex flex-col flex-1 bg-purple-500 rounded-lg justify-center items-center mx-10 text-white text-7xl`}
+              className={`${styles.AboutSubsection} ${styles.Traveler} bg-purple-500`}
             >
               <div>Section 5</div>
               <div>Image</div>

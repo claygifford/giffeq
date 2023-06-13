@@ -1,33 +1,62 @@
 .AboutHeader1 {
-    @apply text-6xl text-gray-800;
-    padding: 20px 0px 10px 0px;  
+  @apply text-6xl text-gray-800;
+  padding: 20px 0px 10px 0px;
 }
 
 .AboutHeader2 {
-    @apply text-4xl;
-    padding: 20px 0px 10px 0px;  
+  @apply text-4xl;
+  padding: 20px 0px 10px 0px;
 }
 
 .AboutHeader3 {
-    @apply text-2xl text-gray-600;
-    padding: 20px 0px 10px 0px;  
+  @apply text-2xl text-gray-600;
+  padding: 20px 0px 10px 0px;
 }
 
 .AboutHeader4 {
-    @apply text-xl text-gray-600;
-    padding: 20px 0px 10px 0px;  
+  @apply text-xl text-gray-600;
+  padding: 20px 0px 10px 0px;
 }
 
 .AboutSection {
-    @apply pt-[60px] flex justify-center items-center;
-    height: calc(80% - 60px);
+  @apply pt-[60px] flex justify-center items-center;
+  height: calc(80% - 60px);
 }
 
+.AboutSubsection {
+  @apply flex flex-col flex-1 rounded-lg justify-center items-center mx-10 text-white text-7xl;
+}
+
+.AboutSectionTextLeft {
+    @apply flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10;
+}
+
+.AboutSectionTextRight {
+  @apply flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10;
+}
+
+@media only screen and (max-width: 600px) {
+  .AboutSection {
+    height: auto;
+  }
+
+  .AboutSubsection {
+    min-height: 400px;
+    margin: 40px 20px;
+  }
+
+  .AboutSectionTextRight {
+    margin-bottom: 40px;
+  }
+  .AboutSectionTextRight, .AboutSectionTextLeft {
+    padding: 0;
+  }
+}
 
 .Traveler {
-  font-family: "Traveler";
+  font-family: 'Traveler';
 }
-  
+
 .Selfish {
-  font-family: "Selfish";
+  font-family: 'Selfish';
 }
