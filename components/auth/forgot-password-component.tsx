@@ -3,6 +3,7 @@ import InputComponent from '../../lib/ui/input/input-component';
 import ButtonComponent from '../../lib/ui/button/button-component';
 import NoteIcon from '../../lib/ui/icons/note-icon';
 import { useAuth } from '../../lib/context/auth-context';
+import Link from 'next/link';
 
 const Forgot = (props: { handleSubmit; email; setEmail }) => {
   const { handleSubmit, email, setEmail } = props;
@@ -32,6 +33,18 @@ const Forgot = (props: { handleSubmit; email; setEmail }) => {
           <ButtonComponent type={'submit'}>Send</ButtonComponent>
         </div>
       </form>
+      <p className="mt-2 text-center text-lg text-gray-600">
+        Already have an account?
+        <Link
+          legacyBehavior
+          href="/about/login"
+          className="font-medium text-blue-600 hover:text-blue-500 pl-4"
+        >
+          <a className="font-medium text-blue-600 hover:text-blue-500 pl-4">
+            Log in
+          </a>
+        </Link>
+      </p>
     </>
   );
 };
