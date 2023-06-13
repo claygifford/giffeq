@@ -6,6 +6,7 @@ import ButtonComponent from '../../lib/ui/button/button-component';
 import CheckboxInputComponent from '../../lib/ui/input/checkbox-input-component';
 import { useAuth } from '../../lib/context/auth-context';
 import ErrorMessageComponent from '../../lib/ui/messages/error-message-component';
+import BusyIcon from '../../lib/ui/icons/busy-icon';
 
 export default function LogInComponent() {
   const { signIn, signInAction } = useAuth();
@@ -13,7 +14,7 @@ export default function LogInComponent() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   
-  function handleSubmit(event) {
+  function handleSubmit(event) {    
     signIn({username, password, rememberMe});
     event.preventDefault();
   }
@@ -70,7 +71,10 @@ export default function LogInComponent() {
             </div>
           </div>
           <div>
-            <ButtonComponent type={'submit'}>Sign In</ButtonComponent>
+            <ButtonComponent type={'submit'} disabled={signInAction.isBusy}>
+              {signInAction.isBusy && <BusyIcon />}{' '}
+              {signInAction.isBusy ? 'Signing In...' : 'Sign In'}
+            </ButtonComponent>
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">
             Don&apos;t have account?

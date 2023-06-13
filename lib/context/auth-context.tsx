@@ -13,13 +13,13 @@ type Action = {
 
 type AuthValue = {
   user: any;
-  createAccount: (account) => void;
   signIn: ({ username, password, rememberMe }) => void;
   signInAction: Action;
   forgotPassword: ({ email }) => void;
   forgotPasswordAction: Action;
   forgotPasswordSubmit: ({ email, code, newPassword }) => void;
-  signUp: ({ username, password, rememberMe }) => void;
+  signUp: ({ username, password, rememberMe, email }) => void;
+  signUpAction: Action;
   signOut: () => void;
 };
 
@@ -30,6 +30,7 @@ const AuthProvider = (props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
+  const [signUpAction, setSignUpAction] = useState<Action>({ isBusy: false });
   const [forgotPasswordAction, setForgotPasswordAction] = useState<Action>({
     isBusy: false,
   });
@@ -42,13 +43,12 @@ const AuthProvider = (props) => {
       });
       const user = await Auth.signIn(username, password);
       setUser(user);
+      await router.push('/');
       setSignInAction({
         isBusy: false,
         errorMessage: undefined,
       });
-      router.push('/');
     } catch (error) {
-      console.log('error signing in', error);
       setSignInAction({
         isBusy: false,
         errorMessage: error.message,
@@ -59,6 +59,11 @@ const AuthProvider = (props) => {
   const signUp = useCallback(
     async ({ username, password, email, rememberMe }) => {
       try {
+        setSignUpAction({
+          isBusy: true,
+          errorMessage: undefined,
+        });
+
         const { user } = await Auth.signUp({
           username,
           password,
@@ -71,36 +76,20 @@ const AuthProvider = (props) => {
           },
         });
         setUser(user);
-        router.push('/');
+        await router.push('/');
+        setSignUpAction({
+          isBusy: false,
+          errorMessage: undefined,
+        });
       } catch (error) {
-        console.log('error signing up:', error);
+        setSignUpAction({
+          isBusy: false,
+          errorMessage: error.message,
+        });
       }
     },
     []
   );
-
-  const createAccount = async (account) => {
-    setUser('new name');
-
-    try {
-      const { username, password, email } = account;
-      const { user } = await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email, // optional
-        },
-        autoSignIn: {
-          // optional - enables auto sign in after user is confirmed
-          enabled: true,
-        },
-      });
-      setUser(user);
-      console.log(user);
-    } catch (error) {
-      console.log('error signing up:', error);
-    }
-  };
 
   const forgotPassword = async (account) => {
     try {
@@ -127,19 +116,19 @@ const AuthProvider = (props) => {
 
   const forgotPasswordSubmit = async (account) => {
     try {
-      // setForgotPasswordAction({
-      //   isBusy: true,
-      //   errorMessage: undefined,
-      //   successMessage: undefined,
-      // });
+      setForgotPasswordAction({
+        isBusy: true,
+        errorMessage: undefined,
+        successMessage: undefined,
+      });
       const { email, code, newPassword } = account;
       const stuff = await Auth.forgotPasswordSubmit(email, code, newPassword);
-      //setUser(stuff);
-      // setForgotPasswordAction({
-      //   isBusy: false,
-      //   errorMessage: undefined,
-      //   successMessage: 'cool it worked',
-      // });
+      setUser(stuff);
+      setForgotPasswordAction({
+        isBusy: false,
+        errorMessage: undefined,
+        successMessage: 'cool it worked',
+      });
     } catch (error) {
       console.log('error forgot password', error);
       setForgotPasswordAction({
@@ -171,7 +160,6 @@ const AuthProvider = (props) => {
       //set mode -> playlist or not
       changePageMode(PageMode.Playlist);
     } catch (error) {
-       
     } finally {
       setIsLoading(false);
     }
@@ -185,15 +173,15 @@ const AuthProvider = (props) => {
     if (props.protected) {
       router.push('/about');
     } else {
-    }    
+    }
   }, [user, isLoading, props]);
 
   const value = {
     user,
-    createAccount,
     signIn,
     signInAction,
     signUp,
+    signUpAction,
     signOut,
     forgotPassword,
     forgotPasswordAction,

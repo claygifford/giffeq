@@ -5,16 +5,17 @@ import ButtonComponent from '../../lib/ui/button/button-component';
 import InputComponent from '../../lib/ui/input/input-component';
 import { useAuth } from '../../lib/context/auth-context';
 import ErrorMessageComponent from '../../lib/ui/messages/error-message-component';
+import BusyIcon from '../../lib/ui/icons/busy-icon';
 
 export default function SignUpComponent() {
-  const {signUp} = useAuth();
+  const { signUp, signUpAction } = useAuth();
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
   function handleSubmit(event) {
-    signUp({ username: email, password, rememberMe });
+    signUp({ username: email, password, rememberMe, email });
     event.preventDefault();
   }
 
@@ -29,7 +30,7 @@ export default function SignUpComponent() {
             Sign up with your email address
           </h2>
         </div>
-        <ErrorMessageComponent />
+        <ErrorMessageComponent message={signUpAction.errorMessage} />
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <InputComponent
             id={'email-address'}
@@ -65,7 +66,10 @@ export default function SignUpComponent() {
             onChange={(event) => setPassword(event.target.value)}
           />
           <div>
-            <ButtonComponent type={'submit'}>Sign up</ButtonComponent>
+            <ButtonComponent type={'submit'} disabled={signUpAction.isBusy}>
+              {signUpAction.isBusy && <BusyIcon />}{' '}
+              {signUpAction.isBusy ? 'Signing Up...' : 'Sign up'}
+            </ButtonComponent>
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">
             Already have an account?

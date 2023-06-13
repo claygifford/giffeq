@@ -12,11 +12,29 @@
 
 .modalcontent {
   background-color: white;
-  margin: 15% auto; 
+  /* margin: 15% auto;  */
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%; 
+  border: 1px solid #888;   
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.ModalContentCenter {
+  margin: 15% auto;
+  width: 80%;
+}
+
+.ModalContentBottomLeft {
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  max-width: 400px;
+  position: absolute;  
+
+  background-color: #ffc34d;
+  border: 1px solid black;
+  margin: 10px;
+  border-radius: 4px;
+  @apply drop-shadow-md;
 }
 
 .modalheader {
@@ -25,7 +43,7 @@
 
 .modalheaderbutton {
   margin-left: auto;
-  color: #aaa;
+  color: #555;
 }
 
 .modalheaderbutton:hover,

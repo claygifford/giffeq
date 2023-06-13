@@ -28,7 +28,7 @@ export default function UserProfileComponent(props: UserProfileProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="group relative flex w-full justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
       >
-        <UserCircleIcon className="h-6 w-6 text-blue-500" />
+        <UserCircleIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-blue-500" />
       </button>
       {isOpen ? (
         <div ref={ref} className={`${styles.dropdown} rounded-lg`}>

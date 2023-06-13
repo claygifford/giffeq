@@ -24,15 +24,15 @@
 }
 
 .AboutSubsection {
-  @apply flex flex-col flex-1 rounded-lg justify-center items-center mx-10 text-white text-7xl;
+  @apply mb-10 flex flex-col flex-1 rounded-lg justify-center items-center mx-10 text-white text-7xl;
 }
 
 .AboutSectionTextLeft {
-    @apply flex flex-1 flex-col justify-center items-start rounded-lg pr-20 mx-10;
+    @apply my-10 mx-10 lg:my-0 lg:mx-10 lg:pr-20 flex flex-1 flex-col justify-center items-start rounded-lg;
 }
 
 .AboutSectionTextRight {
-  @apply flex flex-1 flex-col justify-center items-start rounded-lg pl-20 mx-10;
+  @apply my-10 mx-10 lg:my-0 lg:mx-10 lg:pl-20 flex flex-1 flex-col justify-center items-start rounded-lg;
 }
 
 @media only screen and (max-width: 600px) {
@@ -42,15 +42,11 @@
 
   .AboutSubsection {
     min-height: 400px;
-    margin: 40px 20px;
   }
 
-  .AboutSectionTextRight {
+  /* .AboutSectionTextRight, .AboutSectionTextRight {
     margin-bottom: 40px;
-  }
-  .AboutSectionTextRight, .AboutSectionTextLeft {
-    padding: 0;
-  }
+  } */
 }
 
 .Traveler {

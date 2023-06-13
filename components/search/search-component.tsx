@@ -102,7 +102,7 @@ export default function SearchComponent() {
             >
               <>
                 <SideBarButtonComponent onClick={onClear}>
-                  <XMarkIcon className="h-6 w-6" />
+                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
                 </SideBarButtonComponent>
                 {isSearchingMusic && <BusyIcon />}
               </>

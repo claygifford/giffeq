@@ -113,9 +113,9 @@ export default function PlayerComponent() {
             } group relative flex justify-center rounded-full border border-transparent py-2 px-2 text-sm font-medium text-black focus:outline-none focus:ring-2`}
           >
             {isPlaying ? (
-              <PauseIcon className="h-6 w-6" />
+              <PauseIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
             ) : (
-              <PlayIcon className="h-6 w-6 pl-[2px]" />
+              <PlayIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] pl-[2px]" />
             )}
           </button>
           {elapsed ? <div>{elapsed}</div> : <div>-</div>}
@@ -127,20 +127,20 @@ export default function PlayerComponent() {
         </div>
         <div>
           <button className="group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200">
-            <ForwardIcon className="h-6 w-6 text-blue-500" />
+            <ForwardIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-blue-500" />
           </button>
         </div>
       </div>
 
       <div className={styles.ActionPanel}>
         <button className="group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200">
-          <HandThumbUpIcon className="h-6 w-6 text-red-500" />
+          <HandThumbUpIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-red-500" />
         </button>
         <button className="group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200">
-          <HandThumbDownIcon className="h-6 w-6 text-orange-500" />
+          <HandThumbDownIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-orange-500" />
         </button>
         <button className="group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200">
-          <HandThumbUpIcon className="h-6 w-6 text-green-500" />
+          <HandThumbUpIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-green-500" />
         </button>
       </div>
     </div>

@@ -38,9 +38,9 @@ export default function SideBarComponent() {
           onClick={() => showMainPane(MainMode.Search)}
         >
           {mainPane === MainMode.Search ? (
-            <MusicalNoteSolidIcon className="h-6 w-6" />
+            <MusicalNoteSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <MusicalNoteOutlineIcon className="h-6 w-6" />
+            <MusicalNoteOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>Search</div> : null}
         </SideBarButtonComponent>
@@ -50,9 +50,9 @@ export default function SideBarComponent() {
           onClick={() => showMainPane(MainMode.Decisions)}
         >
           {mainPane === MainMode.Decisions ? (
-            <AcademicCapSolidIcon className="h-6 w-6" />
+            <AcademicCapSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <AcademicCapOutlineIcon className="h-6 w-6" />
+            <AcademicCapOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>Decisions</div> : null}
         </SideBarButtonComponent>
@@ -62,9 +62,9 @@ export default function SideBarComponent() {
           onClick={() => showMainPane(MainMode.NextSong)}
         >
           {mainPane === MainMode.NextSong ? (
-            <BeakerSolidIcon className="h-6 w-6" />
+            <BeakerSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <BeakerOutlineIcon className="h-6 w-6" />
+            <BeakerOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>Song</div> : null}
         </SideBarButtonComponent>
@@ -74,9 +74,9 @@ export default function SideBarComponent() {
           onClick={() => showMainPane(MainMode.History)}
         >
           {mainPane === MainMode.History ? (
-            <BoltSolidIcon className="h-6 w-6" />
+            <BoltSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <BoltOutlineIcon className="h-6 w-6" />
+            <BoltOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>History</div> : null}
         </SideBarButtonComponent>
@@ -86,9 +86,9 @@ export default function SideBarComponent() {
           onClick={() => showMainPane(MainMode.Settings)}
         >
           {mainPane === MainMode.Settings ? (
-            <Cog6ToothSolidIcon className="h-6 w-6" />
+            <Cog6ToothSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <Cog6ToothOutlineIcon className="h-6 w-6" />
+            <Cog6ToothOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>Settings</div> : null}
         </SideBarButtonComponent>

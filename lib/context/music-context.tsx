@@ -138,7 +138,13 @@ const MusicProvider = (props) => {
         );
 
         if (response.status !== 200) {
-          dialog.showDialog({ dialog: ErrorDialog({ response }) });
+          let error;
+          try {
+            let responseError = await response.json();
+            error = responseError.error;
+          } catch { }
+          
+          dialog.showDialog({ dialog: ErrorDialog({ response, error }) });
           return;
         }
 

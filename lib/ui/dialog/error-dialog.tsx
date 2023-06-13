@@ -1,9 +1,14 @@
 import React, { Children } from 'react';
-import { Dialog, DialogContainer } from './modal-component';
+import { Dialog, DialogContainer, DialogPosition } from './modal-component';
+
+type ErrorMessage = {
+  message: string;
+  status: number;
+}
 
 type ErrorDialogProps = {
   response?: Response;
-  error?: any;
+  error?: ErrorMessage;
   children?: React.ReactNode;
 };
 
@@ -13,15 +18,16 @@ export default function ErrorDialogComponent(props: ErrorDialogProps): Dialog {
   let body, header;
   if (error) {
     header = 'Catch Error';
-    body = error.toString();
+    body = `${response.type} ${error?.status} ${error?.message}`;
   } else if (response) {
     header = 'Response Error';
-    body = `Type: ${response.type} Status: ${response.status} Status Text: ${response.statusText}`;
+    body = `${response.type} ${response.status} ${response.statusText}`;
   }
 
   return {
     Header: <div>{header}</div>,
-    Body: <div className="bg-red-300">{body}</div>,
-    Type: DialogContainer.Modal
+    Body: <div>{body}</div>,
+    Type: DialogContainer.Modal,
+    Position: DialogPosition.BottomLeft
   };
 }

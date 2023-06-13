@@ -30,7 +30,7 @@ export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
           onClick={onClose}
           className="ml-auto group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
-          <XMarkIcon className="h-6 w-6 stroke-2 [&>path]:stroke-[2]" />
+          <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] stroke-2 [&>path]:stroke-[2]" />
         </button>
       </div>
       <div>Status: {spotifyConnectorStatus}</div>

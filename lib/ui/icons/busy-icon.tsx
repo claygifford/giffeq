@@ -4,7 +4,7 @@ import React from 'react';
 export default function BusyIcon() {
 return (
   <svg
-    className="animate-spin -ml-1 mr-3 h-6 w-6 text-blue-500"
+    className="animate-spin -ml-1 mr-3 h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-blue-500"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
