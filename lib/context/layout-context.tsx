@@ -46,7 +46,7 @@ const LayoutProvider = (props) => {
   const [sideBarPane, setSideBarPane] =
     useState<PanelModeType>(PanelMode.Collapsed);
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
-  const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Listening);
+  const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
 
   const changeConnectorPane = useCallback((pane: PageModeType) => {
     setConnectorPane(pane);
