@@ -24,6 +24,7 @@ type MainModeType = typeof MainMode[keyof typeof MainMode];
 export const PageMode = {
   Playlist: 1,
   Listening: 2,
+  NewPlaylist: 3,
 } as const;
 type PageModeType = typeof PageMode[keyof typeof PageMode];
 
@@ -48,11 +49,11 @@ const LayoutProvider = (props) => {
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
   const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
 
-  const changeConnectorPane = useCallback((pane: PageModeType) => {
+  const changeConnectorPane = useCallback((pane: PanelModeType) => {
     setConnectorPane(pane);
   }, []);
 
-  const changeSideBarPane = useCallback((pane: PageModeType) => {
+  const changeSideBarPane = useCallback((pane: PanelModeType) => {
     setSideBarPane(pane);
   }, []);
 

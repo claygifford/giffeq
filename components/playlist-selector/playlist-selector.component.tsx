@@ -4,14 +4,14 @@ import { Playlist, usePlaylist } from '../../lib/context/playlist-context';
 import styles from './player-selector.module.css';
 
 export default function PlaylistSelectorComponent() {
-  const { selectPlaylist } = usePlaylist();
+  const { selectPlaylist, selectNewPlaylist } = usePlaylist();
 
   const onSelectPlaylist = (playlist) => {
     selectPlaylist(playlist);
   };
 
   const onNewPlaylist = () => {
-    selectPlaylist({name: '+ new playlist'} as Playlist);
+    selectNewPlaylist();
   };
 
   return (

@@ -9,6 +9,7 @@ import MainPanelComponent from '../components/main/main-panel-components';
 import { PageMode, useLayout } from '../lib/context/layout-context';
 import ContainerComponent from '../lib/ui/container/container';
 import PlaylistSelectorComponent from '../components/playlist-selector/playlist-selector.component';
+import NewPlaylistComponent from '../components/new-playlist/new-playlist-component';
 
 export default function Home() {
   const { pageMode } = useLayout();
@@ -24,6 +25,15 @@ export default function Home() {
               <ConnectorPanel />
             </ContainerComponent>
             <PlayerComponent />
+          </>
+        );
+      case PageMode.NewPlaylist:
+        return (
+          <>
+            <ContainerComponent>
+              <NewPlaylistComponent></NewPlaylistComponent>
+              <ConnectorPanel />
+            </ContainerComponent>
           </>
         );
       case PageMode.Playlist:

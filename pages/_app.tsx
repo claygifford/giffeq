@@ -9,7 +9,7 @@ import { PlaylistProvider } from '../lib/context/playlist-context';
 
 Amplify.configure(awsExports);
 
-function MyApp({ Component, pageProps }) {
+function PlaylistApp({ Component, pageProps }) {
   return (
     <DialogProvider>
       <LayoutProvider>
@@ -25,4 +25,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default PlaylistApp;
