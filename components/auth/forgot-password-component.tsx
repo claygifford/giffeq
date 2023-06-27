@@ -30,7 +30,9 @@ const Forgot = (props: { handleSubmit; email; setEmail }) => {
           onChange={(event) => setEmail(event.target.value)}
         />
         <div>
-          <ButtonComponent type={'submit'}>Send</ButtonComponent>
+          <ButtonComponent labelText="Send" type={'submit'}>
+            Send
+          </ButtonComponent>
         </div>
       </form>
       <p className="mt-2 text-center text-lg text-gray-600">
@@ -93,7 +95,9 @@ const Recover = (props: {
           onChange={(event) => setNewPassword(event.target.value)}
         />
         <div>
-          <ButtonComponent type={'submit'}>Set new password</ButtonComponent>
+          <ButtonComponent labelText="Set new password" type={'submit'}>
+            Set new password
+          </ButtonComponent>
         </div>
       </form>
     </>

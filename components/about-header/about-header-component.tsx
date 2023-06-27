@@ -57,6 +57,7 @@ export default function AboutHeaderComponent(props: Props) {
           })}
           <div className="p-5">
             <button
+              aria-label="Go to Playlist"
               onClick={() => router.push('/')}
               className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-300 hover:ring-blue-400 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
@@ -109,6 +110,7 @@ export default function AboutHeaderComponent(props: Props) {
           {user ? (
             <div className="flex gap-1 items-center">
               <button
+                aria-label="Go to Playlist"
                 onClick={() => router.push('/')}
                 className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
               >
@@ -119,12 +121,14 @@ export default function AboutHeaderComponent(props: Props) {
           ) : (
             <div className="flex gap-3">
               <button
+                aria-label="Sign up"
                 onClick={() => router.push('/about/signup')}
                 className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
               >
                 Sign up
               </button>
               <button
+                aria-label="Log in"
                 onClick={() => router.push('/about/login')}
                 className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-base font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
               >

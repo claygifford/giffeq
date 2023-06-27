@@ -43,7 +43,11 @@ export default function ModalComponent(props: ModalProps) {
       <div className={`${styles.modalcontent} ${getPositionStyle()}`}>
         <div className={styles.modalheader}>
           {children.Header}{' '}
-          <button className={styles.modalheaderbutton} onClick={onClose}>
+          <button
+            aria-label="Close modal button"
+            className={styles.modalheaderbutton}
+            onClick={onClose}
+          >
             <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] stroke-2 [&>path]:stroke-[2]" />
           </button>
         </div>

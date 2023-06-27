@@ -5,6 +5,28 @@ const nextConfig = {
   eslint: {
     dirs: ['pages', 'lib', 'components'],
   },
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      '/': { page: '/', query: { __nextDefaultLocale: 'en-US' } },
+      '/about': { page: '/about', query: { __nextDefaultLocale: 'en-US' } },
+      '/about/login': {
+        page: '/about/login',
+        query: { __nextDefaultLocale: 'en-US' },
+      },
+      '/about/recovery': {
+        page: '/about/recovery',
+        query: { __nextDefaultLocale: 'en-US' },
+      },
+      '/about/signup': {
+        page: '/about/signup',
+        query: { __nextDefaultLocale: 'en-US' },
+      },
+      '/privacy': { page: '/privacy', query: { __nextDefaultLocale: 'en-US' } },
+    };
+  },
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;

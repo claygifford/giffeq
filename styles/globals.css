@@ -60,6 +60,7 @@ a {
   src: url('../fonts/Traveler.ttf');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
   
 @font-face {
@@ -67,4 +68,5 @@ a {
   src: url('../fonts/Selfish.ttf');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }

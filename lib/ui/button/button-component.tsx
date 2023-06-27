@@ -7,10 +7,18 @@ type ButtonProps = {
   onClick?;
   variant?: string;
   disabled?: boolean;
+  labelText?: string;
 };
 
 export default function ButtonComponent(props: ButtonProps) {
-  const { type, children, onClick, variant = 'standard', disabled } = props;
+  const {
+    labelText,
+    type,
+    children,
+    onClick,
+    variant = 'standard',
+    disabled,
+  } = props;
 
   const variantClass = (() => {
     switch (variant) {
@@ -22,7 +30,13 @@ export default function ButtonComponent(props: ButtonProps) {
   })();
 
   return (
-    <button onClick={onClick} type="submit" className={variantClass} disabled={disabled}>
+    <button    
+      aria-label={labelText}
+      onClick={onClick}
+      type="submit"
+      className={variantClass}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -14,6 +14,7 @@ export default function SideBarButtonComponent(props: SideBarButtonProps) {
 
   return (
     <button
+      aria-label="Sidebar button"
       onClick={onClick}
       type="submit"
       className={`${styles.SideBarButton} ${classes} ${

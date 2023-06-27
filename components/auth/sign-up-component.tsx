@@ -66,7 +66,11 @@ export default function SignUpComponent() {
             onChange={(event) => setPassword(event.target.value)}
           />
           <div>
-            <ButtonComponent type={'submit'} disabled={signUpAction.isBusy}>
+            <ButtonComponent
+              labelText="Sign up"
+              type={'submit'}
+              disabled={signUpAction.isBusy}
+            >
               {signUpAction.isBusy && <BusyIcon />}{' '}
               {signUpAction.isBusy ? 'Signing Up...' : 'Sign up'}
             </ButtonComponent>

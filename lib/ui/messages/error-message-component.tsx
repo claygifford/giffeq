@@ -19,7 +19,11 @@ export default function ErrorMessageComponent(props: ErrorMessageProps) {
         <HandRaisedIcon />
         <div className="px-2">{message}</div>
         <div className="ml-auto flex items-center">
-          <button className="hover:bg-gray-500/50 rounded" onClick={() => setDismiss(true)}>
+          <button
+            aria-label="Dismiss error button"
+            className="hover:bg-gray-500/50 rounded"
+            onClick={() => setDismiss(true)}
+          >
             <XMarkIcon />
           </button>
         </div>

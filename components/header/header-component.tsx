@@ -45,12 +45,14 @@ export default function HeaderComponent() {
         ) : (
           <div className="flex gap-1">
             <button
+              aria-label="Sign up"
               onClick={() => router.push('/about/signup')}
               className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
               Sign up
             </button>
             <button
+              aria-label="Log in"
               onClick={() => router.push('/about/login')}
               className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >

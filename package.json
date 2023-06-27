@@ -6,21 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@aws-amplify/cli": "^11.1.1",
+    "@apollo/server": "^4.7.4",
+    "@as-integrations/next": "^2.0.0",
     "aws-amplify": "^5.1.4",
+    "graphql": "^16.7.1",
+    "graphql-tag": "^2.12.6",
     "js-cookie": "^3.0.1",
     "next": "^13.3.4"
   },
   "devDependencies": {
     "@heroicons/react": "^2.0.15",
+    "@next/bundle-analyzer": "^13.4.7",
     "@types/lodash": "^4.14.194",
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",
     "@typescript-eslint/parser": "^5.47.0",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "eslint": "8.26.0",
     "eslint-config-next": "^13.3.4",
     "lodash": "^4.17.21",

@@ -71,7 +71,11 @@ export default function LogInComponent() {
             </div>
           </div>
           <div>
-            <ButtonComponent type={'submit'} disabled={signInAction.isBusy}>
+            <ButtonComponent
+              labelText="Sign In"
+              type={'submit'}
+              disabled={signInAction.isBusy}
+            >
               {signInAction.isBusy && <BusyIcon />}{' '}
               {signInAction.isBusy ? 'Signing In...' : 'Sign In'}
             </ButtonComponent>

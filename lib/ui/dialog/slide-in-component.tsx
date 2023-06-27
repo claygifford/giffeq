@@ -52,7 +52,11 @@ export default function SlideInComponent(props: SlideInProps) {
       >
         <div className={styles.ModalHeader}>
           {children.Header}{' '}
-          <button className={styles.ModalHeaderButton} onClick={animateClose}>
+          <button
+            aria-label="Close slide-in button"
+            className={styles.ModalHeaderButton}
+            onClick={animateClose}
+          >
             <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] stroke-2 [&>path]:stroke-[2]" />
           </button>
         </div>

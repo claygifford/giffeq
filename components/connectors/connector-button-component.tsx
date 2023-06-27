@@ -20,6 +20,7 @@ export default function ConnectorButtonComponent(props: ConnectorButtonProps) {
   return (
     <div className="relative">
       <button
+        aria-label="Connector"
         onClick={onClick}
         className="group relative flex w-full justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200"
       >
