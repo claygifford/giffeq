@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import React from 'react';
-import styles from './main.module.css';
 
 export default function HeadComponent() {
   return (

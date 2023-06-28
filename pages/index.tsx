@@ -57,7 +57,7 @@ export default function Home() {
   );
 }
 
-export function getInitialProps() {
+export function getStaticProps() {
   return {
     props: { protected: true },
   };
