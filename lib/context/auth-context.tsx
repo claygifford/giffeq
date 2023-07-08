@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import LoadingComponent from '../ui/loading/loading-component';
 import { PageMode, useLayout } from './layout-context';
+import { createNextClient } from '../clients/next';
 
 type Action = {
   isBusy: boolean;
@@ -11,8 +12,11 @@ type Action = {
   successMessage?: string;
 };
 
+type User = {
+  username: string;
+}
 type AuthValue = {
-  user: any;
+  user: User;
   signIn: ({ username, password, rememberMe }) => void;
   signInAction: Action;
   forgotPassword: ({ email }) => void;
@@ -28,20 +32,22 @@ const AuthContext = createContext({} as AuthValue);
 const AuthProvider = (props) => {
   const { changePageMode } = useLayout();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
   const [signUpAction, setSignUpAction] = useState<Action>({ isBusy: false });
   const [forgotPasswordAction, setForgotPasswordAction] = useState<Action>({
     isBusy: false,
   });
+  const client = createNextClient();
 
   const signIn = useCallback(async ({ username, password, rememberMe }) => {
     try {
       setSignInAction({
         isBusy: true,
         errorMessage: undefined,
-      });
-      const user = await Auth.signIn(username, password);
+      });      
+      const user = await client.post<User>('signin', {username, password});
+      localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       await router.push('/');
       setSignInAction({
@@ -54,7 +60,7 @@ const AuthProvider = (props) => {
         errorMessage: error.message,
       });
     }
-  }, []);
+  }, [client]);
 
   const signUp = useCallback(
     async ({ username, password, email, rememberMe }) => {
@@ -75,7 +81,12 @@ const AuthProvider = (props) => {
             enabled: true,
           },
         });
-        setUser(user);
+              // const user = await client.post<User>('signin', {
+              //   username,
+              //   password,
+              // });
+        localStorage.setItem('user', JSON.stringify(user));
+        setUser({username: user.getUsername()});
         await router.push('/');
         setSignUpAction({
           isBusy: false,
@@ -151,7 +162,9 @@ const AuthProvider = (props) => {
   const initializeUser = async () => {
     setIsLoading(true);
     try {
-      const user = await Auth.currentAuthenticatedUser();
+      const item = localStorage.getItem('user');
+      if (!item) return;
+      const user = JSON.parse(item);
       setUser(user);
 
       //has user now get details of the user

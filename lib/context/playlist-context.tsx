@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { MainMode, PageMode, useLayout } from './layout-context';
 import { Router, useRouter } from 'next/router';
+import { createNextClient } from '../clients/next';
 
 export type Playlist = {
   name: string;
@@ -15,7 +16,7 @@ type PlaylistValue = {
   selectPlaylist: (list?: Playlist) => void;
   saveSearch: (search: string) => void;
   songPlayed: (song: any) => void;
-  getBooks: () => void;
+  getBooks: () => Promise<{ name: string }>;
 };
 
 const PlaylistContext = createContext({} as PlaylistValue);
@@ -112,6 +113,7 @@ const PlaylistProvider = (props) => {
 
 
   // const client = useApolloClient();
+  const client = createNextClient();
 
   const getBooks = useCallback(async () => {
 //     const query1Result = await client.query({
@@ -119,9 +121,10 @@ const PlaylistProvider = (props) => {
 //   hello
 // }`,
 //     });
-
-    console.log('asdasd');    
-  }, []);
+    const user = await client.get<{name:string}>('yo');
+    console.log('asdasd'); 
+    return user;   
+  }, [client]);
 
   const value = {
     playlist,
