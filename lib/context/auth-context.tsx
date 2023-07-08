@@ -133,12 +133,11 @@ const AuthProvider = (props) => {
         successMessage: undefined,
       });
       const { email, code, newPassword } = account;
-      const stuff = await Auth.forgotPasswordSubmit(email, code, newPassword);
-      setUser(stuff);
+      const success = await Auth.forgotPasswordSubmit(email, code, newPassword);
       setForgotPasswordAction({
         isBusy: false,
         errorMessage: undefined,
-        successMessage: 'cool it worked',
+        successMessage: `${success} cool it worked`,
       });
     } catch (error) {
       console.log('error forgot password', error);
