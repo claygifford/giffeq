@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   try {
     const client = await createRedisClient();
     let result = await client.get('testing');
-    res.status(200).json({ name: `yo - endpoint ${result}` });
+    res.status(200).json({ name: `yo - endpoint 1 ${result}` });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
