@@ -1,11 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { setCookie } from '../../lib/cookies/cookies';
-import { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
+import awsExports from '../../src/aws-exports';
+
+Amplify.configure(awsExports);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   if (req.method !== 'POST') {
     res.status(405).send({ message: '405 Method Not Allowed' });
     return;

@@ -151,6 +151,7 @@ const AuthProvider = (props) => {
   const signOut = async () => {
     try {
       await Auth.signOut();
+      localStorage.removeItem('user');
       setUser(undefined);
       router.push('/about');
     } catch (error) {
