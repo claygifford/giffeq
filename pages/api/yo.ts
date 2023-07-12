@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { createRedisClient } from '../../lib/clients/redis';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
   if (!req.cookies['user']) {
-    res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: req.cookies['user'] });
     return;
   }
 

@@ -19,3 +19,16 @@ export const setCookie = (
 
   res.setHeader('Set-Cookie', serialize(name, stringValue, options));
 };
+
+export const clearCookie = (
+  res: NextApiResponse,
+  name: string,
+  options: CookieSerializeOptions = {}
+) => {
+
+  options.expires = new Date(null);
+  options.httpOnly = true;
+  options.secure = true;
+
+  res.setHeader('Set-Cookie', serialize(name, '', options));
+};

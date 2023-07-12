@@ -150,7 +150,7 @@ const AuthProvider = (props) => {
 
   const signOut = async () => {
     try {
-      await Auth.signOut();
+      await client.get<any>('signout');
       localStorage.removeItem('user');
       setUser(undefined);
       router.push('/about');
@@ -167,14 +167,18 @@ const AuthProvider = (props) => {
       const user = JSON.parse(item);
       setUser(user);
 
-      //has user now get details of the user
-      //if there is a playlist id then use that.
-
-      //set mode -> playlist or not
       changePageMode(PageMode.Playlist);
     } catch (error) {
     } finally {
       setIsLoading(false);
+    }
+
+    try {
+      const token = await client.get<{refresh: boolean}>('refresh');
+      if (!token.refresh)
+        router.push('/about/login');
+    } catch (error) {
+      console.log('error sign out', error);
     }
   };
 
