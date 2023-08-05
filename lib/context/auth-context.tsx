@@ -3,18 +3,13 @@ import router from 'next/router';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import LoadingComponent from '../ui/loading/loading-component';
-import { PageMode, useLayout } from './layout-context';
+import { useLayout } from './layout-context';
 import { createNextClient } from '../clients/next';
+import { getCookie } from '../cookies/cookies';
+import { User } from '../types/user';
+import { Action } from '../types/action';
+import { getPlaylistId } from './routes';
 
-type Action = {
-  isBusy: boolean;
-  errorMessage?: string;
-  successMessage?: string;
-};
-
-type User = {
-  username: string;
-}
 type AuthValue = {
   user: User;
   signIn: ({ username, password, rememberMe }) => void;
@@ -70,23 +65,9 @@ const AuthProvider = (props) => {
           errorMessage: undefined,
         });
 
-        const { user } = await Auth.signUp({
-          username,
-          password,
-          attributes: {
-            email, // optional
-          },
-          autoSignIn: {
-            // optional - enables auto sign in after user is confirmed
-            enabled: true,
-          },
-        });
-              // const user = await client.post<User>('signin', {
-              //   username,
-              //   password,
-              // });
-        localStorage.setItem('user', JSON.stringify(user));
-        setUser({username: user.getUsername()});
+        const user = await client.post<User>('signup', {username, password, email});
+        localStorage.setItem('user', JSON.stringify(user));   
+        setUser(user);     
         await router.push('/');
         setSignUpAction({
           isBusy: false,
@@ -99,7 +80,7 @@ const AuthProvider = (props) => {
         });
       }
     },
-    []
+    [client]
   );
 
   const forgotPassword = async (account) => {
@@ -162,23 +143,18 @@ const AuthProvider = (props) => {
   const initializeUser = async () => {
     setIsLoading(true);
     try {
+      const cookie = getCookie('token');
+      if (!cookie) return;
       const item = localStorage.getItem('user');
       if (!item) return;
       const user = JSON.parse(item);
       setUser(user);
 
-      changePageMode(PageMode.Playlist);
+      // if has playlist id -- load playlist
+      const playlistId = getPlaylistId();
     } catch (error) {
     } finally {
       setIsLoading(false);
-    }
-
-    try {
-      const token = await client.get<{refresh: boolean}>('refresh');
-      if (!token.refresh)
-        router.push('/about/login');
-    } catch (error) {
-      console.log('error sign out', error);
     }
   };
 

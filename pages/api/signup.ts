@@ -11,21 +11,40 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   if (req.method !== 'POST') {
     res.status(405).send({ message: '405 Method Not Allowed' });
     return;
   }
 
   try {
-    const { username, password } = req.body;
-    const user = await Auth.signIn(username, password);
+    const { username, password, email } = req.body;
+
+    const { userSub } = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email, // optional
+      },
+      autoSignIn: {
+        // optional - enables auto sign in after user is confirmed
+        enabled: true,
+      },
+    });
+
     const token = generateToken();
     const client = await createRedisClient();
-    await client.set(`token:${token}`, user.attributes.sub);
+    const user = {
+      username: username,
+      email: email,
+      id: userSub,
+    };
+    
+    await client.json.set(`user:${userSub}`, '.', user);
+    await client.json.set(`playlists:${userSub}`, '.', {});
+
+    await client.set(`token:${token}`, userSub);
     setCookie(res, 'token', `${token}`, { maxAge: Year });
-    const item = await client.json.get(`user:${user.attributes.sub}`);
-    res.status(200).json(item);
+    res.status(200).json(user);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

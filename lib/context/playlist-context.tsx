@@ -2,6 +2,13 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { MainMode, PageMode, useLayout } from './layout-context';
 import { Router, useRouter } from 'next/router';
 import { createNextClient } from '../clients/next';
+import { useDialog } from './dialog-context';
+import ErrorDialog from '../ui/dialog/error-dialog';
+import { useAuth } from './auth-context';
+import { Action } from '../types/action';
+import { useEffectOnce } from '../hooks/use-effect-once';
+import { Recordable, Song } from '../types/song';
+import { keys, pick } from 'lodash';
 
 export type Playlist = {
   name: string;
@@ -16,15 +23,36 @@ type PlaylistValue = {
   selectPlaylist: (list?: Playlist) => void;
   saveSearch: (search: string) => void;
   songPlayed: (song: any) => void;
-  getBooks: () => Promise<{ name: string }>;
+  getPlaylists: () => Promise<void>;
+  playlists: Playlist[];
+  createPlaylist: ({ name }: { name: string }) => void;
+  createPlaylistAction: Action;
+  deletePlaylist: () => void;
+  deletePlaylistAction: Action;
 };
 
 const PlaylistContext = createContext({} as PlaylistValue);
 
 const PlaylistProvider = (props) => {
-  const router = useRouter();
-  const [playlist, setPlaylist] = useState<Playlist>(null);
+  const dialog = useDialog();
+  const { user } = useAuth();
   const { changePageMode } = useLayout();
+
+  const [playlist, setPlaylist] = useState<Playlist>(null);
+  const [playlists, setPlaylists] = useState<Playlist[]>(null);
+  const [getPlaylistAction, setGetPlaylistAction] = useState<Action>({
+    isBusy: false,
+  });
+
+  const [createPlaylistAction, setCreatePlaylistAction] = useState<Action>({
+    isBusy: false,
+  });
+
+  const [deletePlaylistAction, setDeletePlaylistAction] = useState<Action>({
+    isBusy: false,
+  });
+
+  const client = createNextClient();
 
   const saveSearch = useCallback(
     (search: string) => {
@@ -40,7 +68,7 @@ const PlaylistProvider = (props) => {
   );
 
   const songPlayed = useCallback(
-    (song: any) => {
+    (song: Song & Recordable) => {
       if (song && playlist && !song.recorded) {
         song.recorded = true;
         if (!playlist.history) {
@@ -48,83 +76,168 @@ const PlaylistProvider = (props) => {
         } else {
           playlist.history.push(song);
         }
+
+        client.post<void>('play', {
+          playlistId: playlist.id,
+          song: pick(song, ['name', 'preview_url', 'artists']),
+        });
       }
     },
-    [playlist]
+    [playlist, client]
   );
 
   const selectPlaylist = useCallback(
     (list?: Playlist) => {
       if (list) {
         setPlaylist(list);
-        router.push('/#playlist/1', undefined, { shallow: true });
-        
-        //changePageMode(PageMode.Listening);
+        changePageMode(PageMode.Listening);
       } else {
         setPlaylist(null);
-        router.push('/', undefined, { shallow: true });
-        
-        //changePageMode(PageMode.Playlist);
+        changePageMode(PageMode.Playlist);
       }
     },
-    [router]
+    [changePageMode]
   );
 
   const selectNewPlaylist = useCallback(() => {
-    router.push('/#newplaylist', undefined, { shallow: true });
     changePageMode(PageMode.NewPlaylist);
-  }, [changePageMode, router]);
+  }, [changePageMode]);
 
-  useEffect(() => {
-    const onHashChangeStart = (url) => {
-      if (!url) return;
-      const [,item] = url.split('#');
-      const [mode] = item ? item.split('/') : '';
-      switch (mode) {
-        case 'newplaylist': {
-          changePageMode(PageMode.NewPlaylist);
-          return;
-        }
-        case 'playlist': {
-          changePageMode(PageMode.Listening);
-          return;
-        }
-        default: {
-          changePageMode(PageMode.Playlist);
-          return;
-        }
-      }      
-    };
-
-    router.events.on('hashChangeStart', onHashChangeStart);
-
-    return () => {
-      router.events.off('hashChangeStart', onHashChangeStart);
-    };
-  }, [changePageMode, router.events]);
-
-  // const GET_GREETING = gql`
-  //   query GetGreeting($language: String!) {
-  //     greeting(language: $language) {
-  //       message
+  // useEffect(() => {
+  //   const onHashChangeStart = (url) => {
+  //     if (!url) return;
+  //     const [, item] = url.split('#');
+  //     const [mode] = item ? item.split('/') : '';
+  //     switch (mode) {
+  //       case 'newplaylist': {
+  //         changePageMode(PageMode.NewPlaylist);
+  //         return;
+  //       }
+  //       case 'playlist': {
+  //         changePageMode(PageMode.Listening);
+  //         return;
+  //       }
+  //       default: {
+  //         changePageMode(PageMode.Playlist);
+  //         return;
+  //       }
   //     }
-  //   }
-  // `;
+  //   };
 
+  //   router.events.on('hashChangeStart', onHashChangeStart);
 
-  // const client = useApolloClient();
-  const client = createNextClient();
+  //   return () => {
+  //     router.events.off('hashChangeStart', onHashChangeStart);
+  //   };
+  // }, [changePageMode, router.events]);
 
-  const getBooks = useCallback(async () => {
-//     const query1Result = await client.query({
-//       query: `query ExampleQuery {
-//   hello
-// }`,
-//     });
-    const user = await client.get<{name:string}>('yo');
-    console.log('asdasd'); 
-    return user;   
-  }, [client]);
+  const createPlaylist = useCallback(
+    async ({ name }: {name: string}) => {
+      if (createPlaylistAction.isBusy) return;
+
+      try {
+        setCreatePlaylistAction({
+          isBusy: true,
+          errorMessage: undefined,
+        });
+
+        const item = await client.post<Playlist>('playlist', {
+          name,
+        });
+        setCreatePlaylistAction({
+          isBusy: false,
+          errorMessage: undefined,
+        });
+
+        selectPlaylist(item);
+      } catch (error) {
+        let item = {};
+        if (error instanceof Response) {
+          item = { response: error };
+        } else {
+          item = { error: error };
+        }
+        setCreatePlaylistAction({
+          isBusy: false,
+          errorMessage: error.message,
+        });
+        dialog.showDialog({ dialog: ErrorDialog(item) });
+      }
+    },
+    [client, dialog, selectPlaylist, createPlaylistAction.isBusy]
+  );
+
+  const deletePlaylist = useCallback(async () => {
+    if (deletePlaylistAction.isBusy || !playlist) return;
+
+    try {
+      setDeletePlaylistAction({
+        isBusy: true,
+        errorMessage: undefined,
+      });
+
+      console.log(`yo::>${playlist.id}`);
+
+      await client.delete('playlist', {
+        name: 'playlistId', value: playlist.id,
+      });
+
+      setPlaylist(null);
+      changePageMode(PageMode.Playlist);
+
+      setDeletePlaylistAction({
+        isBusy: false,
+        errorMessage: undefined,
+      });
+
+      // navigate to playlists
+    } catch (error) {
+      let item = {};
+      if (error instanceof Response) {
+        item = { response: error };
+      } else {
+        item = { error: error };
+      }
+      setDeletePlaylistAction({
+        isBusy: false,
+        errorMessage: error.message,
+      });
+      dialog.showDialog({ dialog: ErrorDialog(item) });
+    }
+  }, [client, dialog, changePageMode, playlist, deletePlaylistAction.isBusy]);
+
+  const getPlaylists = useCallback(async () => {
+    if (getPlaylistAction.isBusy) return;
+
+    try {
+      setGetPlaylistAction({
+        isBusy: true,
+        errorMessage: undefined,
+      });
+      const items = await client.get<Playlist[]>('playlists');
+      setPlaylists(items);
+      setGetPlaylistAction({
+        isBusy: false,
+        errorMessage: undefined,
+      });
+    } catch (error) {
+      let item = {};
+      if (error instanceof Response) {
+        item = { response: error };
+      } else {
+        item = { error: error };
+      }
+      setGetPlaylistAction({
+        isBusy: false,
+        errorMessage: error.message,
+      });
+      dialog.showDialog({ dialog: ErrorDialog(item) });
+    }
+  }, [client, dialog, getPlaylistAction.isBusy]);
+
+  useEffectOnce(() => {
+    if (user) getPlaylists();
+  });
 
   const value = {
     playlist,
@@ -132,7 +245,12 @@ const PlaylistProvider = (props) => {
     selectPlaylist,
     saveSearch,
     songPlayed,
-    getBooks,
+    getPlaylists,
+    playlists,
+    createPlaylist,
+    createPlaylistAction,
+    deletePlaylist,
+    deletePlaylistAction,
   } as PlaylistValue;
 
   return (

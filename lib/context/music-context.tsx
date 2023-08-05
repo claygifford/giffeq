@@ -11,6 +11,7 @@ import { useDialog } from './dialog-context';
 import ErrorDialog from '../ui/dialog/error-dialog';
 import debounce from 'lodash/debounce';
 import { usePlaylist } from './playlist-context';
+import { Song } from '../types/song';
 
 type MusicValue = {
   playMusic: () => void;
@@ -19,7 +20,7 @@ type MusicValue = {
   setSpotifyAccessToken: Dispatch<any>;
   isSearchingMusic: boolean;
   searchMusic: (search: string) => void;
-  currentSong: any;
+  currentSong: Song;
   currentResults: any;
   clearResults: () => void;
   selectItem: (item: any) => void;

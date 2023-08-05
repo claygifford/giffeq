@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PageComponent from '../components/page-component';
 import ConnectorPanel from '../components/connectors/connector-panel-component';

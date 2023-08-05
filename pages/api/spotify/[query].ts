@@ -62,8 +62,8 @@ const setCookie = (
 };
 
 const clearCookie = (res: NextApiResponse, name: string) => {
- res.setHeader('Set-Cookie', serialize(name, '', {maxAge: -1}));
-}
+  res.setHeader('Set-Cookie', serialize(name, '', { maxAge: -1 }));
+};
 
 const login = (res: NextApiResponse) => {
   var state = generateRandomString(16);
@@ -86,7 +86,7 @@ const login = (res: NextApiResponse) => {
   );
 };
 
-const callback = (req: NextApiRequest, res: NextApiResponse) => {
+const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   // your application requests refresh and access tokens
   // after checking the state parameter
   var code = req.query.code || null;
@@ -126,21 +126,22 @@ const callback = (req: NextApiRequest, res: NextApiResponse) => {
       },
       json: true,
     };
+
     request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-        var options = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: { Authorization: 'Bearer ' + access_token },
-          json: true,
-        };
+        // var options = {
+        //   url: 'https://api.spotify.com/v1/me',
+        //   headers: { Authorization: 'Bearer ' + access_token },
+        //   json: true,
+        // };
 
-        // use the access token to access the Spotify Web API
-        request.get(options, function (error, response, body) {
-          console.log(body);
-        });
+        // // use the access token to access the Spotify Web API
+        // request.get(options, function (error, response, body) {
+        //   console.log(body);
+        // });
 
         setCookie(
           res,
@@ -151,15 +152,16 @@ const callback = (req: NextApiRequest, res: NextApiResponse) => {
           },
           { path: '/', maxAge: 2592000 }
         );
+        res.redirect('/');
         // we can also pass the token to the browser to make requests from there
-        res.redirect(
-          '/?' +
-            querystring.stringify({
-              spotify_activated: true,
-              access_token: access_token,
-              refresh_token: refresh_token,
-            })
-        );
+        // res.redirect(
+        //   '/?' +
+        //     querystring.stringify({
+        //       spotify_activated: true,
+        //       access_token: access_token,
+        //       refresh_token: refresh_token,
+        //     })
+        // );
       } else {
         res.redirect(
           '/#' +
@@ -172,24 +174,23 @@ const callback = (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const refreshToken = (req: NextApiRequest, res: NextApiResponse) => {
+const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
   var refresh_token = req.query.refresh_token;
 
   var authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     form: {
       grant_type: 'refresh_token',
-      refresh_token: refresh_token
+      refresh_token: refresh_token,
     },
     headers: {
       Authorization:
         'Basic ' +
-        new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString(
-          'base64'
-        ),
+        new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString('base64'),
     },
     json: true,
   };
+
   request.post(authOptions, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;

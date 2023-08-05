@@ -26,6 +26,8 @@ export default function ButtonComponent(props: ButtonProps) {
         return styles.SideBar;
       case 'standard':
         return styles.Standard;
+      case 'action':
+        return styles.Action;
     }
   })();
 

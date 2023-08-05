@@ -18,7 +18,7 @@ export default function ErrorDialogComponent(props: ErrorDialogProps): Dialog {
   let body, header;
   if (error) {
     header = 'Catch Error';
-    body = `${response.type} ${error?.status} ${error?.message}`;
+    body = `${error?.status} ${error?.message}`;
   } else if (response) {
     header = 'Response Error';
     body = `${response.type} ${response.status} ${response.statusText}`;

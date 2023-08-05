@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router';
 import React, {
   createContext,
-  Dispatch,
-  SetStateAction,
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 
@@ -37,15 +37,19 @@ type LayoutValue = {
   showMainPane: (pane: MainModeType) => void;
   pageMode: number;
   changePageMode: (mode: PageModeType) => void;
+  getLayout: () => void;
 };
 
 const LayoutContext = createContext({} as LayoutValue);
 
 const LayoutProvider = (props) => {
-  const [connectorPane, setConnectorPane] =
-    useState<PanelModeType>(PanelMode.Collapsed);
-  const [sideBarPane, setSideBarPane] =
-    useState<PanelModeType>(PanelMode.Collapsed);
+  const router = useRouter();
+  const [connectorPane, setConnectorPane] = useState<PanelModeType>(
+    PanelMode.Collapsed
+  );
+  const [sideBarPane, setSideBarPane] = useState<PanelModeType>(
+    PanelMode.Collapsed
+  );
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
   const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
 
@@ -62,8 +66,44 @@ const LayoutProvider = (props) => {
   }, []);
 
   const changePageMode = useCallback((pane: PageModeType) => {
+    // move all the logic here to change route and such...
+
+    switch (pane) {
+      case PageMode.Listening:        
+        router.push('/#playlist/1', undefined, { shallow: true });
+        break;
+      case PageMode.NewPlaylist:
+        router.push('/#newplaylist', undefined, { shallow: true });
+        break;
+      case PageMode.Playlist:        
+        router.push('/', undefined, { shallow: true });
+        break;
+    }    
+
     setPageMode(pane);
+  }, [router]);
+
+  const { asPath } = useRouter();
+
+  useEffect(() => {
+      const [, path] = asPath.split('#');
+      if (path) {
+        const [firstPath, rest] = path.split('/');
+        const mode =
+          PageMode[
+            Object.keys(PageMode).find(
+              (key) => key.toLowerCase() === firstPath.toLowerCase()
+            )
+          ];
+
+        if (mode) {
+          setPageMode(mode);
+        }
+        return;
+      }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
 
   const value = {
     connectorPane,
