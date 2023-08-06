@@ -5,6 +5,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import BusyIcon from '../../lib/ui/icons/busy-icon';
 import InputComponent from '../../lib/ui/input/input-component';
 import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
+import PlayButtonComponent from '../../lib/ui/buttons/play-button';
+import { useMusic } from '../../lib/context/music-context';
 
 
 const ItemTemplate = ({ item, onClick, isSelected }) => {
@@ -24,30 +26,16 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
     onClick(item);
   };
 
-  const getClass = () => {
-    switch (item.type) {
-      case 'track':
-        return 'bg-red-300';
-      case 'album':
-        return 'bg-blue-300';
-      case 'artist':
-        return 'bg-yellow-300';
-    }
-    return 'bg-gray-300';
-  };
 
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center cursor-pointer ${
+      className={`flex rounded py-1 px-2 items-center ${
         isSelected ? 'bg-indigo-200' : ''
       }`}
-      onClick={onItemClick}
     >
+      <PlayButtonComponent onClick={onItemClick}></PlayButtonComponent>
       <div className="font-medium truncate">{item.name}</div>
       {artist(item)}
-      <div className={`${getClass()} rounded px-2 py-1 text-white ml-auto`}>
-        {item.type}
-      </div>
     </div>
   );
 };
@@ -55,6 +43,8 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
 export default function HistoryComponent() {
   //const { currentResults, clearResults } = useMusic();
 
+    const { selectItem } = useMusic();
+    
   const {playlist} = usePlaylist();
 
   //isSearchingHistory
@@ -63,7 +53,8 @@ export default function HistoryComponent() {
   const [songSearch, setSongSearch] = useState('');
 
   const onItemClick = (item) => {
-    //selectItem(item);
+    item.type = 'track';
+    selectItem(item);
   };
 
   // useEffect(() => {
@@ -84,7 +75,7 @@ export default function HistoryComponent() {
   };
 
   return (
-    <div className={styles.Search}>
+    <div className={styles.History}>
       <div className="sticky top-0 bg-white dark:bg-slate-900">
         <div className="p-4">
           <div>History</div>
@@ -111,7 +102,7 @@ export default function HistoryComponent() {
       </div>
       <div className="px-4">
         {playlist &&
-          playlist.history.map((result, i) => {
+          playlist.history?.map((result, i) => {
             return (
               <ItemTemplate
                 onClick={onItemClick}

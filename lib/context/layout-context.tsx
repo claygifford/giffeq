@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { Playlist, usePlaylist } from './playlist-context';
 import React, {
   createContext,
   useCallback,
@@ -36,7 +37,7 @@ type LayoutValue = {
   mainPane: number;
   showMainPane: (pane: MainModeType) => void;
   pageMode: number;
-  changePageMode: (mode: PageModeType) => void;
+  changePageMode: (mode: PageModeType, list?: Playlist) => void;
   getLayout: () => void;
 };
 
@@ -44,6 +45,7 @@ const LayoutContext = createContext({} as LayoutValue);
 
 const LayoutProvider = (props) => {
   const router = useRouter();
+
   const [connectorPane, setConnectorPane] = useState<PanelModeType>(
     PanelMode.Collapsed
   );
@@ -65,19 +67,21 @@ const LayoutProvider = (props) => {
     setMainPane(pane);
   }, []);
 
-  const changePageMode = useCallback((pane: PageModeType) => {
+  const changePageMode = useCallback((pane: PageModeType, list?: Playlist) => {
     // move all the logic here to change route and such...
 
     switch (pane) {
-      case PageMode.Listening:        
-        router.push('/#playlist/1', undefined, { shallow: true });
+      case PageMode.Listening:    
+        if (!list) return;
+        router.push(`/#playlist/${list.id}`, undefined, { shallow: true });
         break;
       case PageMode.NewPlaylist:
         router.push('/#newplaylist', undefined, { shallow: true });
         break;
-      case PageMode.Playlist:        
+      case PageMode.Playlist: {
         router.push('/', undefined, { shallow: true });
         break;
+      }
     }    
 
     setPageMode(pane);

@@ -15,18 +15,16 @@ export default function PlaylistSelectorComponent() {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center gap-4">
-      {playlists?.map(
-        (i) => (
-          <div
-            key={i.id}
-            className={styles.SelectorItem}
-            onClick={() => onSelectPlaylist(i)}
-          >
-            {i.name}
-          </div>
-        )
-      )}
+    <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">
+      {playlists?.map((i) => (
+        <div
+          key={i.id}
+          className={styles.SelectorItem}
+          onClick={() => onSelectPlaylist(i)}
+        >
+          {i.name}
+        </div>
+      ))}
       <div className={styles.SelectorNewItem} onClick={() => onNewPlaylist()}>
         + New
       </div>

@@ -15,11 +15,11 @@ function PlaylistApp({ Component, pageProps }) {
       <LayoutProvider>
         <AuthProvider {...pageProps}>
           <PlaylistProvider>
-            <MusicProvider>
+            <MusicProvider>              
               <Component {...pageProps} />
             </MusicProvider>
           </PlaylistProvider>
-        </AuthProvider>
+        </AuthProvider>        
       </LayoutProvider>
     </DialogProvider>
   );

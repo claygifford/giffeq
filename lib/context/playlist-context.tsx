@@ -1,6 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { MainMode, PageMode, useLayout } from './layout-context';
-import { Router, useRouter } from 'next/router';
+import { PageMode, useLayout } from './layout-context';
 import { createNextClient } from '../clients/next';
 import { useDialog } from './dialog-context';
 import ErrorDialog from '../ui/dialog/error-dialog';
@@ -8,7 +7,7 @@ import { useAuth } from './auth-context';
 import { Action } from '../types/action';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import { Recordable, Song } from '../types/song';
-import { keys, pick } from 'lodash';
+import pick from 'lodash/pick';
 
 export type Playlist = {
   name: string;
@@ -36,7 +35,7 @@ const PlaylistContext = createContext({} as PlaylistValue);
 const PlaylistProvider = (props) => {
   const dialog = useDialog();
   const { user } = useAuth();
-  const { changePageMode } = useLayout();
+  const { pageMode, changePageMode } = useLayout();
 
   const [playlist, setPlaylist] = useState<Playlist>(null);
   const [playlists, setPlaylists] = useState<Playlist[]>(null);
@@ -90,7 +89,7 @@ const PlaylistProvider = (props) => {
     (list?: Playlist) => {
       if (list) {
         setPlaylist(list);
-        changePageMode(PageMode.Listening);
+        changePageMode(PageMode.Listening, list);
       } else {
         setPlaylist(null);
         changePageMode(PageMode.Playlist);
@@ -149,7 +148,7 @@ const PlaylistProvider = (props) => {
           errorMessage: undefined,
         });
 
-        selectPlaylist(item);
+        selectPlaylist(item);       
       } catch (error) {
         let item = {};
         if (error instanceof Response) {
@@ -183,14 +182,12 @@ const PlaylistProvider = (props) => {
       });
 
       setPlaylist(null);
-      changePageMode(PageMode.Playlist);
+      changePageMode(PageMode.Playlist);      
 
       setDeletePlaylistAction({
         isBusy: false,
         errorMessage: undefined,
       });
-
-      // navigate to playlists
     } catch (error) {
       let item = {};
       if (error instanceof Response) {
@@ -234,6 +231,11 @@ const PlaylistProvider = (props) => {
       dialog.showDialog({ dialog: ErrorDialog(item) });
     }
   }, [client, dialog, getPlaylistAction.isBusy]);
+
+  useEffect(() => {
+    if (pageMode === PageMode.Playlist) getPlaylists();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageMode]);
 
   useEffectOnce(() => {
     if (user) getPlaylists();

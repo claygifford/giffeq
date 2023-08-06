@@ -1,6 +1,11 @@
 Playlist
 
 ## Getting Started
+to install packages:
+```bash
+yarn
+```
+
 run the development server:
 ```bash
 npm run dev
