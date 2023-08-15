@@ -6,8 +6,7 @@ import SettingsComponent from '../settings/settings-component';
 import HistoryComponent from './../history/history-component';
 
 type ConnectorPanelProps = {
-  //children: React.ReactNode;
-  //onClick: () => void;
+
 };
 
 export default function MainPanelComponent(props: ConnectorPanelProps) {

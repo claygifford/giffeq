@@ -2,7 +2,6 @@ import { useAuth } from '../../../lib/context/auth-context';
 import { useState } from 'react';
 import {
   ArrowLeftOnRectangleIcon,
-  BeakerIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import styles from './user-profile.module.css';
@@ -10,7 +9,7 @@ import { useOutsideClick } from '../../../lib/hooks/use-outside-click';
 import router from 'next/router';
 
 type UserProfileProps = {
-  //children: React.ReactNode;
+
 };
 
 const Env = {

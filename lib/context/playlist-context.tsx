@@ -1,11 +1,14 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { PageMode, useLayout } from './layout-context';
+import React, {
+  Dispatch,
+  createContext,
+  useCallback,
+  useState,
+  useMemo,
+} from 'react';
 import { createNextClient } from '../clients/next';
-import { useDialog } from './dialog-context';
+import { useDialog } from '../hooks/use-dialog';
 import ErrorDialog from '../ui/dialog/error-dialog';
-import { useAuth } from './auth-context';
 import { Action } from '../types/action';
-import { useEffectOnce } from '../hooks/use-effect-once';
 import { Recordable, Song } from '../types/song';
 import pick from 'lodash/pick';
 
@@ -18,24 +21,22 @@ export type Playlist = {
 
 type PlaylistValue = {
   playlist: Playlist;
-  selectNewPlaylist: () => void;
-  selectPlaylist: (list?: Playlist) => void;
   saveSearch: (search: string) => void;
   songPlayed: (song: any) => void;
   getPlaylists: () => Promise<void>;
   playlists: Playlist[];
-  createPlaylist: ({ name }: { name: string }) => void;
+  createPlaylist: ({ name }: { name: string }) => Promise<Playlist>;
   createPlaylistAction: Action;
-  deletePlaylist: () => void;
+  deletePlaylist: () => Promise<void>;
   deletePlaylistAction: Action;
+  getPlaylistById: (id: string) => Promise<Playlist>;
+  setPlaylist: Dispatch<any>;
 };
 
 const PlaylistContext = createContext({} as PlaylistValue);
 
 const PlaylistProvider = (props) => {
   const dialog = useDialog();
-  const { user } = useAuth();
-  const { pageMode, changePageMode } = useLayout();
 
   const [playlist, setPlaylist] = useState<Playlist>(null);
   const [playlists, setPlaylists] = useState<Playlist[]>(null);
@@ -76,62 +77,24 @@ const PlaylistProvider = (props) => {
           playlist.history.push(song);
         }
 
+        var item = {
+          ...pick(song, ['id', 'name', 'preview_url', 'type']),
+          artists: song.artists.map(i => pick(i, ['id', 'name'])),
+        };
+
+        console.log(`${item} asdasd`);
+
         client.post<void>('play', {
           playlistId: playlist.id,
-          song: pick(song, ['name', 'preview_url', 'artists']),
+          song: item,
         });
       }
     },
     [playlist, client]
   );
 
-  const selectPlaylist = useCallback(
-    (list?: Playlist) => {
-      if (list) {
-        setPlaylist(list);
-        changePageMode(PageMode.Listening, list);
-      } else {
-        setPlaylist(null);
-        changePageMode(PageMode.Playlist);
-      }
-    },
-    [changePageMode]
-  );
-
-  const selectNewPlaylist = useCallback(() => {
-    changePageMode(PageMode.NewPlaylist);
-  }, [changePageMode]);
-
-  // useEffect(() => {
-  //   const onHashChangeStart = (url) => {
-  //     if (!url) return;
-  //     const [, item] = url.split('#');
-  //     const [mode] = item ? item.split('/') : '';
-  //     switch (mode) {
-  //       case 'newplaylist': {
-  //         changePageMode(PageMode.NewPlaylist);
-  //         return;
-  //       }
-  //       case 'playlist': {
-  //         changePageMode(PageMode.Listening);
-  //         return;
-  //       }
-  //       default: {
-  //         changePageMode(PageMode.Playlist);
-  //         return;
-  //       }
-  //     }
-  //   };
-
-  //   router.events.on('hashChangeStart', onHashChangeStart);
-
-  //   return () => {
-  //     router.events.off('hashChangeStart', onHashChangeStart);
-  //   };
-  // }, [changePageMode, router.events]);
-
   const createPlaylist = useCallback(
-    async ({ name }: {name: string}) => {
+    async ({ name }: { name: string }) => {
       if (createPlaylistAction.isBusy) return;
 
       try {
@@ -148,7 +111,7 @@ const PlaylistProvider = (props) => {
           errorMessage: undefined,
         });
 
-        selectPlaylist(item);       
+        return item;
       } catch (error) {
         let item = {};
         if (error instanceof Response) {
@@ -163,7 +126,7 @@ const PlaylistProvider = (props) => {
         dialog.showDialog({ dialog: ErrorDialog(item) });
       }
     },
-    [client, dialog, selectPlaylist, createPlaylistAction.isBusy]
+    [createPlaylistAction.isBusy, client, dialog]
   );
 
   const deletePlaylist = useCallback(async () => {
@@ -178,11 +141,9 @@ const PlaylistProvider = (props) => {
       console.log(`yo::>${playlist.id}`);
 
       await client.delete('playlist', {
-        name: 'playlistId', value: playlist.id,
+        name: 'playlistId',
+        value: playlist.id,
       });
-
-      setPlaylist(null);
-      changePageMode(PageMode.Playlist);      
 
       setDeletePlaylistAction({
         isBusy: false,
@@ -201,7 +162,24 @@ const PlaylistProvider = (props) => {
       });
       dialog.showDialog({ dialog: ErrorDialog(item) });
     }
-  }, [client, dialog, changePageMode, playlist, deletePlaylistAction.isBusy]);
+  }, [client, dialog, playlist, deletePlaylistAction.isBusy]);
+
+  const getPlaylistById = useCallback(
+    async (id) => {
+      try {
+        return await client.get<Playlist>('playlist', { playlistId: id });
+      } catch (error) {
+        let item = {};
+        if (error instanceof Response) {
+          item = { response: error };
+        } else {
+          item = { error: error };
+        }
+        dialog.showDialog({ dialog: ErrorDialog(item) });
+      }
+    },
+    [client, dialog]
+  );
 
   const getPlaylists = useCallback(async () => {
     if (getPlaylistAction.isBusy) return;
@@ -232,28 +210,34 @@ const PlaylistProvider = (props) => {
     }
   }, [client, dialog, getPlaylistAction.isBusy]);
 
-  useEffect(() => {
-    if (pageMode === PageMode.Playlist) getPlaylists();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageMode]);
-
-  useEffectOnce(() => {
-    if (user) getPlaylists();
-  });
-
-  const value = {
-    playlist,
-    selectNewPlaylist,
-    selectPlaylist,
-    saveSearch,
-    songPlayed,
-    getPlaylists,
-    playlists,
-    createPlaylist,
-    createPlaylistAction,
-    deletePlaylist,
-    deletePlaylistAction,
-  } as PlaylistValue;
+  const value = useMemo(
+    () => ({
+      playlist,
+      setPlaylist,
+      saveSearch,
+      songPlayed,
+      getPlaylists,
+      playlists,
+      createPlaylist,
+      createPlaylistAction,
+      deletePlaylist,
+      deletePlaylistAction,
+      getPlaylistById,
+    }),
+    [
+      playlist,
+      setPlaylist,
+      saveSearch,
+      songPlayed,
+      getPlaylists,
+      playlists,
+      createPlaylist,
+      createPlaylistAction,
+      deletePlaylist,
+      deletePlaylistAction,
+      getPlaylistById,
+    ]
+  );
 
   return (
     <PlaylistContext.Provider value={value}>

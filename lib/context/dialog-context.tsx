@@ -7,8 +7,12 @@ import React, {
 } from 'react';
 
 import { createPortal } from 'react-dom';
-import ModalComponent, { Dialog, DialogContainer } from '../ui/dialog/modal-component';
+import ModalComponent, {
+  Dialog,
+  DialogContainer,
+} from '../ui/dialog/modal-component';
 import SlideInComponent from '../ui/dialog/slide-in-component';
+import { useEffectOnce } from '../hooks/use-effect-once';
 
 type DialogValue = {
   showDialog: ({ dialog }) => void;
@@ -17,20 +21,15 @@ type DialogValue = {
 const DialogContext = createContext({} as DialogValue);
 
 const DialogProvider = (props) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-
   const [windows, setWindows] = useState([]);
 
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const isBrowser = typeof window !== 'undefined';
 
   const showDialog = useCallback(
-    async ( {dialog} : {dialog: Dialog}) => {
+    async ({ dialog }: { dialog: Dialog }) => {
       if (isBrowser) {
         switch (dialog.Type) {
-          case DialogContainer.SlideIn:
-          {
+          case DialogContainer.SlideIn: {
             setWindows([
               <SlideInComponent
                 key={'1'}
@@ -44,8 +43,7 @@ const DialogProvider = (props) => {
             break;
           }
           case DialogContainer.Modal:
-          default:
-          {
+          default: {
             setWindows([
               <ModalComponent
                 key={'1'}
@@ -57,19 +55,19 @@ const DialogProvider = (props) => {
               </ModalComponent>,
             ]);
           }
-        }        
+        }
       }
     },
     [isBrowser]
   );
 
-  const value = {
-    showDialog,
-  } as DialogValue;
-
   const dialogs = useMemo(() => {
     return windows.map((item) => createPortal(item, document.body));
   }, [windows]);
+
+  const value = useMemo(() => ({
+    showDialog
+  }), [showDialog]);
 
   return (
     <DialogContext.Provider value={value}>
@@ -79,12 +77,4 @@ const DialogProvider = (props) => {
   );
 };
 
-const useDialog = () => {
-  const context = React.useContext(DialogContext);
-  if (context === undefined) {
-    throw new Error('useDialog must be used within a DialogProvider');
-  }
-  return context;
-};
-
-export { DialogProvider, useDialog };
+export { DialogProvider, DialogContext };

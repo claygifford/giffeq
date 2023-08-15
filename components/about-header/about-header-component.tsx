@@ -6,9 +6,8 @@ import NoteIcon from '../../lib/ui/icons/note-icon';
 import styles from './about-header.module.css';
 import UserProfileComponent from '../header/user-profile/user-profile-component';
 import MenuButtonComponent from '../../lib/ui/button/menu-button-component';
-import { useDialog } from '../../lib/context/dialog-context';
-import AboutSlideInComponent from './about-slide-in-component';
 import { DialogContainer } from '../../lib/ui/dialog/modal-component';
+import { useDialog } from '../../lib/hooks/use-dialog';
 
 type Props = {
   isScrolled: boolean;

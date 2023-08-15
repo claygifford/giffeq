@@ -2,8 +2,18 @@ import { HttpMethods } from "../../pages/api/methods";
 
 export const createNextClient = () => {
   return {
-    get: <T>(endpoint): Promise<T> => {
-      return fetch(`/api/${endpoint}`, {
+    get: <T>(
+      endpoint,
+      params?: {[key: string]: string}
+    ): Promise<T> => {
+      let search = '';
+      if (params) {
+        search = '?';
+        for (const param in params) {
+          search += `${param}=${params[param]}`;
+        }
+      }
+      return fetch(`/api/${endpoint}${search}`, {
         method: HttpMethods.get,
         headers: {
           'content-type': 'application/json',
@@ -30,7 +40,10 @@ export const createNextClient = () => {
         return response.json() as Promise<T>;
       });
     },
-    delete: (endpoint, params?: {name: string, value: string}): Promise<string> => {
+    delete: (
+      endpoint,
+      params?: { name: string; value: string }
+    ): Promise<string> => {
       let search = '';
       if (params) {
         search = `?${params.name}=${params.value}`;

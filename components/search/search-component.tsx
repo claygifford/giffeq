@@ -14,6 +14,7 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
         <div className="flex px-2 gap-2 truncate">
           |{' '}
           {i.artists.map((artist, i) => {
+            if (!artist) return;
             return <span key={artist.id}>{artist.name}</span>;
           })}
         </div>

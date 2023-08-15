@@ -6,8 +6,7 @@ import { PanelMode, useLayout } from '../../lib/context/layout-context';
 import { useMusic } from '../../lib/context/music-context';
 
 type ConnectorPanelProps = {
-  //children: React.ReactNode;
-  //onClick: () => void;
+
 };
 
 export default function ConnectorPanelComponent(props: ConnectorPanelProps) {

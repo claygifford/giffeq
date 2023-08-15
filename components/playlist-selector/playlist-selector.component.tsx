@@ -1,17 +1,23 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { usePlaylist } from '../../lib/context/playlist-context';
 import styles from './player-selector.module.css';
+import { PageMode, useLayout } from '../../lib/context/layout-context';
 
 export default function PlaylistSelectorComponent() {
-  const { playlists, selectPlaylist, selectNewPlaylist } = usePlaylist();
- 
+  const { playlists } = usePlaylist();
+  const { changePageMode } = useLayout();
+
   const onSelectPlaylist = (playlist) => {
-    selectPlaylist(playlist);
+    if (playlist) {
+      changePageMode(PageMode.Listening, playlist);
+    } else {
+      changePageMode(PageMode.Playlist);
+    }
   };
 
   const onNewPlaylist = () => {
-    selectNewPlaylist();
+    changePageMode(PageMode.NewPlaylist);
   };
 
   return (

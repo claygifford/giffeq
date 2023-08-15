@@ -1,14 +1,19 @@
 import { Auth } from 'aws-amplify';
-import router from 'next/router';
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import router, { useRouter } from 'next/router';
+import React, {
+  useMemo,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import LoadingComponent from '../ui/loading/loading-component';
-import { useLayout } from './layout-context';
+import { PageMode, useLayout } from './layout-context';
 import { createNextClient } from '../clients/next';
 import { getCookie } from '../cookies/cookies';
 import { User } from '../types/user';
 import { Action } from '../types/action';
-import { getPlaylistId } from './routes';
 
 type AuthValue = {
   user: User;
@@ -25,7 +30,8 @@ type AuthValue = {
 const AuthContext = createContext({} as AuthValue);
 
 const AuthProvider = (props) => {
-  const { changePageMode } = useLayout();
+  const { initializeLayout } = useLayout();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
@@ -35,27 +41,30 @@ const AuthProvider = (props) => {
   });
   const client = createNextClient();
 
-  const signIn = useCallback(async ({ username, password, rememberMe }) => {
-    try {
-      setSignInAction({
-        isBusy: true,
-        errorMessage: undefined,
-      });      
-      const user = await client.post<User>('signin', {username, password});
-      localStorage.setItem('user', JSON.stringify(user));
-      setUser(user);
-      await router.push('/');
-      setSignInAction({
-        isBusy: false,
-        errorMessage: undefined,
-      });
-    } catch (error) {
-      setSignInAction({
-        isBusy: false,
-        errorMessage: error.message,
-      });
-    }
-  }, [client]);
+  const signIn = useCallback(
+    async ({ username, password, rememberMe }) => {
+      try {
+        setSignInAction({
+          isBusy: true,
+          errorMessage: undefined,
+        });
+        const user = await client.post<User>('signin', { username, password });
+        localStorage.setItem('user', JSON.stringify(user));
+        setUser(user);
+        await router.push('/');
+        setSignInAction({
+          isBusy: false,
+          errorMessage: undefined,
+        });
+      } catch (error) {
+        setSignInAction({
+          isBusy: false,
+          errorMessage: error.message,
+        });
+      }
+    },
+    [client]
+  );
 
   const signUp = useCallback(
     async ({ username, password, email, rememberMe }) => {
@@ -65,9 +74,13 @@ const AuthProvider = (props) => {
           errorMessage: undefined,
         });
 
-        const user = await client.post<User>('signup', {username, password, email});
-        localStorage.setItem('user', JSON.stringify(user));   
-        setUser(user);     
+        const user = await client.post<User>('signup', {
+          username,
+          password,
+          email,
+        });
+        localStorage.setItem('user', JSON.stringify(user));
+        setUser(user);
         await router.push('/');
         setSignUpAction({
           isBusy: false,
@@ -129,7 +142,7 @@ const AuthProvider = (props) => {
     }
   };
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       await client.get<any>('signout');
       localStorage.removeItem('user');
@@ -138,9 +151,9 @@ const AuthProvider = (props) => {
     } catch (error) {
       console.log('error sign out', error);
     }
-  };
+  }, [client]);
 
-  const initializeUser = async () => {
+  const initializeApp = async () => {
     setIsLoading(true);
     try {
       const cookie = getCookie('token');
@@ -150,15 +163,14 @@ const AuthProvider = (props) => {
       const user = JSON.parse(item);
       setUser(user);
 
-      // if has playlist id -- load playlist
-      const playlistId = getPlaylistId();
+      await initializeLayout();
     } catch (error) {
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffectOnce(initializeUser);
+  useEffectOnce(initializeApp);
 
   useEffect(() => {
     if (isLoading) return;
@@ -169,17 +181,28 @@ const AuthProvider = (props) => {
     }
   }, [user, isLoading, props]);
 
-  const value = {
-    user,
-    signIn,
-    signInAction,
-    signUp,
-    signUpAction,
-    signOut,
-    forgotPassword,
-    forgotPasswordAction,
-    forgotPasswordSubmit,
-  } as AuthValue;
+  const value = useMemo(
+    () => ({
+      user,
+      signIn,
+      signInAction,
+      signUp,
+      signUpAction,
+      signOut,
+      forgotPassword,
+      forgotPasswordAction,
+      forgotPasswordSubmit,
+    }),
+    [
+      forgotPasswordAction,
+      signIn,
+      signInAction,
+      signOut,
+      signUp,
+      signUpAction,
+      user,
+    ]
+  );
 
   if (isLoading || (props.protected && !user))
     return <LoadingComponent></LoadingComponent>;

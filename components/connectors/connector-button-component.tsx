@@ -4,8 +4,7 @@ import {
 import { PanelMode, useLayout } from '../../lib/context/layout-context';
 
 type ConnectorButtonProps = {
-  //children: React.ReactNode;
-  //onClick: () => void;
+
 };
 
 export default function ConnectorButtonComponent(props: ConnectorButtonProps) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import PageComponent from '../components/page-component';
 import ConnectorPanel from '../components/connectors/connector-panel-component';
@@ -14,7 +14,7 @@ import NewPlaylistComponent from '../components/new-playlist/new-playlist-compon
 export default function Home() {
   const { pageMode } = useLayout();
 
-  const renderPage = () => {
+  const renderPage = useCallback(() => {
     switch (pageMode) {
       case PageMode.Listening:
         return (
@@ -47,7 +47,7 @@ export default function Home() {
           </>
         );
     }
-  };
+  }, [pageMode]);
 
   return (
     <PageComponent classes="overflow-hidden">

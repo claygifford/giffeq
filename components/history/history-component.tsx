@@ -7,23 +7,21 @@ import InputComponent from '../../lib/ui/input/input-component';
 import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
 import PlayButtonComponent from '../../lib/ui/buttons/play-button';
 import { useMusic } from '../../lib/context/music-context';
+import DeleteButtonComponent from '../../lib/ui/buttons/delete-button';
 
 
-const ItemTemplate = ({ item, onClick, isSelected }) => {
+const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   const artist = (i) => {
     if (i.type === 'album' || i.type === 'track')
       return (
         <div className="flex px-2 gap-2 truncate">
           |{' '}
           {i.artists.map((artist, i) => {
+            if (!artist) return;
             return <span key={artist.id}>{artist.name}</span>;
           })}
         </div>
       );
-  };
-
-  const onItemClick = () => {
-    onClick(item);
   };
 
 
@@ -33,7 +31,8 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
         isSelected ? 'bg-indigo-200' : ''
       }`}
     >
-      <PlayButtonComponent onClick={onItemClick}></PlayButtonComponent>
+      <PlayButtonComponent onClick={onPlay}></PlayButtonComponent>
+      <DeleteButtonComponent onClick={onDelete}></DeleteButtonComponent>
       <div className="font-medium truncate">{item.name}</div>
       {artist(item)}
     </div>
@@ -52,9 +51,15 @@ export default function HistoryComponent() {
 
   const [songSearch, setSongSearch] = useState('');
 
-  const onItemClick = (item) => {
+  const onPlay = (item) => {
     item.type = 'track';
-    selectItem(item);
+    selectItem(item, true);
+  };
+
+  const onDelete = (index) => {
+    //item.type = 'track';
+    //selectItem(item, true);
+    playlist.history = [];
   };
 
   // useEffect(() => {
@@ -105,9 +110,10 @@ export default function HistoryComponent() {
           playlist.history?.map((result, i) => {
             return (
               <ItemTemplate
-                onClick={onItemClick}
+                onPlay={onPlay}
+                onDelete={() => onDelete(i)}
                 item={result}
-                key={result.id}
+                key={i}
                 isSelected={false}
                 //isSelected={currentSong.id === result.id}
               />

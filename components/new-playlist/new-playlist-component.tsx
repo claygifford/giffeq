@@ -13,13 +13,10 @@ export default function NewPlaylistComponent() {
   const [yo, setYo] = useState({ name: '' });
   const [name, setName] = useState('');
 
-  const create = async () => {
-    await createPlaylist({ name });
-  };
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await createPlaylist({ name });
+    const playlist = await createPlaylist({ name });
+    changePageMode(PageMode.Listening, playlist);
   }
 
   return (

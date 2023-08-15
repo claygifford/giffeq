@@ -1,7 +1,6 @@
 import { Bars3Icon } from '@heroicons/react/24/solid';
 
 type MenuButtonProps = {
-  //children: React.ReactNode;
   onClick: () => void;
 };
 

@@ -10,10 +10,12 @@ import { usePlaylist } from '../../lib/context/playlist-context';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import HamburgerButtonComponent from '../side-bar/hamburger-button-component';
 import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
+import { PageMode, useLayout } from '../../lib/context/layout-context';
 
 export default function HeaderComponent() {
   const { user } = useAuth();
-  const { playlist, selectPlaylist } = usePlaylist();
+  const { playlist } = usePlaylist();
+  const { changePageMode } = useLayout();
   return (
     <header className={styles.header}>
       <HamburgerButtonComponent></HamburgerButtonComponent>
@@ -31,7 +33,7 @@ export default function HeaderComponent() {
           <SideBarButtonComponent
             classes="py-1 px-1"
             onClick={() => {
-              selectPlaylist();
+              changePageMode(PageMode.Playlist);
             }}
           >
             <XMarkIcon className="h-4 w-4" />

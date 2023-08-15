@@ -3,11 +3,12 @@ import React, {
   Dispatch,
   useCallback,
   useState,
+  useMemo,
 } from 'react';
 import { useEffectOnce } from '../hooks/use-effect-once';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useDialog } from './dialog-context';
+import { useDialog } from '../hooks/use-dialog';
 import ErrorDialog from '../ui/dialog/error-dialog';
 import debounce from 'lodash/debounce';
 import { usePlaylist } from './playlist-context';
@@ -21,9 +22,11 @@ type MusicValue = {
   isSearchingMusic: boolean;
   searchMusic: (search: string) => void;
   currentSong: Song;
+  autoPlay: Song;
+  setAutoPlay: Dispatch<Song>;
   currentResults: any;
   clearResults: () => void;
-  selectItem: (item: any) => void;
+  selectItem: (item: any, autoPlay?: boolean) => void;
   spotifyConnectorStatus: string;
 };
 
@@ -46,6 +49,7 @@ const MusicProvider = (props) => {
   const [spotifyAccessToken, setSpotifyAccessToken] = useState<any>(null);
   const [spotifyRefreshToken, setSpotifyRefreshToken] = useState<any>(null);
   const [currentSong, setCurrentSong] = useState<any>(null);
+  const [autoPlay, setAutoPlay] = useState<Song>(null);
   const [currentResults, setCurrentResults] = useState<any>(null);
   const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
     useState<any>(null);
@@ -143,8 +147,8 @@ const MusicProvider = (props) => {
           try {
             let responseError = await response.json();
             error = responseError.error;
-          } catch { }
-          
+          } catch {}
+
           dialog.showDialog({ dialog: ErrorDialog({ response, error }) });
           return;
         }
@@ -173,12 +177,15 @@ const MusicProvider = (props) => {
     },
     [spotifyAccessToken, dialog, saveSearch]
   );
-  
+
   const searchMusic = debounce(searchMusicHandler, 300);
 
-  const selectItem = useCallback((item: any) => {
+  const selectItem = useCallback((item: any, autoPlay = false) => {
     if (item.type === 'track') {
       setCurrentSong(item);
+      if (autoPlay) {
+        setAutoPlay(item);
+      }
     }
   }, []);
 
@@ -186,27 +193,30 @@ const MusicProvider = (props) => {
     setCurrentResults(undefined);
   }, []);
 
-  const refreshToken = useCallback(async (refreshToken) => {
-    try {
-      const response = await fetch(
-        `/api/spotify/refresh_token?refresh_token=${refreshToken}`,
-        {
-          method: 'get'
-        }
-      );
+  const refreshToken = useCallback(
+    async (refreshToken) => {
+      try {
+        const response = await fetch(
+          `/api/spotify/refresh_token?refresh_token=${refreshToken}`,
+          {
+            method: 'get',
+          }
+        );
 
-      if (response.status !== 200) {
-        dialog.showDialog({ dialog: ErrorDialog({ response }) });
-        return;
+        if (response.status !== 200) {
+          dialog.showDialog({ dialog: ErrorDialog({ response }) });
+          return;
+        }
+
+        const tokens = (await response.json()) as { access_token: string };
+        setSpotifyAccessToken(tokens.access_token);
+        setSpotifyConnectorStatus('Spotify Connected');
+      } catch (error) {
+        dialog.showDialog({ dialog: ErrorDialog({ error }) });
       }
-      
-      const tokens = (await response.json()) as { access_token: string };
-      setSpotifyAccessToken(tokens.access_token);
-      setSpotifyConnectorStatus('Spotify Connected');
-    } catch (error) {
-      dialog.showDialog({ dialog: ErrorDialog({ error }) });
-    }
-  }, [dialog]);
+    },
+    [dialog]
+  );
 
   const getCookies = useCallback(() => {
     if (spotify_activated) {
@@ -229,20 +239,40 @@ const MusicProvider = (props) => {
 
   useEffectOnce(getCookies);
 
-  const value = {
-    getCookies,
-    playMusic,
-    playSpotifyMusic,
-    setAmazonAccessToken,
-    setSpotifyAccessToken,
-    isSearchingMusic,
-    searchMusic,
-    currentSong,
-    currentResults,
-    clearResults,
-    selectItem,
-    spotifyConnectorStatus,
-  } as MusicValue;
+  const value = useMemo(
+    () => ({
+      getCookies,
+      playMusic,
+      playSpotifyMusic,
+      setAmazonAccessToken,
+      setSpotifyAccessToken,
+      isSearchingMusic,
+      searchMusic,
+      currentSong,
+      currentResults,
+      clearResults,
+      selectItem,
+      spotifyConnectorStatus,
+      autoPlay,
+      setAutoPlay,
+    }),
+    [
+      getCookies,
+      playMusic,
+      playSpotifyMusic,
+      setAmazonAccessToken,
+      setSpotifyAccessToken,
+      isSearchingMusic,
+      searchMusic,
+      currentSong,
+      currentResults,
+      clearResults,
+      selectItem,
+      spotifyConnectorStatus,
+      autoPlay,
+      setAutoPlay,
+    ]
+  );
 
   return (
     <MusicContext.Provider value={value}>

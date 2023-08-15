@@ -152,6 +152,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
           },
           { path: '/', maxAge: 2592000 }
         );
+        //res.status(200).json({message: 'refresh token success'});
         res.redirect('/');
         // we can also pass the token to the browser to make requests from there
         // res.redirect(
@@ -163,12 +164,13 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
         //     })
         // );
       } else {
-        res.redirect(
-          '/#' +
-            querystring.stringify({
-              error: 'invalid_token',
-            })
-        );
+        // res.redirect(
+        //   '/#' +
+        //     querystring.stringify({
+        //       error: 'invalid_token',
+        //     })
+        // );
+        res.status(500).json({ message: 'invalid token' });
       }
     });
   }

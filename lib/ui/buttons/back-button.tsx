@@ -1,13 +1,10 @@
 import { ArrowSmallLeftIcon } from '@heroicons/react/24/outline';
 
 type BackButtonProps = {
-  //children: React.ReactNode;
   onClick: () => void;
 };
 
 export default function BackButtonComponent(props: BackButtonProps) {
-  //const onClick = () => {};
-
   return (
     <div className="relative p-2">
       <button

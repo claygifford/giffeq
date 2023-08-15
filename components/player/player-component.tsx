@@ -1,18 +1,15 @@
-import {
-  ForwardIcon,
-  HandThumbDownIcon,
-} from '@heroicons/react/24/outline';
+import { ForwardIcon, HandThumbDownIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 
 import { HandThumbUpIcon, PauseIcon } from '@heroicons/react/24/solid';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useMusic } from '../../lib/context/music-context';
 import { useEffectOnce } from '../../lib/hooks/use-effect-once';
 import styles from './player.module.css';
 import { usePlaylist } from '../../lib/context/playlist-context';
 
 export default function PlayerComponent() {
-  const { currentSong } = useMusic();
+  const { currentSong, autoPlay, setAutoPlay } = useMusic();
   const { songPlayed } = usePlaylist();
   const [isPlaying, setIsPlaying] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
@@ -21,15 +18,17 @@ export default function PlayerComponent() {
 
   const audioRef = useRef<HTMLVideoElement>(null);
 
-  const onPlay = () => {
+  const currentSongLoaded =
+    audioRef && audioRef.current && audioRef.current.duration > 0;
+
+  const onPlay = useCallback(() => {
     if (audioRef && audioRef.current) {
       if (audioRef.current.paused) {
         audioRef.current.play();
         songPlayed(currentSong);
-      }
-      else audioRef.current.pause();
+      } else audioRef.current.pause();
     }
-  };
+  }, [currentSong, songPlayed]);
 
   const onAudioPlay = () => setIsPlaying(true);
   const onAudioPause = () => setIsPlaying(false);
@@ -53,6 +52,19 @@ export default function PlayerComponent() {
     }
   };
 
+  useEffect(() => {
+    if (autoPlay && canPlay && currentSong) {
+      if (
+        currentSongLoaded &&
+        audioRef.current.currentSrc === autoPlay.preview_url
+      ) {
+        console.log(`yo: ${autoPlay} ${canPlay}`);
+        setAutoPlay(null);
+        onPlay();
+      }
+    }
+  }, [autoPlay, canPlay, setAutoPlay, currentSong, onPlay, currentSongLoaded]);
+
   useEffectOnce(() => {
     if (audioRef.current) {
       audioRef.current.addEventListener('play', onAudioPlay);
@@ -70,7 +82,7 @@ export default function PlayerComponent() {
         audioRef.current.removeEventListener('canplay', onAudioCanPlay);
         audioRef.current.removeEventListener('timeupdate', onAudioTimeUpdate);
       }
-    }
+    };
   });
 
   useEffect(() => {
@@ -90,9 +102,10 @@ export default function PlayerComponent() {
             </div>
             <div className="flex gap-1">
               Artist:
-              {currentSong.artists.map((artist, i) => (
-                <span key={artist.id}>{artist.name}</span>
-              ))}
+              {currentSong.artists.map((artist, i) => {
+                if (!artist) return;
+                return <span key={artist.id}>{artist.name}</span>;
+              })}
             </div>
           </div>
         )}

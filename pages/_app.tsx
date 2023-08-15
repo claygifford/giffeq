@@ -12,15 +12,15 @@ Amplify.configure(awsExports);
 function PlaylistApp({ Component, pageProps }) {
   return (
     <DialogProvider>
-      <LayoutProvider>
-        <AuthProvider {...pageProps}>
-          <PlaylistProvider>
-            <MusicProvider>              
+      <PlaylistProvider>
+        <LayoutProvider>
+          <AuthProvider {...pageProps}>
+            <MusicProvider>
               <Component {...pageProps} />
             </MusicProvider>
-          </PlaylistProvider>
-        </AuthProvider>        
-      </LayoutProvider>
+          </AuthProvider>
+        </LayoutProvider>
+      </PlaylistProvider>
     </DialogProvider>
   );
 }

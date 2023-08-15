@@ -2,8 +2,7 @@ import { Bars3Icon } from '@heroicons/react/24/solid';
 import { PanelMode, useLayout } from '../../lib/context/layout-context';
 
 type HamburgerButtonProps = {
-  //children: React.ReactNode;
-  //onClick: () => void;
+
 };
 
 export default function HamburgerButtonComponent(props: HamburgerButtonProps) {
