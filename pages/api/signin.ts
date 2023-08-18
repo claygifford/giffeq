@@ -20,11 +20,15 @@ export default async function handler(
   try {
     const { username, password } = req.body;
     const user = await Auth.signIn(username, password);
-    const token = generateToken();
     const client = await createRedisClient();
-    await client.set(`token:${token}`, user.attributes.sub);
-    setCookie(res, 'token', `${token}`, { maxAge: Year });
     const item = await client.json.get(`user:${user.attributes.sub}`);
+    if (!item) {
+      res.status(500).json({ message: 'User does not exist.' });
+      return;
+    }
+    const token = generateToken();    
+    await client.set(`token:${token}`, user.attributes.sub);
+    setCookie(res, 'token', `${token}`, { maxAge: Year });    
     res.status(200).json(item);
   } catch (e) {
     res.status(500).json({ message: e.message });

@@ -18,7 +18,7 @@ export const createNextClient = () => {
         headers: {
           'content-type': 'application/json',
         },
-      }).then((response) => {
+      }).then(async (response) => {
         if (!response.ok) {
           response.type;
           throw response;

@@ -57,9 +57,10 @@ const AuthProvider = (props) => {
           errorMessage: undefined,
         });
       } catch (error) {
+        const item = await error.json();
         setSignInAction({
           isBusy: false,
-          errorMessage: error.message,
+          errorMessage: item.message,
         });
       }
     },
@@ -87,9 +88,10 @@ const AuthProvider = (props) => {
           errorMessage: undefined,
         });
       } catch (error) {
+        const item = await error.json();
         setSignUpAction({
           isBusy: false,
-          errorMessage: error.message,
+          errorMessage: item.message,
         });
       }
     },
@@ -111,10 +113,10 @@ const AuthProvider = (props) => {
         successMessage: 'cool it worked',
       });
     } catch (error) {
-      console.log('error forgot password', error);
+      const item = await error.json();
       setForgotPasswordAction({
         isBusy: false,
-        errorMessage: error.message,
+        errorMessage: item.message,
       });
     }
   };
@@ -134,10 +136,10 @@ const AuthProvider = (props) => {
         successMessage: `${success} cool it worked`,
       });
     } catch (error) {
-      console.log('error forgot password', error);
+      const item = await error.json();
       setForgotPasswordAction({
         isBusy: false,
-        errorMessage: error.message,
+        errorMessage: item.message,
       });
     }
   };
