@@ -65,7 +65,7 @@ const HistoryProvider = (props) => {
       getHistoryAction,
       history,
     }),
-    [deleteEvent, getHistory, history]
+    [deleteEvent, getHistory, getHistoryAction, history]
   );
 
   return (
