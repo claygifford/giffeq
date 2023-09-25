@@ -1,14 +1,16 @@
 import {
+  MagnifyingGlassIcon as MagnifyingGlassSolidIcon,
   AcademicCapIcon as AcademicCapSolidIcon,
   BeakerIcon as BeakerSolidIcon,
-  BoltIcon as BoltSolidIcon,
+  ArchiveBoxIcon as ArchiveBoxSolidIcon,
   Cog6ToothIcon as Cog6ToothSolidIcon,
   MusicalNoteIcon as MusicalNoteSolidIcon,
 } from '@heroicons/react/24/solid';
 import {
+  MagnifyingGlassIcon as MagnifyingGlassOutlineIcon,
   AcademicCapIcon as AcademicCapOutlineIcon,
   BeakerIcon as BeakerOutlineIcon,
-  BoltIcon as BoltOutlineIcon,
+  ArchiveBoxIcon as ArchiveBoxOutlineIcon,
   Cog6ToothIcon as Cog6ToothOutlineIcon,
   MusicalNoteIcon as MusicalNoteOutlineIcon,
 } from '@heroicons/react/24/outline';
@@ -34,13 +36,25 @@ export default function SideBarComponent() {
       <div className={`${styles.SideBar} ${isOpen ? styles.SideBarOpen : ''}`}>
         <SideBarButtonComponent
           isOpen={isOpen}
+          isSelected={mainPane === MainMode.Song}
+          onClick={() => showMainPane(MainMode.Song)}
+        >
+          {mainPane === MainMode.Song ? (
+            <MusicalNoteSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+          ) : (
+            <MusicalNoteOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+          )}
+          {isOpen ? <div>Song</div> : null}
+        </SideBarButtonComponent>
+        <SideBarButtonComponent
+          isOpen={isOpen}
           isSelected={mainPane === MainMode.Search}
           onClick={() => showMainPane(MainMode.Search)}
         >
           {mainPane === MainMode.Search ? (
-            <MusicalNoteSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+            <MagnifyingGlassSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <MusicalNoteOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+            <MagnifyingGlassOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>Search</div> : null}
         </SideBarButtonComponent>
@@ -58,25 +72,13 @@ export default function SideBarComponent() {
         </SideBarButtonComponent>
         <SideBarButtonComponent
           isOpen={isOpen}
-          isSelected={mainPane === MainMode.NextSong}
-          onClick={() => showMainPane(MainMode.NextSong)}
-        >
-          {mainPane === MainMode.NextSong ? (
-            <BeakerSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-          ) : (
-            <BeakerOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-          )}
-          {isOpen ? <div>Song</div> : null}
-        </SideBarButtonComponent>
-        <SideBarButtonComponent
-          isOpen={isOpen}
           isSelected={mainPane === MainMode.History}
           onClick={() => showMainPane(MainMode.History)}
         >
           {mainPane === MainMode.History ? (
-            <BoltSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+            <ArchiveBoxSolidIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           ) : (
-            <BoltOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+            <ArchiveBoxOutlineIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
           )}
           {isOpen ? <div>History</div> : null}
         </SideBarButtonComponent>

@@ -9,7 +9,3 @@ export type Artist = {
     id: string;
     name: string;
 }
-
-export type Recordable = {
-    recorded: boolean;
-}

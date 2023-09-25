@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
-import { Playlist, usePlaylist } from './playlist-context';
-import React, {
-  createContext,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import { usePlaylist } from './playlist-context';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
+import { Playlist } from '../types/playlist';
+import { useSong } from './song-context';
+import { useMusic } from './music-context';
+import { useHistory } from './history-context';
 
 export const PanelMode = {
   Collapsed: 1,
@@ -14,8 +13,8 @@ export const PanelMode = {
 type PanelModeType = (typeof PanelMode)[keyof typeof PanelMode];
 
 export const MainMode = {
-  Search: 1,
-  NextSong: 2,
+  Song: 1,
+  Search: 2,
   Decisions: 3,
   History: 4,
   Settings: 5,
@@ -45,9 +44,12 @@ const LayoutContext = createContext({} as LayoutValue);
 
 const LayoutProvider = (props) => {
   const router = useRouter();
-  const { setPlaylist } = usePlaylist();
   const { asPath } = useRouter();
-  const { getPlaylistById, getPlaylists } = usePlaylist();
+  const { playlist, setPlaylist, getPlaylistById, getPlaylists } = usePlaylist();
+  const { playNextSong } = useSong();
+  const { clearSong } = useMusic();
+  const { getHistory } = useHistory();
+
   const [connectorPane, setConnectorPane] = useState<PanelModeType>(
     PanelMode.Collapsed
   );
@@ -65,9 +67,18 @@ const LayoutProvider = (props) => {
     setSideBarPane(pane);
   }, []);
 
-  const showMainPane = useCallback((pane: MainModeType) => {
-    setMainPane(pane);
-  }, []);
+  const showMainPane = useCallback(
+    (pane: MainModeType) => {
+      switch (pane) {
+        case MainMode.History: {
+          if (!playlist) return;
+          getHistory(playlist.id);
+        }
+      }
+      setMainPane(pane);
+    },
+    [getHistory, playlist]
+  );
 
   const changePageMode = useCallback(
     (pane: PageModeType, list?: Playlist) => {
@@ -75,12 +86,15 @@ const LayoutProvider = (props) => {
         case PageMode.Listening:
           if (!list) return;
           setPlaylist(list);
+          playNextSong(list.id);
+          getHistory(list.id);
           router.push(`/#listening/${list.id}`, undefined, { shallow: true });
           break;
         case PageMode.NewPlaylist:
           router.push('/#newplaylist', undefined, { shallow: true });
           break;
         case PageMode.Playlist: {
+          clearSong();
           setPlaylist(null);
           getPlaylists();
           router.push('/', undefined, { shallow: true });
@@ -90,7 +104,7 @@ const LayoutProvider = (props) => {
 
       setPageMode(pane);
     },
-    [getPlaylists, router, setPlaylist]
+    [setPlaylist, playNextSong, getHistory, router, clearSong, getPlaylists]
   );
 
   const initializeLayout = useCallback(async () => {

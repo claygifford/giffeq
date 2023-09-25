@@ -16,7 +16,7 @@ export default async function handler(
   }
   const token = req.cookies['token'];
   await Auth.signOut();
-  const client = await createRedisClient();
+  const { client } = await createRedisClient();
   await client.del(`token:${token}`);
   clearCookie(res, 'token');
   res.status(200).json({message: 'successful log out'});

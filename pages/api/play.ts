@@ -11,11 +11,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 const play = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const token = req.cookies['token'];
-
     const { playlistId, song } = req.body;
-    const client = await createRedisClient();
-    const id = await client.get(`token:${token}`);
+    const {client, id} = await createRedisClient(req);
     let history;
 
     try {

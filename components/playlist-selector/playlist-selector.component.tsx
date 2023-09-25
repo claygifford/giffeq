@@ -3,9 +3,10 @@ import React from 'react';
 import { usePlaylist } from '../../lib/context/playlist-context';
 import styles from './player-selector.module.css';
 import { PageMode, useLayout } from '../../lib/context/layout-context';
+import LoadingComponent from '../../lib/ui/loading/loading-component';
 
 export default function PlaylistSelectorComponent() {
-  const { playlists } = usePlaylist();
+  const { playlists, getPlaylistsAction } = usePlaylist();
   const { changePageMode } = useLayout();
 
   const onSelectPlaylist = (playlist) => {
@@ -16,10 +17,8 @@ export default function PlaylistSelectorComponent() {
     }
   };
 
-  const onNewPlaylist = () => {
-    changePageMode(PageMode.NewPlaylist);
-  };
-
+  if (getPlaylistsAction.isBusy) 
+    return <LoadingComponent></LoadingComponent>;
   return (
     <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">
       {playlists?.map((i) => (
@@ -31,9 +30,6 @@ export default function PlaylistSelectorComponent() {
           {i.name}
         </div>
       ))}
-      <div className={styles.SelectorNewItem} onClick={() => onNewPlaylist()}>
-        + New
-      </div>
     </div>
   );
 }

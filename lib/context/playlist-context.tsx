@@ -9,21 +9,16 @@ import { createNextClient } from '../clients/next';
 import { useDialog } from '../hooks/use-dialog';
 import ErrorDialog from '../ui/dialog/error-dialog';
 import { Action } from '../types/action';
-import { Recordable, Song } from '../types/song';
 import pick from 'lodash/pick';
-
-export type Playlist = {
-  name: string;
-  id: string;
-  history: any[];
-  searches: string[];
-};
+import { Playlist } from '../types/playlist';
+import { Song } from '../types/song';
 
 type PlaylistValue = {
   playlist: Playlist;
   saveSearch: (search: string) => void;
   songPlayed: (song: any) => void;
   getPlaylists: () => Promise<void>;
+  getPlaylistsAction: Action;
   playlists: Playlist[];
   createPlaylist: ({ name }: { name: string }) => Promise<Playlist>;
   createPlaylistAction: Action;
@@ -40,7 +35,7 @@ const PlaylistProvider = (props) => {
 
   const [playlist, setPlaylist] = useState<Playlist>(null);
   const [playlists, setPlaylists] = useState<Playlist[]>(null);
-  const [getPlaylistAction, setGetPlaylistAction] = useState<Action>({
+  const [getPlaylistsAction, setGetPlaylistsAction] = useState<Action>({
     isBusy: false,
   });
 
@@ -68,21 +63,12 @@ const PlaylistProvider = (props) => {
   );
 
   const songPlayed = useCallback(
-    (song: Song & Recordable) => {
-      if (song && playlist && !song.recorded) {
-        song.recorded = true;
-        if (!playlist.history) {
-          playlist.history = [song];
-        } else {
-          playlist.history.push(song);
-        }
-
+    (song: Song) => {
+      if (song && playlist) {
         var item = {
           ...pick(song, ['id', 'name', 'preview_url', 'type']),
           artists: song.artists.map(i => pick(i, ['id', 'name'])),
         };
-
-        console.log(`${item} asdasd`);
 
         client.post<void>('play', {
           playlistId: playlist.id,
@@ -141,8 +127,7 @@ const PlaylistProvider = (props) => {
       console.log(`yo::>${playlist.id}`);
 
       await client.delete('playlist', {
-        name: 'playlistId',
-        value: playlist.id,
+        'playlistId': playlist.id,
       });
 
       setDeletePlaylistAction({
@@ -182,16 +167,16 @@ const PlaylistProvider = (props) => {
   );
 
   const getPlaylists = useCallback(async () => {
-    if (getPlaylistAction.isBusy) return;
+    if (getPlaylistsAction.isBusy) return;
 
     try {
-      setGetPlaylistAction({
+      setGetPlaylistsAction({
         isBusy: true,
         errorMessage: undefined,
       });
       const items = await client.get<Playlist[]>('playlists');
       setPlaylists(items);
-      setGetPlaylistAction({
+      setGetPlaylistsAction({
         isBusy: false,
         errorMessage: undefined,
       });
@@ -202,13 +187,13 @@ const PlaylistProvider = (props) => {
       } else {
         item = { error: error };
       }
-      setGetPlaylistAction({
+      setGetPlaylistsAction({
         isBusy: false,
         errorMessage: error.message,
       });
       dialog.showDialog({ dialog: ErrorDialog(item) });
     }
-  }, [client, dialog, getPlaylistAction.isBusy]);
+  }, [client, dialog, getPlaylistsAction.isBusy]);
 
   const value = useMemo(
     () => ({
@@ -217,6 +202,7 @@ const PlaylistProvider = (props) => {
       saveSearch,
       songPlayed,
       getPlaylists,
+      getPlaylistsAction,
       playlists,
       createPlaylist,
       createPlaylistAction,
@@ -230,6 +216,7 @@ const PlaylistProvider = (props) => {
       saveSearch,
       songPlayed,
       getPlaylists,
+      getPlaylistsAction,
       playlists,
       createPlaylist,
       createPlaylistAction,

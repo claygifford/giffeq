@@ -20,7 +20,7 @@ export default async function handler(
   try {
     const { username, password } = req.body;
     const user = await Auth.signIn(username, password);
-    const client = await createRedisClient();
+    const { client } = await createRedisClient();
     const item = await client.json.get(`user:${user.attributes.sub}`);
     if (!item) {
       res.status(500).json({ message: 'User does not exist.' });

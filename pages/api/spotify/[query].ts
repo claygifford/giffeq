@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import querystring from 'querystring';
-import request from 'request';
 import { serialize, CookieSerializeOptions } from 'cookie';
+import { createApiClient } from '../../../lib/clients/api';
+import { createRedisClient } from '../../../lib/clients/redis';
+import { Connector } from '../../../lib/types/playlist';
 
 const Env = {
   CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
@@ -22,11 +24,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return callback(req, res);
   } else if (method === 'GET' && query === 'refresh_token') {
     return refreshToken(req, res);
-  } else if (method === 'GET' && query === 'testing') {
-    res.end(
-      `Query: ${query} Method: ${method} ${req.query} ${req.query.state} ${req.query.code}`
-    );
-    return;
   }
 
   res.end(`Query: ${query} Method: ${method}`);
@@ -109,96 +106,105 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     );
   } else {
     clearCookie(res, stateKey);
-    //res.clearCookie(stateKey);
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: Env.REDIRECT_URI,
-        grant_type: 'authorization_code',
-      },
-      headers: {
-        Authorization:
-          'Basic ' +
-          new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString(
-            'base64'
-          ),
-      },
-      json: true,
-    };
 
-    request.post(authOptions, function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        var access_token = body.access_token,
-          refresh_token = body.refresh_token;
+    const form = new FormData();
+    form.append('code', code as string);
+    form.append('redirect_uri', Env.REDIRECT_URI);
+    form.append('grant_type', 'authorization_code');
 
-        // var options = {
-        //   url: 'https://api.spotify.com/v1/me',
-        //   headers: { Authorization: 'Bearer ' + access_token },
-        //   json: true,
-        // };
+    const apiClient = createApiClient();
+    try {
 
-        // // use the access token to access the Spotify Web API
-        // request.get(options, function (error, response, body) {
-        //   console.log(body);
-        // });
+      const auth_token = Buffer.from(
+        `${Env.CLIENT_ID}:${Env.CLIENT_SECRET}`,
+        'utf-8'
+      ).toString('base64');
 
-        setCookie(
-          res,
-          'spotify_tokens',
-          {
-            access_token: access_token,
-            refresh_token: refresh_token,
-          },
-          { path: '/', maxAge: 2592000 }
-        );
-        //res.status(200).json({message: 'refresh token success'});
-        res.redirect('/');
-        // we can also pass the token to the browser to make requests from there
-        // res.redirect(
-        //   '/?' +
-        //     querystring.stringify({
-        //       spotify_activated: true,
-        //       access_token: access_token,
-        //       refresh_token: refresh_token,
-        //     })
-        // );
-      } else {
-        // res.redirect(
-        //   '/#' +
-        //     querystring.stringify({
-        //       error: 'invalid_token',
-        //     })
-        // );
-        res.status(500).json({ message: 'invalid token' });
+      const response = await apiClient.post<{
+        access_token: string;
+        token_type: string;
+        expires_in: number;
+        refresh_token: string;
+        scope: string;
+        refresh_date: number;
+      }>(
+        'https://accounts.spotify.com/api/token',
+        {
+          Authorization: `Basic ${auth_token}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        new URLSearchParams({
+          code: code as string,
+          grant_type: 'authorization_code',
+          redirect_uri: Env.REDIRECT_URI,
+        })
+      );
+      const { client, id } = await createRedisClient(req);
+
+      let connectors: {[key: string]: Connector};
+      try {
+        connectors = (await client.json.get(`user:${id}`, {
+          path: `connectors`,
+        })) as { [key: string]: Connector };
+      } catch {
+        connectors = {} as { [key: string]: Connector };
       }
-    });
+
+      connectors['spotify'] = response;
+      await client.json.set(`user:${id}`, `connectors`, connectors); 
+
+      res.redirect('/');
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
 };
 
 const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
-  var refresh_token = req.query.refresh_token;
+  const { refresh_token } = req.query;
 
-  var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token,
-    },
-    headers: {
-      Authorization:
-        'Basic ' +
-        new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString('base64'),
-    },
-    json: true,
+  // var authOptions = {
+  //   url: 'https://accounts.spotify.com/api/token',
+  //   form: {
+  //     grant_type: 'refresh_token',
+  //     refresh_token: refresh_token,
+  //   },
+  //   headers: {
+  //     Authorization:
+  //       'Basic ' +
+  //       new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString('base64'),
+  //   },
+  //   json: true,
+  // };
+
+  const form = new FormData();
+  form.append('grant_type', 'refresh_token');
+  form.append('refresh_token', refresh_token as string);
+
+  const headers = {
+    Authorization:
+      'Basic ' +
+      new Buffer(Env.CLIENT_ID + ':' + Env.CLIENT_SECRET).toString('base64'),
+    'content-type': 'application/json',
   };
 
-  request.post(authOptions, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
-      res.send({
-        'access_token': access_token,
-      });
-    }
-  });
+  console.log('over here!@#');
+
+  const client = createApiClient();
+  try {
+    await client.post('https://accounts.spotify.com/api/token', headers, form);
+    console.log('wow got all the way here');
+    res.status(200);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+
+  // request.post(authOptions, function (error, response, body) {
+  //   if (!error && response.statusCode === 200) {
+  //     var access_token = body.access_token;
+  //     res.send({
+  //       'access_token': access_token,
+  //     });
+  //   }
+  // });
 };

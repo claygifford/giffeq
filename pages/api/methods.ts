@@ -20,3 +20,7 @@ export const hasToken = (req: NextApiRequest, res: NextApiResponse) => {
 
   return true;
 };
+
+export const getUserId = () => {
+  
+}

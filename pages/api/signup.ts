@@ -32,7 +32,7 @@ export default async function handler(
     });
 
     const token = generateToken();
-    const client = await createRedisClient();
+    const { client } = await createRedisClient();
     const user = {
       username: username,
       email: email,

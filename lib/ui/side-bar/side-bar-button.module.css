@@ -5,6 +5,14 @@
   transition: 0.2s;
 }
 
+.SideBarAction {
+  @apply relative flex border border-transparent text-base font-medium text-white focus:outline-none focus:ring-2;
+  @apply hover:bg-gray-200 text-sky-900;
+  @apply bg-sky-300 hover:bg-sky-100 ring-sky-200 ring-2 font-bold;
+
+  transition: 0.2s;
+}
+
 .SideBarButtonSelected {
   @apply bg-blue-300 hover:bg-blue-100 ring-blue-200 ring-2 font-bold;
 }
@@ -13,8 +21,18 @@
   @apply rounded-r-full;
 }
 
+.SideBarActionOpen {
+  /* @apply rounded-r-full; */
+  margin: 10px 20px;
+  @apply drop-shadow-md rounded-sm;
+}
+
 .SideBarButtonDefault {
   @apply rounded-full justify-center;
+}
+
+.SideBarActionDefault {
+  @apply rounded-sm justify-center;
 }
 
 .SideBarInnerButtonOpen {
@@ -22,5 +40,9 @@
 }
 
 .SideBarInnerButtonDefault {
+
+}
+
+.SideBarInnerActionDefault {
 
 }

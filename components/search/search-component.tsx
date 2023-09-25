@@ -6,6 +6,7 @@ import InputComponent from '../../lib/ui/input/input-component';
 import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
 
 import styles from './search.module.css';
+import { useSearch } from '../../lib/context/search-context';
 
 const ItemTemplate = ({ item, onClick, isSelected }) => {
   const artist = (i) => {
@@ -54,19 +55,15 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
 };
 
 export default function SearchComponent() {
-  const {
-    isSearchingMusic, 
-    selectItem,
-    searchMusic,
-    currentSong,
-    currentResults,
-    clearResults,
-  } = useMusic();
+  const { playSong } = useMusic();
+
+  const { isSearchingMusic, searchMusic, currentResults, clearResults } =
+    useSearch();
 
   const [songSearch, setSongSearch] = useState('');
 
   const onItemClick = (item) => {
-    selectItem(item);
+    playSong(item);
   };
 
   useEffect(() => {
@@ -87,7 +84,7 @@ export default function SearchComponent() {
 
   return (
     <div className={styles.Search}>
-      <div className="sticky top-0 bg-white dark:bg-slate-900">
+      <div className="sticky top-0 bg-white dark:bg-slate-900 z-10">
         <div className="p-4">
           <div>Search</div>
           <div className="flex flex-col gap-2">
@@ -119,7 +116,7 @@ export default function SearchComponent() {
                 onClick={onItemClick}
                 item={result}
                 key={result.id}
-                isSelected={currentSong.id === result.id}
+                isSelected={1 === result.id}
               />
             );
           })}

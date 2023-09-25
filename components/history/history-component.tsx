@@ -8,7 +8,7 @@ import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-compon
 import PlayButtonComponent from '../../lib/ui/buttons/play-button';
 import { useMusic } from '../../lib/context/music-context';
 import DeleteButtonComponent from '../../lib/ui/buttons/delete-button';
-
+import { useHistory } from '../../lib/context/history-context';
 
 const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   const artist = (i) => {
@@ -24,14 +24,13 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
       );
   };
 
-
   return (
     <div
       className={`flex rounded py-1 px-2 items-center ${
         isSelected ? 'bg-indigo-200' : ''
       }`}
     >
-      <PlayButtonComponent onClick={onPlay}></PlayButtonComponent>
+      <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
       <DeleteButtonComponent onClick={onDelete}></DeleteButtonComponent>
       <div className="font-medium truncate">{item.name}</div>
       {artist(item)}
@@ -40,34 +39,20 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
 };
 
 export default function HistoryComponent() {
-  //const { currentResults, clearResults } = useMusic();
-
-    const { selectItem } = useMusic();
-    
-  const {playlist} = usePlaylist();
-
-  //isSearchingHistory
-  //currentResults
+  const { deleteEvent, history } = useHistory();
+  const { playSong } = useMusic();
+  const { playlist } = usePlaylist();
 
   const [songSearch, setSongSearch] = useState('');
 
   const onPlay = (item) => {
     item.type = 'track';
-    selectItem(item, true);
+    playSong(item, true);
   };
 
-  const onDelete = (index) => {
-    //item.type = 'track';
-    //selectItem(item, true);
-    playlist.history = [];
+  const onDelete = (index: number) => {
+    deleteEvent(playlist, index);
   };
-
-  // useEffect(() => {
-  //   if (songSearch) {
-  //     searchMusic(songSearch);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [songSearch]);
 
   const isSearchingHistory = false;
   const onSearch = (search: string) => {
@@ -79,9 +64,18 @@ export default function HistoryComponent() {
     setSongSearch('');
   };
 
+  const getResults = () => {
+    if (history) {
+      if (songSearch)
+        return history.filter(h => h.name.includes(songSearch));
+      return history;
+    }
+    return [];
+  };
+
   return (
     <div className={styles.History}>
-      <div className="sticky top-0 bg-white dark:bg-slate-900">
+      <div className="sticky top-0 bg-white dark:bg-slate-900 z-10">
         <div className="p-4">
           <div>History</div>
           <div className="flex flex-col gap-2">
@@ -89,7 +83,7 @@ export default function HistoryComponent() {
               id={'song-search'}
               name={'song-search'}
               type={'string'}
-              placeHolder={'Search for songs'}
+              placeHolder={'Search history'}
               value={songSearch}
               onChange={(event) => onSearch(event.target.value)}
               autoComplete={'off'}
@@ -106,19 +100,18 @@ export default function HistoryComponent() {
         </div>
       </div>
       <div className="px-4">
-        {playlist &&
-          playlist.history?.map((result, i) => {
-            return (
-              <ItemTemplate
-                onPlay={onPlay}
-                onDelete={() => onDelete(i)}
-                item={result}
-                key={i}
-                isSelected={false}
-                //isSelected={currentSong.id === result.id}
-              />
-            );
-          })}
+        {getResults().map((result, i) => {
+          return (
+            <ItemTemplate
+              onPlay={onPlay}
+              onDelete={() => onDelete(i)}
+              item={result}
+              key={i}
+              isSelected={false}
+              //isSelected={currentSong.id === result.id}
+            />
+          );
+        })}
       </div>
     </div>
   );

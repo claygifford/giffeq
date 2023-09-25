@@ -5,7 +5,8 @@ type ButtonProps = {
   type?: string;
   children: React.ReactNode;
   onClick?;
-  variant?: string;
+  variant?: "standard" | "sidebar" | "action";
+  size?: "lg" | "md" | "sm";
   disabled?: boolean;
   labelText?: string;
 };
@@ -17,6 +18,7 @@ export default function ButtonComponent(props: ButtonProps) {
     children,
     onClick,
     variant = 'standard',
+    size = 'md',
     disabled,
   } = props;
 
@@ -27,7 +29,9 @@ export default function ButtonComponent(props: ButtonProps) {
       case 'standard':
         return styles.Standard;
       case 'action':
-        return styles.Action;
+        return `${styles.Action} ${
+          size === 'md' ? styles.ActionMd : styles.ActionSm
+        }`;
     }
   })();
 

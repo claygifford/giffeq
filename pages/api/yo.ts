@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const client = await createRedisClient();
+    const { client } = await createRedisClient();
     let result = await client.get('testing');
     res.status(200).json({ name: `yo - endpoint 1 ${result}` });
   } catch (e) {

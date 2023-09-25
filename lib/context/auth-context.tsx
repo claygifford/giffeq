@@ -30,8 +30,7 @@ type AuthValue = {
 const AuthContext = createContext({} as AuthValue);
 
 const AuthProvider = (props) => {
-  const { initializeLayout } = useLayout();
-
+  const { initializeLayout, changePageMode } = useLayout();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
   const [signInAction, setSignInAction] = useState<Action>({ isBusy: false });
@@ -51,7 +50,7 @@ const AuthProvider = (props) => {
         const user = await client.post<User>('signin', { username, password });
         localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
-        await router.push('/');
+        changePageMode(PageMode.Playlist);
         setSignInAction({
           isBusy: false,
           errorMessage: undefined,
@@ -64,7 +63,7 @@ const AuthProvider = (props) => {
         });
       }
     },
-    [client]
+    [changePageMode, client]
   );
 
   const signUp = useCallback(
@@ -82,7 +81,7 @@ const AuthProvider = (props) => {
         });
         localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
-        await router.push('/');
+        changePageMode(PageMode.Playlist);
         setSignUpAction({
           isBusy: false,
           errorMessage: undefined,
@@ -95,7 +94,7 @@ const AuthProvider = (props) => {
         });
       }
     },
-    [client]
+    [changePageMode, client]
   );
 
   const forgotPassword = async (account) => {

@@ -1,17 +1,16 @@
-import { HttpMethods } from "../../pages/api/methods";
+import { HttpMethods } from '../../pages/api/methods';
 
 export const createNextClient = () => {
   return {
-    get: <T>(
-      endpoint,
-      params?: {[key: string]: string}
-    ): Promise<T> => {
+    get: <T>(endpoint, params?: { [key: string]: string }): Promise<T> => {
       let search = '';
       if (params) {
         search = '?';
+        let items = [];
         for (const param in params) {
-          search += `${param}=${params[param]}`;
+          items.push(`${param}=${params[param]}`);
         }
+        search += items.join('&');
       }
       return fetch(`/api/${endpoint}${search}`, {
         method: HttpMethods.get,
@@ -40,13 +39,14 @@ export const createNextClient = () => {
         return response.json() as Promise<T>;
       });
     },
-    delete: (
-      endpoint,
-      params?: { name: string; value: string }
-    ): Promise<string> => {
+    delete: (endpoint, params?: { [key: string]: string | number }): Promise<string> => {
       let search = '';
       if (params) {
-        search = `?${params.name}=${params.value}`;
+        const items = [];
+        for (const key in params) {
+          items.push(`${key}=${params[key]}`);
+        }
+        search = `?${items.join('&')}`;
       }
       return fetch(`/api/${endpoint}${search}`, {
         method: 'DELETE',
@@ -57,5 +57,5 @@ export const createNextClient = () => {
         return response.text();
       });
     },
-  };  
+  };
 };
