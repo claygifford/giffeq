@@ -15,7 +15,7 @@ const Env = {
 };
 
 export default function AmazonConnectorComponent() {
-  const { setAmazonAccessToken } = useMusic();
+  //const { setAmazonAccessToken } = useMusic();
   var amazon;
 
   const logIn = async (e) => {
@@ -28,7 +28,7 @@ export default function AmazonConnectorComponent() {
     var tokenResponse = await amazon.Login.retrieveToken();
     if (tokenResponse) {
       console.log('Cached Access Token: ' + tokenResponse.access_token);
-      setAmazonAccessToken(tokenResponse.access_token);
+      //setAmazonAccessToken(tokenResponse.access_token);
       return;
     } else {
     }
@@ -53,7 +53,7 @@ export default function AmazonConnectorComponent() {
           return;
         }
         alert('Access Token: ' + response.access_token);
-        setAmazonAccessToken(tokenResponse.access_token);
+        //setAmazonAccessToken(tokenResponse.access_token);
         amazon.Login.retrieveProfile(
           response.access_token,
           function (response) {
