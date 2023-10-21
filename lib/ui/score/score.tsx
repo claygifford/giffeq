@@ -13,7 +13,7 @@ type ScoreProps = {
 
 export default function ScoreComponent(props: ScoreProps) {
   return (
-    <div className="relative">
+    <div className="relative h-[80px] w-[80px]">
       <svg
         width="80"
         height="80"
@@ -24,7 +24,7 @@ export default function ScoreComponent(props: ScoreProps) {
           r="70"
           cx="80"
           cy="80"
-          fill="transparent"
+          fill="white"
           stroke="#d1d5db"
           stroke-width="20px"
         ></circle>

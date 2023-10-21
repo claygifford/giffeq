@@ -3,6 +3,7 @@ import styles from './song.module.css';
 import { useMusic } from '../../lib/context/music-context';
 import { HandThumbUpIcon } from '@heroicons/react/24/solid';
 import { HandThumbDownIcon } from '@heroicons/react/24/outline';
+import ScoreComponent from '../../lib/ui/score/score';
 
 export default function SongComponent() {
   const { currentSong } = useMusic();
@@ -33,8 +34,11 @@ export default function SongComponent() {
           </button>
         </div>
       </div>
-      <div>Score</div>
-      <div>
+      <div className="flex flex-col p-4 gap-2">
+        <div>Score</div>
+        <ScoreComponent></ScoreComponent>
+      </div>
+      <div className="p-4">
         <div>Played: from history</div>
       </div>
       <div></div>
