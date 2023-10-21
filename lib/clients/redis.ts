@@ -1,20 +1,5 @@
 import { NextApiRequest } from 'next';
 import { createClient } from 'redis';
-
-// declare global {
-//   export interface SymbolConstructor {
-//     readonly dispose: unique symbol;
-//     readonly asyncDispose: symbol;
-//   }
-// }
-
-// export interface Symbol {
-//   [Symbol.dispose]: symbol;
-//   [Symbol.asyncDispose]: symbol;
-// }
-
-// Symbol.dispose ??= Symbol('Symbol.dispose');
-// Symbol.asyncDispose ??= Symbol('Symbol.asyncDispose');
  
 /* @ts-expect-error */ 
 Symbol.dispose ??= Symbol("Symbol.dispose");
