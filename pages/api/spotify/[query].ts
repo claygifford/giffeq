@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import querystring from 'querystring';
 import { serialize, CookieSerializeOptions } from 'cookie';
 import { createApiClient } from '../../../lib/clients/api';
-import { createRedisClient } from '../../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../../lib/clients/redis';
 import { Connector } from '../../../lib/types/playlist';
 
 const Env = {
@@ -139,7 +139,8 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
           redirect_uri: Env.REDIRECT_URI,
         })
       );
-      const { client, id } = await createRedisClient(req);
+      await using redisClient = await createRedisClient123(req);
+      const {client, id} = redisClient;
 
       let connectors: {[key: string]: Connector};
       try {

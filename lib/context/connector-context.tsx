@@ -1,42 +1,88 @@
-import React, { createContext, useCallback, useMemo } from 'react';
-import { createNextClient } from '../clients/next';
-import { Playlist } from '../types/playlist';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
+import { useAuth } from './auth-context';
+import { forEach } from 'lodash';
+import { Connector } from '../types/playlist';
+import { getDateTime } from '../formats/date-time';
 
 type ConnectorValue = {
-  deleteEvent: (playlist: Playlist, index: number) => void;
-  getHistory: (playlistId: string) => void;
+  spotifyConnectorStatus: string;
+  connectors: Plugin[];
 };
+
+export type Plugin = {
+  type: string;
+  status: string;
+  src: string;
+  link: string;
+  name: string;
+  message: string;
+};
+
+export const ConnectorStatus = {
+  none: 'none',
+  disconnected: 'disconnected',
+  connected: 'connected',
+};
+
+type ConnectorType = ['spotify', 'apple-music', 'amazon-music'];
+const Plugins = [
+  {
+    type: 'spotify',
+    status: ConnectorStatus.none,
+    src: '/connectors/spotify.png',
+    link: '/api/spotify/login',
+    name: 'Spotify',
+    message: '',
+  },
+  {
+    type: 'apple',
+    status: ConnectorStatus.none,
+    src: '/connectors/apple-music.jpg',
+    link: '/api/spotify/login',
+    name: 'Apple Music',
+    message: '',
+  },
+  {
+    type: 'amazon',
+    status: ConnectorStatus.none,
+    src: '/connectors/amazon-music.png',
+    link: '/api/spotify/login',
+    name: 'Amazon Music',
+    message: '',
+  },
+];
 
 const ConnectorContext = createContext({} as ConnectorValue);
 
 const ConnectorProvider = (props) => {
-  const client = createNextClient();
+  const { user } = useAuth();
 
-  const getHistory = useCallback(
-    async (playlistId: string) => {
-      await client.get('history', {
-        playlistId: playlistId,
-      });
-    },
-    [client]
-  );
+  const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
+    useState<any>(null);
 
-  const deleteEvent = useCallback(
-    async (playlist: Playlist, index: number) => {
-      await client.delete('event', {
-        playlistId: playlist.id,
-        index: index,
-      });
-    },
-    [client]
-  );
+  const [connectors, setConnectors] = useState<any[]>([]);  
+  useEffect(() => {
+    if (user) {
+      if (user.connectors) {
+        forEach(Plugins, p => {
+          let connector = user.connectors[p.type] as Connector;
+          if (connector) {
+            p.message = `Last update ${getDateTime(connector.refresh_date)}`;
+
+            p.status = 'connected';
+          }
+        });
+      }
+      setConnectors(Plugins);    
+    }
+  }, [user]);
 
   const value = useMemo(
     () => ({
-      deleteEvent,
-      getHistory,
+      spotifyConnectorStatus,
+      connectors,
     }),
-    [deleteEvent, getHistory]
+    [spotifyConnectorStatus, connectors]
   );
 
   return (

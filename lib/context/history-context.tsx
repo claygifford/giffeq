@@ -3,44 +3,49 @@ import { createNextClient } from '../clients/next';
 import { Playlist } from '../types/playlist';
 import { Song } from '../types/song';
 import { Action } from '../types/action';
+import { EmptyQuery, Query } from '../types/query';
 
 type HistoryValue = {
   deleteEvent: (playlist: Playlist, index: number) => void;
   getHistory: (playlistId: string) => void;
   getHistoryAction: Action;
-  history: Song[];
+  history: Query<Song>;
 };
 
 const HistoryContext = createContext({} as HistoryValue);
 
 const HistoryProvider = (props) => {
   const client = createNextClient();
-  const [history, setHistory] = useState<Song[]>([]);
-  const [getHistoryAction, setGetHistoryAction] = useState<Action>({ isBusy: false });
+  const [history, setHistory] = useState<Query<Song>>(EmptyQuery);
+  const [getHistoryAction, setGetHistoryAction] = useState<Action>({
+    isBusy: false,
+  });
 
   const getHistory = useCallback(
     async (playlistId: string) => {
       if (getHistoryAction.isBusy) return;
-        try {
-          setGetHistoryAction({
-            isBusy: true,
-            errorMessage: undefined,
-          });
-          const items = await client.get<Song[]>('history', {
-            playlistId: playlistId,
-          });
-          setHistory(items as Song[]);
-          setGetHistoryAction({
-            isBusy: false,
-            errorMessage: undefined,
-          });
-        } catch (error) {
-          const item = await error.json();
-          setGetHistoryAction({
-            isBusy: false,
-            errorMessage: item.message,
-          });
-        }
+      try {
+        setGetHistoryAction({
+          isBusy: true,
+          errorMessage: undefined,
+        });
+        const result = await client.get<Query<Song>>('history', {
+          playlistId: playlistId,
+          start: 0,
+          count: 50,
+        });
+        setHistory(result);
+        setGetHistoryAction({
+          isBusy: false,
+          errorMessage: undefined,
+        });
+      } catch (error) {
+        const item = await error.json();
+        setGetHistoryAction({
+          isBusy: false,
+          errorMessage: item.message,
+        });
+      }
     },
     [client, getHistoryAction.isBusy]
   );
@@ -52,7 +57,7 @@ const HistoryProvider = (props) => {
         index: index,
       });
 
-      history.splice(index, 1);
+      history.items.splice(index, 1);
       setHistory(history);
     },
     [client, history]

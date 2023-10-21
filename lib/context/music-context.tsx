@@ -12,7 +12,6 @@ type MusicValue = {
   autoPlay: Song;
   setAutoPlay: Dispatch<Song>;
   playSong: (song: Song, autoPlay?: boolean) => void;
-  spotifyConnectorStatus: string;
   clearSong: () => void;
 };
 
@@ -21,8 +20,6 @@ const MusicContext = createContext({} as MusicValue);
 const MusicProvider = (props) => {
   const [currentSong, setCurrentSong] = useState<any>(null);
   const [autoPlay, setAutoPlay] = useState<Song>(null);
-  const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
-    useState<any>(null);
 
   const playSong = useCallback((item: any, autoPlay = false) => {
     if (item.type === 'track') {
@@ -41,7 +38,6 @@ const MusicProvider = (props) => {
     () => ({
       currentSong,
       playSong,
-      spotifyConnectorStatus,
       autoPlay,
       setAutoPlay,
       clearSong,
@@ -49,7 +45,6 @@ const MusicProvider = (props) => {
     [
       currentSong,
       playSong,
-      spotifyConnectorStatus,
       autoPlay,
       setAutoPlay,
       clearSong,

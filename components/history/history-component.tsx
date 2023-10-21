@@ -67,39 +67,47 @@ export default function HistoryComponent() {
   const getResults = () => {
     if (history) {
       if (songSearch)
-        return history.filter(h => h.name.includes(songSearch));
-      return history;
+        return history.items.filter(h => h.name.includes(songSearch));
+      return history.items;
     }
     return [];
   };
 
   return (
-    <div className={styles.History}>
-      <div className="sticky top-0 bg-white dark:bg-slate-900 z-10">
-        <div className="p-4">
-          <div>History</div>
-          <div className="flex flex-col gap-2">
-            <InputComponent
-              id={'song-search'}
-              name={'song-search'}
-              type={'string'}
-              placeHolder={'Search history'}
-              value={songSearch}
-              onChange={(event) => onSearch(event.target.value)}
-              autoComplete={'off'}
-              spellCheck={false}
-            >
-              <>
-                <SideBarButtonComponent onClick={onClear}>
-                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-                </SideBarButtonComponent>
-                {isSearchingHistory && <BusyIcon />}
-              </>
-            </InputComponent>
+    <div className={styles.History}>      
+      <div className="p-4">
+        <div>
+          <div>History</div>{' '}
+          <div>
+            {history.start}-{history.count} of {history.total}
+          </div>
+          <div>
+            <div>
+              
+            </div>
           </div>
         </div>
+        <div className="flex flex-col gap-2">
+          <InputComponent
+            id={'song-search'}
+            name={'song-search'}
+            type={'string'}
+            placeHolder={'Search history'}
+            value={songSearch}
+            onChange={(event) => onSearch(event.target.value)}
+            autoComplete={'off'}
+            spellCheck={false}
+          >
+            <>
+              <SideBarButtonComponent onClick={onClear}>
+                <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+              </SideBarButtonComponent>
+              {isSearchingHistory && <BusyIcon />}
+            </>
+          </InputComponent>
+        </div>
       </div>
-      <div className="px-4">
+      <div className="px-4 overflow-auto">
         {getResults().map((result, i) => {
           return (
             <ItemTemplate

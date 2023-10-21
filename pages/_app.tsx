@@ -25,14 +25,15 @@ function PlaylistApp({ Component, pageProps }) {
               <DecisionProvider>
                 <HistoryProvider>
                   <SearchProvider>
-                    
-                      <LayoutProvider>
-                        <AuthProvider {...pageProps}>
+                    <LayoutProvider>
+                      <AuthProvider {...pageProps}>
+                        <ConnectorProvider>
                           <PreferencesProvider>
-                          <Component {...pageProps} />
+                            <Component {...pageProps} />
                           </PreferencesProvider>
-                        </AuthProvider>
-                      </LayoutProvider>
+                        </ConnectorProvider>
+                      </AuthProvider>
+                    </LayoutProvider>
                   </SearchProvider>
                 </HistoryProvider>
               </DecisionProvider>

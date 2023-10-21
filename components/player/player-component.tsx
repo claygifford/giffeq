@@ -1,5 +1,5 @@
 import { ForwardIcon, HandThumbDownIcon } from '@heroicons/react/24/outline';
-import { PlayIcon } from '@heroicons/react/24/solid';
+import { PlayIcon, PlayCircleIcon } from '@heroicons/react/24/solid';
 
 import { HandThumbUpIcon, PauseIcon } from '@heroicons/react/24/solid';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -7,8 +7,11 @@ import { useMusic } from '../../lib/context/music-context';
 import { useEffectOnce } from '../../lib/hooks/use-effect-once';
 import styles from './player.module.css';
 import { usePlaylist } from '../../lib/context/playlist-context';
+import { useSong } from '../../lib/context/song-context';
+import ScoreComponent from '../../lib/ui/score/score';
 
 export default function PlayerComponent() {
+  const { playNextSong } = useSong();
   const { currentSong, autoPlay, setAutoPlay } = useMusic();
   const { songPlayed } = usePlaylist();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -33,6 +36,10 @@ export default function PlayerComponent() {
   const onAudioPlay = () => setIsPlaying(true);
   const onAudioPause = () => setIsPlaying(false);
 
+  const onAudioEnded = () => {
+    playNextSong();
+  }
+
   const onAudioTimeUpdate = () => {
     if (audioRef && audioRef.current) {
       setElapsed(Math.round(audioRef.current.currentTime));
@@ -40,18 +47,21 @@ export default function PlayerComponent() {
   };
 
   const onAudioCanPlay = () => {
-    if (audioRef && audioRef.current && audioRef.current.duration > 0) {
-      setIsPlaying(false);
+    if (audioRef && audioRef.current && audioRef.current.duration > 0) {      
       setCanPlay(true);
       setDuration({ start: 0, finish: Math.round(audioRef.current.duration) });
       setElapsed(0);
     } else {
-      setIsPlaying(false);
       setCanPlay(false);
       setElapsed(null);
     }
   };
 
+  const range = () => {
+    return <>
+      <input id="default-range" type="range" value="50" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+    </>;
+  }
   useEffect(() => {
     if (autoPlay && canPlay && currentSong) {
       if (
@@ -72,6 +82,7 @@ export default function PlayerComponent() {
       audioRef.current.addEventListener('loadstart', onAudioCanPlay);
       audioRef.current.addEventListener('canplay', onAudioCanPlay);
       audioRef.current.addEventListener('timeupdate', onAudioTimeUpdate);
+      audioRef.current.addEventListener('ended', onAudioEnded);
     }
 
     return () => {
@@ -81,10 +92,14 @@ export default function PlayerComponent() {
         audioRef.current.removeEventListener('loadstart', onAudioCanPlay);
         audioRef.current.removeEventListener('canplay', onAudioCanPlay);
         audioRef.current.removeEventListener('timeupdate', onAudioTimeUpdate);
+        audioRef.current.addEventListener('ended', onAudioEnded);
       }
     };
   });
 
+  const getTime = (time) => {
+    return new Date(time * 1000).toISOString().substring(14, 19);
+  }
   useEffect(() => {
     if (audioRef && audioRef.current) audioRef.current.load();
   }, [currentSong]);
@@ -112,32 +127,49 @@ export default function PlayerComponent() {
       </div>
       <div className={styles.AudioPlayer}>
         <div>
-          <div>Score</div>
-          <div>56%</div>
+          <ScoreComponent></ScoreComponent>
+        </div>
+        <div>
+          <PlayCircleIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
         </div>
         <div className={styles.AudioPlayerPlay}>
-          <button
-            aria-label={isPlaying ? 'Pause Song' : 'Play Song'}
-            onClick={onPlay}
-            disabled={!canPlay}
-            className={`${
-              canPlay
-                ? 'hover:bg-yellow-100 focus:ring-yellow-200 text-yellow-500'
-                : 'bg-gray-500 text-white'
-            } group relative flex justify-center rounded-full border border-transparent py-2 px-2 text-sm font-medium text-black focus:outline-none focus:ring-2`}
-          >
-            {isPlaying ? (
-              <PauseIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-            ) : (
-              <PlayIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] pl-[2px]" />
-            )}
-          </button>
-          {elapsed ? <div>{elapsed}</div> : <div>-</div>}
-          {duration && (
-            <div>
-              {duration.start} - {duration.finish}
+          <div className="flex items-center gap-2">
+            <button
+              aria-label={'Thumbs up'}
+              className="group relative flex justify-center rounded-full border border-transparent py-1 px-1 text-sm font-medium text-white hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-200"
+            >
+              <HandThumbUpIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] text-red-500" />
+            </button>
+            <button
+              aria-label={isPlaying ? 'Pause Song' : 'Play Song'}
+              onClick={onPlay}
+              disabled={!canPlay}
+              className={`${
+                canPlay
+                  ? 'hover:bg-yellow-100 focus:ring-yellow-200 text-yellow-500'
+                  : 'bg-gray-500 text-white'
+              } group relative flex justify-center rounded-full border border-transparent py-2 px-2 text-sm font-medium text-black focus:outline-none focus:ring-2`}
+            >
+              {isPlaying ? (
+                <PauseIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+              ) : (
+                <PlayCircleIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem] pl-[2px]" />
+              )}
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="text-sm">
+              {audioRef?.current?.currentTime
+                ? getTime(audioRef?.current.currentTime)
+                : '0:00'}
             </div>
-          )}
+            {duration && range()}
+            <div className="text-sm">
+              {audioRef?.current?.duration
+                ? getTime(audioRef?.current.duration)
+                : '0:00'}
+            </div>
+          </div>
         </div>
         <div>
           <button

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123, createRedisClient456 } from '../../lib/clients/redis';
 import { HttpMethods, generateToken, hasToken } from './methods';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -15,10 +15,15 @@ const getPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
     const playlistId: string = req.query.playlistId
       ? (req.query.playlistId as string)
       : '';
+    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
 
-    const { id, client } = await createRedisClient(req);
+    //using redisClient = await createRedisClient456(req);
+    //console.log('hello world1');
 
     const playlist = await client.json.get(`playlists:${id}`, { path: playlistId });
+    
     // const playlistId = generateToken();
     // const playlist = {
     //   id: playlistId,
@@ -35,8 +40,9 @@ const getPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
 const createPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { name } = req.body;
-    const { id, client } = await createRedisClient(req);
-    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
+
     //const playlists = await client.json.get(`playlists:${id}`);
     const playlistId = generateToken();
     const playlist = {
@@ -56,8 +62,9 @@ const deletePlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       query: { playlistId },
     } = req;
-
-    const { id, client } = await createRedisClient(req);
+    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
 
     await client.json.del(`playlists:${id}`, playlistId as string);
     //console.log(`playlists:${id} || ${playlistId} ${JSON.stringify(req.body)}`);

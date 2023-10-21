@@ -7,5 +7,9 @@ type ContainerProps = {
 export default function ContainerComponent(props: ContainerProps) {
   const { children } = props;
 
-  return <div className="flex flex-1 w-full overflow-hidden">{children}</div>;
+  return (
+    <div className="flex flex-1 w-full overflow-hidden relative">
+      {children}
+    </div>
+  );
 }

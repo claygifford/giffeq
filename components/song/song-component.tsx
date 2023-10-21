@@ -11,8 +11,12 @@ export default function SongComponent() {
       <div className="p-4">Current Song</div>
       <div className="flex">
         <div className="p-4">
-          <div>{currentSong.name}</div>
-          <div>{currentSong.artists.map((a) => a.name)}</div>
+          {currentSong && (
+            <>
+              <div>{currentSong.name}</div>
+              <div>{currentSong.artists.map((a) => a.name)}</div>
+            </>
+          )}
         </div>
         <div className="flex items-center">
           <button
@@ -31,8 +35,9 @@ export default function SongComponent() {
       </div>
       <div>Score</div>
       <div>
-
-      </div>      
+        <div>Played: from history</div>
+      </div>
+      <div></div>
     </div>
   );
 }

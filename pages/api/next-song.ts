@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
-import { HttpMethods, generateToken, hasToken } from './methods';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
+import { HttpMethods, hasToken } from './methods';
 import { Song } from '../../lib/types/song';
-import isEmpty from 'lodash/isEmpty';
 import { Playlist } from '../../lib/types/playlist';
-import path from 'path';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!hasToken(req, res)) return;
@@ -17,8 +15,10 @@ const getNextSong = async (req: NextApiRequest, res: NextApiResponse) => {
     // how do I get the next song here?
     // do I query for it?
     // do I build generic genre playlists?
-    const { playlistId } = req.query;
-    const { client, id } = await createRedisClient(req);
+    const { playlistId } = req.query;    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
+
     const playlist = await client.json.get(`playlists:${id}`, {
       path: `${playlistId}`,
     }) as Playlist;

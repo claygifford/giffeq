@@ -5,6 +5,7 @@ import { Playlist } from '../types/playlist';
 import { useSong } from './song-context';
 import { useMusic } from './music-context';
 import { useHistory } from './history-context';
+import { getColor } from '../ui/colors/colors';
 
 export const PanelMode = {
   Collapsed: 1,
@@ -38,6 +39,7 @@ type LayoutValue = {
   pageMode: number;
   changePageMode: (mode: PageModeType, list?: Playlist) => void;
   initializeLayout: () => void;
+  colors: string[];
 };
 
 const LayoutContext = createContext({} as LayoutValue);
@@ -45,7 +47,8 @@ const LayoutContext = createContext({} as LayoutValue);
 const LayoutProvider = (props) => {
   const router = useRouter();
   const { asPath } = useRouter();
-  const { playlist, setPlaylist, getPlaylistById, getPlaylists } = usePlaylist();
+  const { playlist, setPlaylist, getPlaylistById, getPlaylists } =
+    usePlaylist();
   const { playNextSong } = useSong();
   const { clearSong } = useMusic();
   const { getHistory } = useHistory();
@@ -58,6 +61,12 @@ const LayoutProvider = (props) => {
   );
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
   const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
+  const [colors, setColors] = useState<string[]>([
+    getColor(),
+    getColor(),
+    getColor(),
+    getColor(),
+  ]);
 
   const changeConnectorPane = useCallback((pane: PanelModeType) => {
     setConnectorPane(pane);
@@ -153,6 +162,7 @@ const LayoutProvider = (props) => {
       pageMode,
       changePageMode,
       initializeLayout,
+      colors,
     }),
     [
       connectorPane,
@@ -164,6 +174,7 @@ const LayoutProvider = (props) => {
       pageMode,
       changePageMode,
       initializeLayout,
+      colors,
     ]
   );
 

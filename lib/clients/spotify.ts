@@ -16,9 +16,8 @@ export const getSpotifyAccessToken = async (client, id) => {
   if (!spotify) {
     throw 'no spotify connector found';
   }
-
-  if (!spotify.refresh_date || spotify.refresh_date < Date.now()) {
-
+  
+  if (!spotify.refresh_date || spotify.refresh_date < Date.now()) {  
     const auth_token = Buffer.from(
         `${Env.CLIENT_ID}:${Env.CLIENT_SECRET}`,
         'utf-8'

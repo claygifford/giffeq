@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
 import { HttpMethods, generateToken, hasToken } from './methods';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -10,8 +10,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 const deleteEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { playlistId, index } = req.query;
-    const { client, id } = await createRedisClient(req);
+    const { playlistId, index } = req.query;    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
+
     let history;
 
     history = await client.json.get(`playlists:${id}`, {

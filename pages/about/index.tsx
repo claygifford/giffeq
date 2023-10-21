@@ -12,11 +12,6 @@ import router from 'next/router';
 import styles from './about.module.css';
 import { useAuth } from '../../lib/context/auth-context';
 
-//import localFont from 'next/font/local';
-
-//const traveler = localFont({ src: './Traveler.ttf' });
-//const selfish = localFont({ src: './Selfish.ttf' });
-
 export default function About() {
   const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);

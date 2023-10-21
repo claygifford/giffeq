@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
 import { HttpMethods, generateToken, hasToken } from './methods';
 import { Song } from '../../lib/types/song';
 import { Preferences } from '../../lib/types/playlist';
@@ -12,8 +12,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 const setPreference = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    //const { playlistId } = req.query;
-    const { client, id } = await createRedisClient(req);
+    //const { playlistId } = req.query;    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
+
     let preferences: Preferences;
     try {
       preferences = await client.json.get(`user:${id}`, {

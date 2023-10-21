@@ -19,14 +19,18 @@ export default function SettingsComponent() {
   return (
     <div className={styles.Settings}>
       <div className="p-4">Settings</div>
-      <div className="p-2">Auto play song</div>
-      <CheckboxInputComponent
-        id={'auto-play-song'}
-        name={'auto-play-song'}
-        label={'Auto play song'}
-        value={preferences.AutoPlaySong}
-        onChange={(event) => setPreference('AutoPlaySong', event.target.value)}
-      />
+      <div className="px-4 py-2">Auto play song</div>
+      <div className="px-4 py-2">
+        <CheckboxInputComponent
+          id={'auto-play-song'}
+          name={'auto-play-song'}
+          label={'Auto play song'}
+          value={preferences.AutoPlaySong}
+          onChange={(event) =>
+            setPreference('AutoPlaySong', event.target.value)
+          }
+        />
+      </div>
       <div className="p-2">
         <ButtonComponent
           labelText="Delete playlist"

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient123 } from '../../lib/clients/redis';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
   if (!req.cookies['user']) {
@@ -8,7 +8,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { client } = await createRedisClient();
+    await using redisClient = await createRedisClient123();
+    const {client} = redisClient;
+
     let result = await client.get('testing');
     res.status(200).json({ name: `yo - endpoint 1 ${result}` });
   } catch (e) {

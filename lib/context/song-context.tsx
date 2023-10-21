@@ -1,12 +1,11 @@
-import React, { createContext, useCallback, useMemo } from 'react';
-import { Playlist } from '../types/playlist';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import { createNextClient } from '../clients/next';
 import { Song } from '../types/song';
 import { useDialog } from '../hooks/use-dialog';
 import ErrorDialog from '../ui/dialog/error-dialog';
 import { useMusic } from './music-context';
 
-type SongValue = { playNextSong: (id: string) => void };
+type SongValue = { playNextSong: (id?: string) => void };
 
 const SongContext = createContext({} as SongValue);
 
@@ -14,9 +13,14 @@ const SongProvider = (props) => {
   const { playSong } = useMusic();
   const client = createNextClient();
   const dialog = useDialog();
-  const playNextSong = useCallback(async (id: string) => {
+  const [currentPlaylistId, setCurrentPlaylistId] = useState<string>(null);
+
+  const playNextSong = useCallback(async (id?: string) => {
     try {
-      const song = await client.get<Song>('next-song', { playlistId: id });
+      let playlistId = id ?? currentPlaylistId;
+      if (!playlistId) return;
+      setCurrentPlaylistId(playlistId);
+      const song = await client.get<Song>('next-song', { playlistId });
       if (song) {
         playSong(song, true);
       }
@@ -29,7 +33,7 @@ const SongProvider = (props) => {
       }
       dialog.showDialog({ dialog: ErrorDialog(item) });
     }
-  }, [client, dialog, playSong]);
+  }, [client, currentPlaylistId, dialog, playSong]);
 
   const value = useMemo(() => ({ playNextSong }), [playNextSong]);
 

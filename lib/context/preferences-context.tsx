@@ -40,7 +40,7 @@ const PreferencesProvider = (props) => {
     if (user) {
       const preferences = user.preferences ?? {} as Preferences;
       localStorage.setItem('preferences', JSON.stringify(preferences));
-      setPreferences(preferences);      
+      setPreferences(preferences);
     }
   }, [user]);
 

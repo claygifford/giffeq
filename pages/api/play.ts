@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
 import { HttpMethods, generateToken, hasToken } from './methods';
 import { Song } from '../../lib/types/song';
 
@@ -12,7 +12,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 const play = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { playlistId, song } = req.body;
-    const {client, id} = await createRedisClient(req);
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
     let history;
 
     try {

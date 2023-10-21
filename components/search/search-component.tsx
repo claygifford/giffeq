@@ -84,31 +84,29 @@ export default function SearchComponent() {
 
   return (
     <div className={styles.Search}>
-      <div className="sticky top-0 bg-white dark:bg-slate-900 z-10">
-        <div className="p-4">
-          <div>Search</div>
-          <div className="flex flex-col gap-2">
-            <InputComponent
-              id={'song-search'}
-              name={'song-search'}
-              type={'string'}
-              placeHolder={'Search for songs'}
-              value={songSearch}
-              onChange={(event) => onSearch(event.target.value)}
-              autoComplete={'off'}
-              spellCheck={false}
-            >
-              <>
-                <SideBarButtonComponent onClick={onClear}>
-                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-                </SideBarButtonComponent>
-                {isSearchingMusic && <BusyIcon />}
-              </>
-            </InputComponent>
-          </div>
+      <div className="p-4">
+        <div>Search</div>
+        <div className="flex flex-col gap-2">
+          <InputComponent
+            id={'song-search'}
+            name={'song-search'}
+            type={'string'}
+            placeHolder={'Search for songs'}
+            value={songSearch}
+            onChange={(event) => onSearch(event.target.value)}
+            autoComplete={'off'}
+            spellCheck={false}
+          >
+            <>
+              <SideBarButtonComponent onClick={onClear}>
+                <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+              </SideBarButtonComponent>
+              {isSearchingMusic && <BusyIcon />}
+            </>
+          </InputComponent>
         </div>
       </div>
-      <div className="px-4">
+      <div className="px-4 overflow-auto">
         {currentResults &&
           currentResults.map((result, i) => {
             return (

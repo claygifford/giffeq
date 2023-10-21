@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
 import { HttpMethods, hasToken } from './methods';
 
 export default async function handler(
@@ -13,7 +13,8 @@ export default async function handler(
 
 const getPlaylists = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { client, id } = await createRedisClient(req);
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
     const playlists = await client.json.get(`playlists:${id}`);
     const items = Object.values(playlists);
     res.status(200).send(items);

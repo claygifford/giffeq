@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient } from '../../lib/clients/redis';
+import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
 import { HttpMethods, hasToken } from './methods';
 import { createApiClient } from '../../lib/clients/api';
 import { getSpotifyAccessToken } from '../../lib/clients/spotify';
@@ -13,8 +13,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 const getSearch = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { q, type } = req.query;
-    const apiClient = createApiClient();
-    const { client, id } = await createRedisClient(req);
+    const apiClient = createApiClient();    
+    await using redisClient = await createRedisClient123(req);
+    const {client, id} = redisClient;
+
     const { spotifyAccessToken } = await getSpotifyAccessToken(client, id);
     const response = await apiClient.get<any>(
       `https://api.spotify.com/v1/search?q=${q}&type=${type}`,

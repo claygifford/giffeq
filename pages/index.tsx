@@ -11,6 +11,7 @@ import ContainerComponent from '../lib/ui/container/container';
 import PlaylistSelectorComponent from '../components/playlist-selector/playlist-selector.component';
 import NewPlaylistComponent from '../components/new-playlist/new-playlist-component';
 import PlaylistSideBarComponent from '../components/side-bar/playlist-side-bar-component';
+import BackgroundComponent from './../lib/ui/backgrounds/background-component';
 
 export default function Home() {
   const { pageMode } = useLayout();
@@ -21,6 +22,7 @@ export default function Home() {
         return (
           <>
             <ContainerComponent>
+              <BackgroundComponent></BackgroundComponent>
               <SideBarComponent></SideBarComponent>
               <MainPanelComponent></MainPanelComponent>
               <ConnectorPanel />
@@ -32,6 +34,7 @@ export default function Home() {
         return (
           <>
             <ContainerComponent>
+              <BackgroundComponent></BackgroundComponent>
               <NewPlaylistComponent></NewPlaylistComponent>
               <ConnectorPanel />
             </ContainerComponent>
@@ -42,6 +45,7 @@ export default function Home() {
         return (
           <>
             <ContainerComponent>
+              <BackgroundComponent></BackgroundComponent>
               <PlaylistSideBarComponent></PlaylistSideBarComponent>
               <PlaylistSelectorComponent></PlaylistSelectorComponent>
               <ConnectorPanel />

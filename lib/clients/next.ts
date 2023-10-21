@@ -2,7 +2,7 @@ import { HttpMethods } from '../../pages/api/methods';
 
 export const createNextClient = () => {
   return {
-    get: <T>(endpoint, params?: { [key: string]: string }): Promise<T> => {
+    get: <T>(endpoint, params?: { [key: string]: string | number }): Promise<T> => {
       let search = '';
       if (params) {
         search = '?';

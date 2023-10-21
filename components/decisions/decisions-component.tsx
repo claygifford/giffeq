@@ -38,28 +38,26 @@ export default function DecisionsComponent() {
 
   return (
     <div className={styles.Decisions}>
-      <div className="sticky top-0 bg-white dark:bg-slate-900 z-10">
-        <div className="p-4">
-          <div>Decisions</div>
-          <div className="flex flex-col gap-2">
-            <InputComponent
-              id={'song-search'}
-              name={'song-search'}
-              type={'string'}
-              placeHolder={'Search for songs'}
-              autoComplete={'off'}
-              spellCheck={false}
-            >
-              <>
-                <SideBarButtonComponent>
-                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-                </SideBarButtonComponent>
-              </>
-            </InputComponent>
-          </div>
+      <div className="p-4">
+        <div>Decisions </div>
+        <div className="flex flex-col gap-2">
+          <InputComponent
+            id={'song-search'}
+            name={'song-search'}
+            type={'string'}
+            placeHolder={'Search for songs'}
+            autoComplete={'off'}
+            spellCheck={false}
+          >
+            <>
+              <SideBarButtonComponent>
+                <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+              </SideBarButtonComponent>
+            </>
+          </InputComponent>
         </div>
       </div>
-      <div className="px-4">
+      <div className="px-4 overflow-auto">
         {currentResults &&
           currentResults.map((result, i) => {
             return (
