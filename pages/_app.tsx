@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/range.css';
 import { AuthProvider } from '../lib/context/auth-context';
 import { Amplify } from 'aws-amplify';
 import awsExports from '../src/aws-exports';

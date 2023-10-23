@@ -26,7 +26,7 @@ export default function ScoreComponent(props: ScoreProps) {
           cy="80"
           fill="white"
           stroke="#d1d5db"
-          stroke-width="20px"
+          strokeWidth="20px"
         ></circle>
         <circle
           r="70"
@@ -34,9 +34,9 @@ export default function ScoreComponent(props: ScoreProps) {
           cy="80"
           fill="transparent"
           stroke="#16a34a"
-          stroke-width="20px"
-          stroke-dasharray="439.6px"
-          stroke-dashoffset="109.9px"
+          strokeWidth="20px"
+          strokeDasharray="439.6px"
+          strokeDashoffset="109.9px"
         ></circle>
       </svg>
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
