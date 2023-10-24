@@ -197,7 +197,7 @@ export default function PlayerComponent() {
           onClick={onPlay}
           disabled={!canPlay}
         >
-          {audioRef.paused ? (
+          {audioRef?.paused ? (
             <PlayCircleIcon className="fill-blue-900 h-14 w-14 min-h-[3.5rem] min-w-[3.5rem]" />
           ) : (
             <PauseCircleIcon className="fill-blue-900 h-14 w-14 min-h-[3.5rem] min-w-[3.5rem]" />
@@ -221,6 +221,7 @@ export default function PlayerComponent() {
                 value={audioRef?.currentTime}
                 min={0}
                 max={audioRef?.duration}
+                onChange={(event) => console.log('asd')}
               ></RangeInputComponent>
             )}
             <div className="flex text-sm min-w[36px]">
