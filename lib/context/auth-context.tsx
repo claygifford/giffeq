@@ -1,19 +1,20 @@
-import { Auth } from 'aws-amplify';
-import router, { useRouter } from 'next/router';
+import { Auth } from "aws-amplify";
+import router from "next/router";
 import React, {
   useMemo,
   createContext,
   useCallback,
   useEffect,
   useState,
-} from 'react';
-import { useEffectOnce } from '../hooks/use-effect-once';
-import LoadingComponent from '../ui/loading/loading-component';
-import { PageMode, useLayout } from './layout-context';
-import { createNextClient } from '../clients/next';
-import { getCookie } from '../cookies/cookies';
-import { User } from '../types/user';
-import { Action } from '../types/action';
+} from "react";
+import { useEffectOnce } from "../hooks/use-effect-once";
+import LoadingComponent from "../ui/loading/loading-component";
+import { PageMode, useLayout } from "./layout-context";
+import { createNextClient } from "../clients/next";
+import { getCookie } from "../cookies/cookies";
+import { User } from "../types/user";
+import { Action } from "../types/action";
+import { useMusic } from "./music-context";
 
 type AuthValue = {
   user: User;
@@ -30,6 +31,8 @@ type AuthValue = {
 const AuthContext = createContext({} as AuthValue);
 
 const AuthProvider = (props) => {
+  const { setConnector } = useMusic();
+
   const { initializeLayout, changePageMode } = useLayout();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
@@ -41,14 +44,14 @@ const AuthProvider = (props) => {
   const client = createNextClient();
 
   const signIn = useCallback(
-    async ({ username, password, rememberMe }) => {
+    async ({ username, password }) => {
       try {
         setSignInAction({
           isBusy: true,
           errorMessage: undefined,
         });
-        const user = await client.post<User>('signin', { username, password });
-        localStorage.setItem('user', JSON.stringify(user));
+        const user = await client.post<User>("signin", { username, password });
+        localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
         changePageMode(PageMode.Playlist);
         setSignInAction({
@@ -63,23 +66,23 @@ const AuthProvider = (props) => {
         });
       }
     },
-    [changePageMode, client]
+    [changePageMode, client],
   );
 
   const signUp = useCallback(
-    async ({ username, password, email, rememberMe }) => {
+    async ({ username, password, email }) => {
       try {
         setSignUpAction({
           isBusy: true,
           errorMessage: undefined,
         });
 
-        const user = await client.post<User>('signup', {
+        const user = await client.post<User>("signup", {
           username,
           password,
           email,
         });
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
         changePageMode(PageMode.Playlist);
         setSignUpAction({
@@ -94,7 +97,7 @@ const AuthProvider = (props) => {
         });
       }
     },
-    [changePageMode, client]
+    [changePageMode, client],
   );
 
   const forgotPassword = async (account) => {
@@ -109,7 +112,7 @@ const AuthProvider = (props) => {
       setForgotPasswordAction({
         isBusy: false,
         errorMessage: undefined,
-        successMessage: 'cool it worked',
+        successMessage: "cool it worked",
       });
     } catch (error) {
       const item = await error.json();
@@ -145,27 +148,38 @@ const AuthProvider = (props) => {
 
   const signOut = useCallback(async () => {
     try {
-      await client.get<any>('signout');
-      localStorage.removeItem('user');
+      await client.get<any>("signout");
+      localStorage.removeItem("user");
       setUser(undefined);
-      router.push('/about');
+      router.push("/about");
     } catch (error) {
-      console.log('error sign out', error);
+      console.log("error sign out", error);
+    }
+  }, [client]);
+
+  const getUser = useCallback(async () => {
+    try {
+      return await client.get<User>("user");
+    } catch (error) {
+      console.log("error get user", error);
     }
   }, [client]);
 
   const initializeApp = async () => {
     setIsLoading(true);
     try {
-      const cookie = getCookie('token');
+      const cookie = getCookie("token");
       if (!cookie) return;
-      const item = localStorage.getItem('user');
-      if (!item) return;
-      const user = JSON.parse(item);
+      const user = await getUser();
+      if (user.connectors) {
+        const { spotify } = user.connectors;
+        setConnector(spotify);
+      }
       setUser(user);
 
       await initializeLayout();
-    } catch (error) {
+    } catch (exception) {
+      console.log(`error ${exception}`);
     } finally {
       setIsLoading(false);
     }
@@ -177,8 +191,7 @@ const AuthProvider = (props) => {
     if (isLoading) return;
     if (user) return;
     if (props.protected) {
-      router.push('/about');
-    } else {
+      router.push("/about");
     }
   }, [user, isLoading, props]);
 
@@ -202,7 +215,7 @@ const AuthProvider = (props) => {
       signUp,
       signUpAction,
       user,
-    ]
+    ],
   );
 
   if (isLoading || (props.protected && !user))
@@ -216,7 +229,7 @@ const AuthProvider = (props) => {
 const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthProvider');
+    throw new Error("useAuth must be used within a AuthProvider");
   }
   return context;
 };

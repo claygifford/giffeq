@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from "react";
 
 type InputProps = {
   id: string;

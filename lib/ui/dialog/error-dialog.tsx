@@ -1,10 +1,10 @@
-import React, { Children } from 'react';
-import { Dialog, DialogContainer, DialogPosition } from './modal-component';
+import React from "react";
+import { Dialog, DialogContainer, DialogPosition } from "./modal-component";
 
 type ErrorMessage = {
   message: string;
   status: number;
-}
+};
 
 type ErrorDialogProps = {
   response?: Response;
@@ -13,14 +13,14 @@ type ErrorDialogProps = {
 };
 
 export default function ErrorDialogComponent(props: ErrorDialogProps): Dialog {
-  const { children, response, error } = props;
+  const { response, error } = props;
 
   let body, header;
   if (error) {
-    header = 'Catch Error';
+    header = "Catch Error";
     body = `${error?.status} ${error?.message}`;
   } else if (response) {
-    header = 'Response Error';
+    header = "Response Error";
     body = `${response.type} ${response.status} ${response.statusText}`;
   }
 
@@ -28,6 +28,6 @@ export default function ErrorDialogComponent(props: ErrorDialogProps): Dialog {
     Header: <div>{header}</div>,
     Body: <div>{body}</div>,
     Type: DialogContainer.Modal,
-    Position: DialogPosition.BottomLeft
+    Position: DialogPosition.BottomLeft,
   };
 }

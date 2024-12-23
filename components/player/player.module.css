@@ -15,7 +15,12 @@
 }
 
 .CurrentSong {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
 
+.CurrentSongName {
 }
 
 .AudioPlayer {

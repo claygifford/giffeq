@@ -1,27 +1,25 @@
 import {
   MagnifyingGlassIcon as MagnifyingGlassSolidIcon,
   AcademicCapIcon as AcademicCapSolidIcon,
-  BeakerIcon as BeakerSolidIcon,
   ArchiveBoxIcon as ArchiveBoxSolidIcon,
   Cog6ToothIcon as Cog6ToothSolidIcon,
   MusicalNoteIcon as MusicalNoteSolidIcon,
-} from '@heroicons/react/24/solid';
+} from "@heroicons/react/24/solid";
 import {
   MagnifyingGlassIcon as MagnifyingGlassOutlineIcon,
   AcademicCapIcon as AcademicCapOutlineIcon,
-  BeakerIcon as BeakerOutlineIcon,
   ArchiveBoxIcon as ArchiveBoxOutlineIcon,
   Cog6ToothIcon as Cog6ToothOutlineIcon,
   MusicalNoteIcon as MusicalNoteOutlineIcon,
-} from '@heroicons/react/24/outline';
-import React from 'react';
+} from "@heroicons/react/24/outline";
+import React from "react";
 import {
   MainMode,
   PanelMode,
   useLayout,
-} from '../../lib/context/layout-context';
-import styles from './side-bar.module.css';
-import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
+} from "../../lib/context/layout-context";
+import styles from "./side-bar.module.css";
+import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
 
 export default function SideBarComponent() {
   const { mainPane, showMainPane, sideBarPane } = useLayout();
@@ -33,7 +31,7 @@ export default function SideBarComponent() {
         isOpen ? styles.SideBarContainerOpen : styles.SideBarContainer
       }`}
     >
-      <div className={`${styles.SideBar} ${isOpen ? styles.SideBarOpen : ''}`}>
+      <div className={`${styles.SideBar} ${isOpen ? styles.SideBarOpen : ""}`}>
         <SideBarButtonComponent
           isOpen={isOpen}
           isSelected={mainPane === MainMode.Song}

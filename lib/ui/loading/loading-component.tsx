@@ -1,5 +1,5 @@
-import React from 'react';
-import NoteIcon from '../icons/note-icon';
+import React from "react";
+import NoteIcon from "../icons/note-icon";
 
 export default function LoadingComponent() {
   return (

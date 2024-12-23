@@ -4,12 +4,12 @@ export type Playlist = {
   name: string;
   id: string;
   history: Song[];
-  searches: string[];  
+  searches: string[];
 };
 
 export type Preferences = {
   AutoPlaySong: boolean;
-}
+};
 
 export type Connector = {
   access_token: string;

@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
-import { HttpMethods, hasToken } from './methods';
-import { Song } from '../../lib/types/song';
-import { Playlist } from '../../lib/types/playlist';
+import { NextApiRequest, NextApiResponse } from "next";
+import { createRedisClient } from "../../lib/clients/redis";
+import { HttpMethods, hasToken } from "./methods";
+import { Song } from "../../lib/types/song";
+import { Playlist } from "../../lib/types/playlist";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!hasToken(req, res)) return;
   if (req.method === HttpMethods.get) return getNextSong(req, res);
-  return res.status(405).send({ message: '405 Method Not Allowed' });
+  return res.status(405).send({ message: "405 Method Not Allowed" });
 }
 
 const getNextSong = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -15,13 +15,13 @@ const getNextSong = async (req: NextApiRequest, res: NextApiResponse) => {
     // how do I get the next song here?
     // do I query for it?
     // do I build generic genre playlists?
-    const { playlistId } = req.query;    
-    await using redisClient = await createRedisClient123(req);
-    const {client, id} = redisClient;
+    const { playlistId } = req.query;
+    await using redisClient = await createRedisClient(req);
+    const { client, id } = redisClient;
 
-    const playlist = await client.json.get(`playlists:${id}`, {
+    const playlist = (await client.json.get(`playlists:${id}`, {
       path: `${playlistId}`,
-    }) as Playlist;
+    })) as Playlist;
 
     if (playlist.history) {
       res.send((playlist.history as Song[]).pop());

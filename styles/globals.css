@@ -26,8 +26,18 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
 }
 
 a {
@@ -57,15 +67,15 @@ a {
 
 @font-face {
   font-family: "Traveler";
-  src: url('../fonts/Traveler.ttf');
+  src: url("../fonts/Traveler.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
-  
+
 @font-face {
   font-family: "Selfish";
-  src: url('../fonts/Selfish.ttf');
+  src: url("../fonts/Selfish.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

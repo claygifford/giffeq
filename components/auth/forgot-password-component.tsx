@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import InputComponent from '../../lib/ui/input/input-component';
-import ButtonComponent from '../../lib/ui/button/button-component';
-import NoteIcon from '../../lib/ui/icons/note-icon';
-import { useAuth } from '../../lib/context/auth-context';
-import Link from 'next/link';
+import React, { useState } from "react";
+import InputComponent from "../../lib/ui/input/input-component";
+import ButtonComponent from "../../lib/ui/button/button-component";
+import NoteIcon from "../../lib/ui/icons/note-icon";
+import { useAuth } from "../../lib/context/auth-context";
+import Link from "next/link";
 
 const Forgot = (props: { handleSubmit; email; setEmail }) => {
   const { handleSubmit, email, setEmail } = props;
@@ -19,18 +19,18 @@ const Forgot = (props: { handleSubmit; email; setEmail }) => {
       </div>
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <InputComponent
-          id={'email-address'}
-          name={'email'}
-          type={'email'}
-          label={'Email Address'}
-          autoComplete={'email'}
-          placeHolder={'Email Address'}
+          id={"email-address"}
+          name={"email"}
+          type={"email"}
+          label={"Email Address"}
+          autoComplete={"email"}
+          placeHolder={"Email Address"}
           required={true}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
         <div>
-          <ButtonComponent labelText="Send" type={'submit'}>
+          <ButtonComponent labelText="Send" type={"submit"}>
             Send
           </ButtonComponent>
         </div>
@@ -59,8 +59,7 @@ const Recover = (props: {
   newPassword;
   setNewPassword;
 }) => {
-  const { handleSubmit, email, code, setCode, newPassword, setNewPassword } =
-    props;
+  const { handleSubmit, code, setCode, newPassword, setNewPassword } = props;
   return (
     <>
       <div>
@@ -73,29 +72,29 @@ const Recover = (props: {
       </div>
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <InputComponent
-          id={'code'}
-          name={'code'}
-          type={'text'}
-          label={'Verification Code'}
-          autoComplete={'code'}
-          placeHolder={'Verification Code'}
+          id={"code"}
+          name={"code"}
+          type={"text"}
+          label={"Verification Code"}
+          autoComplete={"code"}
+          placeHolder={"Verification Code"}
           required={true}
           value={code}
           onChange={(event) => setCode(event.target.value)}
         />
         <InputComponent
-          id={'new-password'}
-          name={'password'}
-          type={'password'}
-          label={'New Password'}
-          autoComplete={'new-password'}
-          placeHolder={'New Password'}
+          id={"new-password"}
+          name={"password"}
+          type={"password"}
+          label={"New Password"}
+          autoComplete={"new-password"}
+          placeHolder={"New Password"}
           required={true}
           value={newPassword}
           onChange={(event) => setNewPassword(event.target.value)}
         />
         <div>
-          <ButtonComponent labelText="Set new password" type={'submit'}>
+          <ButtonComponent labelText="Set new password" type={"submit"}>
             Set new password
           </ButtonComponent>
         </div>
@@ -105,16 +104,15 @@ const Recover = (props: {
 };
 
 const ForgotPasswordComponent = () => {
-  const { forgotPassword, forgotPasswordSubmit, forgotPasswordAction } =
-    useAuth();
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [mode, setMode] = useState('forgot');
+  const { forgotPassword, forgotPasswordSubmit } = useAuth();
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [mode, setMode] = useState("forgot");
 
   function forgotSubmit(event) {
     forgotPassword({ email });
-    setMode('recover');
+    setMode("recover");
     event.preventDefault();
   }
 
@@ -128,7 +126,7 @@ const ForgotPasswordComponent = () => {
     <div className="w-full max-w-md">
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-[400px] max-w-md space-y-8">
-          {mode === 'forgot' ? (
+          {mode === "forgot" ? (
             <Forgot
               handleSubmit={forgotSubmit}
               email={email}

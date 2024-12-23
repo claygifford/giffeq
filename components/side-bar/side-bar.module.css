@@ -1,17 +1,17 @@
 .SideBarContainer {
-    padding: 10px;
+  padding: 10px;
 }
 
 .SideBarContainerOpen {
-    padding: 10px 10px 10px 0px;
+  padding: 10px 10px 10px 0px;
 }
 
 .SideBar {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .SideBarOpen {
-    width: 300px;
+  width: 300px;
 }

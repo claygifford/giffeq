@@ -4,13 +4,13 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import PageComponent from '../../components/page-component';
-import AboutHeaderComponent from '../../components/about-header/about-header-component';
-import debounce from 'lodash/debounce';
-import router from 'next/router';
-import styles from './about.module.css';
-import { useAuth } from '../../lib/context/auth-context';
+} from "react";
+import PageComponent from "../../components/page-component";
+import AboutHeaderComponent from "../../components/about-header/about-header-component";
+import debounce from "lodash/debounce";
+import router from "next/router";
+import styles from "./about.module.css";
+import { useAuth } from "../../lib/context/auth-context";
 
 export default function About() {
   const { user } = useAuth();
@@ -24,43 +24,37 @@ export default function About() {
   const sections = useMemo(
     () => [
       {
-        id: 'section1',
-        name: 'Choice 1',
+        id: "section1",
+        name: "Choice 1",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section2',
-        name: 'Choice 2',
+        id: "section2",
+        name: "Choice 2",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section3',
-        name: 'Choice 3',
+        id: "section3",
+        name: "Choice 3",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section4',
-        name: 'Choice 4',
+        id: "section4",
+        name: "Choice 4",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section5',
-        name: 'Choice 5',
+        id: "section5",
+        name: "Choice 5",
         position: { top: 0, bottom: 0 },
       },
     ],
-    []
+    [],
   );
 
   useEffect(() => {
-    const sectionRefs = [
-      section1,
-      section2,
-      section3,
-      section4,
-      section5,
-    ];
-    
+    const sectionRefs = [section1, section2, section3, section4, section5];
+
     for (var i = 0; i < sectionRefs.length; i++) {
       const position = sections[i].position;
       position.top = sectionRefs[i].current.offsetTop;
@@ -73,25 +67,22 @@ export default function About() {
     setSelectedSection(section);
     if (document) {
       const element = document.getElementById(section.id);
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const handleScroll = useCallback(
-    (event) => {
-      const scrollTop = Math.round(window.pageYOffset);
-      setIsScrolled(scrollTop > 1);
-      for (var i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        if (
-          section.position.top <= scrollTop &&
-          section.position.bottom >= scrollTop
-        ) {
-          setSelectedSection(section);
-        }
+  const handleScroll = useCallback(() => {
+    const scrollTop = Math.round(window.pageYOffset);
+    setIsScrolled(scrollTop > 1);
+    for (var i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      if (
+        section.position.top <= scrollTop &&
+        section.position.bottom >= scrollTop
+      ) {
+        setSelectedSection(section);
       }
-    },
-    [sections]
-  );
+    }
+  }, [sections]);
 
   const debouncedChangeHandler = useMemo(() => {
     return debounce(handleScroll, 300);
@@ -100,10 +91,10 @@ export default function About() {
   useEffect(() => {
     if (!window) return;
 
-    window.addEventListener('scroll', debouncedChangeHandler);
+    window.addEventListener("scroll", debouncedChangeHandler);
 
     return () => {
-      window.removeEventListener('scroll', debouncedChangeHandler);
+      window.removeEventListener("scroll", debouncedChangeHandler);
     };
   }, [debouncedChangeHandler]);
 
@@ -129,7 +120,7 @@ export default function About() {
                 {user ? (
                   <button
                     aria-label="Go to Playlist"
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push("/")}
                     className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   >
                     Go to Playlist
@@ -138,14 +129,14 @@ export default function About() {
                   <div className="flex gap-3">
                     <button
                       aria-label="Sign up"
-                      onClick={() => router.push('/about/signup')}
+                      onClick={() => router.push("/about/signup")}
                       className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Sign up
                     </button>
                     <button
                       aria-label="Log in"
-                      onClick={() => router.push('/about/login')}
+                      onClick={() => router.push("/about/login")}
                       className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Log in

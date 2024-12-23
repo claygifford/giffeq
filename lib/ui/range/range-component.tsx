@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler } from "react";
 
 type RangeInputProps = {
   value: number;

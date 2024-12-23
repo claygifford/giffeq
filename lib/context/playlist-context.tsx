@@ -4,14 +4,14 @@ import React, {
   useCallback,
   useState,
   useMemo,
-} from 'react';
-import { createNextClient } from '../clients/next';
-import { useDialog } from '../hooks/use-dialog';
-import ErrorDialog from '../ui/dialog/error-dialog';
-import { Action } from '../types/action';
-import pick from 'lodash/pick';
-import { Playlist } from '../types/playlist';
-import { Song } from '../types/song';
+} from "react";
+import { createNextClient } from "../clients/next";
+import { useDialog } from "../hooks/use-dialog";
+import ErrorDialog from "../ui/dialog/error-dialog";
+import { Action } from "../types/action";
+import pick from "lodash/pick";
+import { Playlist } from "../types/playlist";
+import { Song } from "../types/song";
 
 type PlaylistValue = {
   playlist: Playlist;
@@ -59,24 +59,24 @@ const PlaylistProvider = (props) => {
         }
       }
     },
-    [playlist]
+    [playlist],
   );
 
   const songPlayed = useCallback(
     (song: Song) => {
       if (song && playlist) {
         var item = {
-          ...pick(song, ['id', 'name', 'preview_url', 'type']),
-          artists: song.artists.map(i => pick(i, ['id', 'name'])),
+          ...pick(song, ["id", "name", "preview_url", "type"]),
+          artists: song.artists.map((i) => pick(i, ["id", "name"])),
         };
 
-        client.post<void>('play', {
+        client.post<void>("play", {
           playlistId: playlist.id,
           song: item,
         });
       }
     },
-    [playlist, client]
+    [playlist, client],
   );
 
   const createPlaylist = useCallback(
@@ -89,7 +89,7 @@ const PlaylistProvider = (props) => {
           errorMessage: undefined,
         });
 
-        const item = await client.post<Playlist>('playlist', {
+        const item = await client.post<Playlist>("playlist", {
           name,
         });
         setCreatePlaylistAction({
@@ -112,7 +112,7 @@ const PlaylistProvider = (props) => {
         dialog.showDialog({ dialog: ErrorDialog(item) });
       }
     },
-    [createPlaylistAction.isBusy, client, dialog]
+    [createPlaylistAction.isBusy, client, dialog],
   );
 
   const deletePlaylist = useCallback(async () => {
@@ -126,8 +126,8 @@ const PlaylistProvider = (props) => {
 
       console.log(`yo::>${playlist.id}`);
 
-      await client.delete('playlist', {
-        'playlistId': playlist.id,
+      await client.delete("playlist", {
+        playlistId: playlist.id,
       });
 
       setDeletePlaylistAction({
@@ -152,7 +152,7 @@ const PlaylistProvider = (props) => {
   const getPlaylistById = useCallback(
     async (id) => {
       try {
-        return await client.get<Playlist>('playlist', { playlistId: id });
+        return await client.get<Playlist>("playlist", { playlistId: id });
       } catch (error) {
         let item = {};
         if (error instanceof Response) {
@@ -163,7 +163,7 @@ const PlaylistProvider = (props) => {
         dialog.showDialog({ dialog: ErrorDialog(item) });
       }
     },
-    [client, dialog]
+    [client, dialog],
   );
 
   const getPlaylists = useCallback(async () => {
@@ -174,7 +174,7 @@ const PlaylistProvider = (props) => {
         isBusy: true,
         errorMessage: undefined,
       });
-      const items = await client.get<Playlist[]>('playlists');
+      const items = await client.get<Playlist[]>("playlists");
       setPlaylists(items);
       setGetPlaylistsAction({
         isBusy: false,
@@ -223,7 +223,7 @@ const PlaylistProvider = (props) => {
       deletePlaylist,
       deletePlaylistAction,
       getPlaylistById,
-    ]
+    ],
   );
 
   return (
@@ -236,7 +236,7 @@ const PlaylistProvider = (props) => {
 const usePlaylist = () => {
   const context = React.useContext(PlaylistContext);
   if (context === undefined) {
-    throw new Error('usePlaylist must be used within a PlaylistProvider');
+    throw new Error("usePlaylist must be used within a PlaylistProvider");
   }
   return context;
 };

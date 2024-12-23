@@ -1,17 +1,20 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClient123 } from '../../lib/clients/redis';
+import { NextApiRequest, NextApiResponse } from "next";
+import { createRedisClient } from "../../lib/clients/redis";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
-  if (!req.cookies['user']) {
-    res.status(401).json({ message: req.cookies['user'] });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (!req.cookies["user"]) {
+    res.status(401).json({ message: req.cookies["user"] });
     return;
   }
 
   try {
-    await using redisClient = await createRedisClient123();
-    const {client} = redisClient;
+    await using redisClient = await createRedisClient();
+    const { client } = redisClient;
 
-    let result = await client.get('testing');
+    let result = await client.get("testing");
     res.status(200).json({ name: `yo - endpoint 1 ${result}` });
   } catch (e) {
     res.status(500).json({ message: e.message });

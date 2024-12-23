@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from "react";
 
-import PageComponent from '../components/page-component';
-import ConnectorPanel from '../components/connectors/connector-panel-component';
-import HeaderComponent from '../components/header/header-component';
-import PlayerComponent from '../components/player/player-component';
-import SideBarComponent from '../components/side-bar/side-bar-component';
-import MainPanelComponent from '../components/main/main-panel-components';
-import { PageMode, useLayout } from '../lib/context/layout-context';
-import ContainerComponent from '../lib/ui/container/container';
-import PlaylistSelectorComponent from '../components/playlist-selector/playlist-selector.component';
-import NewPlaylistComponent from '../components/new-playlist/new-playlist-component';
-import PlaylistSideBarComponent from '../components/side-bar/playlist-side-bar-component';
-import BackgroundComponent from './../lib/ui/backgrounds/background-component';
+import PageComponent from "../components/page-component";
+import ConnectorPanel from "../components/connectors/connector-panel-component";
+import HeaderComponent from "../components/header/header-component";
+import PlayerComponent from "../components/player/player-component";
+import SideBarComponent from "../components/side-bar/side-bar-component";
+import MainPanelComponent from "../components/main/main-panel-components";
+import { PageMode, useLayout } from "../lib/context/layout-context";
+import ContainerComponent from "../lib/ui/container/container";
+import PlaylistSelectorComponent from "../components/playlist-selector/playlist-selector.component";
+import NewPlaylistComponent from "../components/new-playlist/new-playlist-component";
+import PlaylistSideBarComponent from "../components/side-bar/playlist-side-bar-component";
+import BackgroundComponent from "./../lib/ui/backgrounds/background-component";
 
 export default function Home() {
   const { pageMode } = useLayout();

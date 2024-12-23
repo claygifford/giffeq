@@ -1,6 +1,6 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import React, { ReactNode } from 'react';
-import styles from './modal-component.module.css';
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import React, { ReactNode } from "react";
+import styles from "./modal-component.module.css";
 
 type ModalProps = {
   children: Dialog;
@@ -42,7 +42,7 @@ export default function ModalComponent(props: ModalProps) {
     <div className={styles.modal}>
       <div className={`${styles.modalcontent} ${getPositionStyle()}`}>
         <div className={styles.modalheader}>
-          {children.Header}{' '}
+          {children.Header}{" "}
           <button
             aria-label="Close modal button"
             className={styles.modalheaderbutton}

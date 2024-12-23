@@ -1,11 +1,11 @@
-import React from 'react';
-import styles from './settings.module.css';
-import ButtonComponent from '../../lib/ui/button/button-component';
-import BusyIcon from '../../lib/ui/icons/busy-icon';
-import { usePlaylist } from '../../lib/context/playlist-context';
-import { PageMode, useLayout } from '../../lib/context/layout-context';
-import CheckboxInputComponent from '../../lib/ui/input/checkbox-input-component';
-import { usePreferences } from '../../lib/context/preferences-context';
+import React from "react";
+import styles from "./settings.module.css";
+import ButtonComponent from "../../lib/ui/button/button-component";
+import BusyIcon from "../../lib/ui/icons/busy-icon";
+import { usePlaylist } from "../../lib/context/playlist-context";
+import { PageMode, useLayout } from "../../lib/context/layout-context";
+import CheckboxInputComponent from "../../lib/ui/input/checkbox-input-component";
+import { usePreferences } from "../../lib/context/preferences-context";
 
 export default function SettingsComponent() {
   const { changePageMode } = useLayout();
@@ -22,12 +22,12 @@ export default function SettingsComponent() {
       <div className="px-4 py-2">Auto play song</div>
       <div className="px-4 py-2">
         <CheckboxInputComponent
-          id={'auto-play-song'}
-          name={'auto-play-song'}
-          label={'Auto play song'}
+          id={"auto-play-song"}
+          name={"auto-play-song"}
+          label={"Auto play song"}
           value={preferences.AutoPlaySong}
           onChange={(event) =>
-            setPreference('AutoPlaySong', event.target.value)
+            setPreference("AutoPlaySong", event.target.value)
           }
         />
       </div>
@@ -39,10 +39,10 @@ export default function SettingsComponent() {
           onClick={deleteEvent}
           disabled={deletePlaylistAction.isBusy}
         >
-          {deletePlaylistAction.isBusy && <BusyIcon />}{' '}
+          {deletePlaylistAction.isBusy && <BusyIcon />}{" "}
           {deletePlaylistAction.isBusy
-            ? 'Deleting playlist...'
-            : 'Delete playlist'}
+            ? "Deleting playlist..."
+            : "Delete playlist"}
         </ButtonComponent>
       </div>
     </div>

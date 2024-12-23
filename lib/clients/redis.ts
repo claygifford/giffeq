@@ -1,34 +1,34 @@
-import { NextApiRequest } from 'next';
-import { createClient } from 'redis';
- 
-/* @ts-expect-error */ 
+import { NextApiRequest } from "next";
+import { createClient } from "redis";
+
+/* @ts-expect-error */
 Symbol.dispose ??= Symbol("Symbol.dispose");
- /* @ts-expect-error */ 
+/* @ts-expect-error */
 Symbol.asyncDispose ??= Symbol("Symbol.asyncDispose");
 
-export const createRedisClient = async (req?: NextApiRequest) => {
-  const client = createClient({
-    username: process.env.REDIS_USERNAME,
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-      host: process.env.REDIS_HOST,
-      port: +process.env.REDIS_PORT,
-    },
-  });
+// export const createRedisClient = async (req?: NextApiRequest) => {
+//   const client = createClient({
+//     username: process.env.REDIS_USERNAME,
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//       host: process.env.REDIS_HOST,
+//       port: +process.env.REDIS_PORT,
+//     },
+//   });
 
-  await client.connect();
-  if (req) {
-    const token = req.cookies['token'];
-    const id = await client.get(`token:${token}`);
-    return { id, client };
-  }
-  return { client };
-};
+//   await client.connect();
+//   if (req) {
+//     const token = req.cookies['token'];
+//     const id = await client.get(`token:${token}`);
+//     return { id, client };
+//   }
+//   return { client };
+// };
 
-export const createRedisClient123 = async (
-  req?: NextApiRequest
+export const createRedisClient = async (
+  req?: NextApiRequest,
 ): Promise<{
-  client: any;
+  client: ReturnType<typeof createClient>;
   id?: string;
   [Symbol.asyncDispose]: () => Promise<void>;
 }> => {
@@ -43,7 +43,7 @@ export const createRedisClient123 = async (
 
   await client.connect();
   if (req) {
-    const token = req.cookies['token'];
+    const token = req.cookies["token"];
     const id = await client.get(`token:${token}`);
     return {
       client,
@@ -57,17 +57,7 @@ export const createRedisClient123 = async (
   return {
     client,
     [Symbol.asyncDispose]: async () => {
-      await client.quit();
+      //await client.quit();
     },
   };
-};
-
-export const createRedisClient456 = async (req?: NextApiRequest) => {
-      console.log(`Creating id`);
-
-      return {
-        [Symbol.dispose]() {
-          console.log(`Disposing id`);
-        },
-      };
 };

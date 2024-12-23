@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router';
-import { usePlaylist } from './playlist-context';
-import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { Playlist } from '../types/playlist';
-import { useSong } from './song-context';
-import { useMusic } from './music-context';
-import { useHistory } from './history-context';
-import { getColor } from '../ui/colors/colors';
+import { useRouter } from "next/router";
+import { usePlaylist } from "./playlist-context";
+import React, { createContext, useCallback, useMemo, useState } from "react";
+import { Playlist } from "../types/playlist";
+import { useSong } from "./song-context";
+import { useMusic } from "./music-context";
+import { useHistory } from "./history-context";
+import { getColor } from "../ui/colors/colors";
 
 export const PanelMode = {
   Collapsed: 1,
@@ -54,14 +54,14 @@ const LayoutProvider = (props) => {
   const { getHistory } = useHistory();
 
   const [connectorPane, setConnectorPane] = useState<PanelModeType>(
-    PanelMode.Collapsed
+    PanelMode.Collapsed,
   );
   const [sideBarPane, setSideBarPane] = useState<PanelModeType>(
-    PanelMode.Collapsed
+    PanelMode.Collapsed,
   );
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
   const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
-  const [colors, setColors] = useState<string[]>([
+  const [colors] = useState<string[]>([
     getColor(),
     getColor(),
     getColor(),
@@ -86,7 +86,7 @@ const LayoutProvider = (props) => {
       }
       setMainPane(pane);
     },
-    [getHistory, playlist]
+    [getHistory, playlist],
   );
 
   const changePageMode = useCallback(
@@ -100,30 +100,30 @@ const LayoutProvider = (props) => {
           router.push(`/#listening/${list.id}`, undefined, { shallow: true });
           break;
         case PageMode.NewPlaylist:
-          router.push('/#newplaylist', undefined, { shallow: true });
+          router.push("/#newplaylist", undefined, { shallow: true });
           break;
         case PageMode.Playlist: {
           clearSong();
           setPlaylist(null);
           getPlaylists();
-          router.push('/', undefined, { shallow: true });
+          router.push("/", undefined, { shallow: true });
           break;
         }
       }
 
       setPageMode(pane);
     },
-    [setPlaylist, playNextSong, getHistory, router, clearSong, getPlaylists]
+    [setPlaylist, playNextSong, getHistory, router, clearSong, getPlaylists],
   );
 
   const initializeLayout = useCallback(async () => {
-    const [, path] = asPath.split('#');
+    const [, path] = asPath.split("#");
     if (path) {
-      const [firstPath, rest] = path.split('/');
+      const [firstPath, rest] = path.split("/");
       const mode =
         PageMode[
           Object.keys(PageMode).find(
-            (key) => key.toLowerCase() === firstPath.toLowerCase()
+            (key) => key.toLowerCase() === firstPath.toLowerCase(),
           )
         ];
       if (mode) {
@@ -175,7 +175,7 @@ const LayoutProvider = (props) => {
       changePageMode,
       initializeLayout,
       colors,
-    ]
+    ],
   );
 
   return (
@@ -188,7 +188,7 @@ const LayoutProvider = (props) => {
 const useLayout = () => {
   const context = React.useContext(LayoutContext);
   if (context === undefined) {
-    throw new Error('useLayout must be used within a LayoutProvider');
+    throw new Error("useLayout must be used within a LayoutProvider");
   }
   return context;
 };

@@ -1,31 +1,27 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PanelMode, useLayout } from '../../lib/context/layout-context';
-import { useConnector } from '../../lib/context/connector-context';
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import Link from "next/link";
+import { PanelMode, useLayout } from "../../lib/context/layout-context";
+import { useConnector } from "../../lib/context/connector-context";
 
-type ConnectorPanelProps = {};
-
-export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
+export default function ConnectorPanelComponent() {
   const { connectorPane, changeConnectorPane } = useLayout();
-  const { spotifyConnectorStatus, connectors } = useConnector();
+  const { connectors } = useConnector();
 
   const onClose = () => {
     changeConnectorPane(PanelMode.Collapsed);
   };
 
-  const activeConnectors = connectors.filter((i) => i.status !== 'none');
-  const inactiveConnectors = connectors.filter((i) => i.status === 'none');
+  const activeConnectors = connectors.filter((i) => i.status !== "none");
+  const inactiveConnectors = connectors.filter((i) => i.status === "none");
 
   if (connectorPane === PanelMode.Collapsed) return;
 
   return (
     <div className="flex flex-col basis-80 p-4">
-      <div
-        className="flex flex-col flex-1 overflow-y-hidden drop-shadow-xl bg-white rounded border border-neutral-400/50"
-      >
+      <div className="flex flex-col flex-1 overflow-y-hidden drop-shadow-xl bg-white rounded border border-neutral-400/50">
         <div
-          style={{ borderBottom: '1px solid rgb(204 204 204)' }}
+          style={{ borderBottom: "1px solid rgb(204 204 204)" }}
           className="flex items-center border-b-2"
         >
           <div className="text-lg font-medium text-gray-800 px-4 py-2">
@@ -49,9 +45,9 @@ export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
               <div key={index}>
                 <div
                   style={{
-                    position: 'relative',
-                    minHeight: '100px',
-                    margin: '20px',
+                    position: "relative",
+                    minHeight: "100px",
+                    margin: "20px",
                   }}
                 >
                   <Image
@@ -60,7 +56,7 @@ export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
                     fill
                     sizes="(min-width: 400px) 50vw, 100vw"
                     style={{
-                      objectFit: 'contain', // cover, contain, none
+                      objectFit: "contain", // cover, contain, none
                     }}
                   />
                 </div>
@@ -80,9 +76,9 @@ export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
               <div key={index}>
                 <div
                   style={{
-                    position: 'relative',
-                    minHeight: '100px',
-                    margin: '20px',
+                    position: "relative",
+                    minHeight: "100px",
+                    margin: "20px",
                   }}
                 >
                   <Image
@@ -91,7 +87,7 @@ export default function ConnectorPanelComponent(props: ConnectorPanelProps) {
                     fill
                     sizes="(min-width: 400px) 50vw, 100vw"
                     style={{
-                      objectFit: 'contain', // cover, contain, none
+                      objectFit: "contain", // cover, contain, none
                     }}
                   />
                 </div>

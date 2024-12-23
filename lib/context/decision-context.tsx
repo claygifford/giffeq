@@ -1,6 +1,6 @@
-import React, { createContext, useCallback, useMemo } from 'react';
-import { createNextClient } from '../clients/next';
-import { Playlist } from '../types/playlist';
+import React, { createContext, useCallback, useMemo } from "react";
+import { createNextClient } from "../clients/next";
+import { Playlist } from "../types/playlist";
 
 type DecisionValue = {
   deleteEvent: (playlist: Playlist, index: number) => void;
@@ -14,21 +14,21 @@ const DecisionProvider = (props) => {
 
   const getHistory = useCallback(
     async (playlistId: string) => {
-      await client.get('history', {
+      await client.get("history", {
         playlistId: playlistId,
       });
     },
-    [client]
+    [client],
   );
 
   const deleteEvent = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete('event', {
+      await client.delete("event", {
         playlistId: playlist.id,
         index: index,
       });
     },
-    [client]
+    [client],
   );
 
   const value = useMemo(
@@ -36,7 +36,7 @@ const DecisionProvider = (props) => {
       deleteEvent,
       getHistory,
     }),
-    [deleteEvent, getHistory]
+    [deleteEvent, getHistory],
   );
 
   return (
@@ -49,7 +49,7 @@ const DecisionProvider = (props) => {
 const useDecision = () => {
   const context = React.useContext(DecisionContext);
   if (context === undefined) {
-    throw new Error('useDecisions must be used within a DecisionProvider');
+    throw new Error("useDecisions must be used within a DecisionProvider");
   }
   return context;
 };

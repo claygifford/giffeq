@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './side-bar-button.module.css';
+import React from "react";
+import styles from "./side-bar-button.module.css";
 
 type SideBarActionProps = {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ type SideBarActionProps = {
 };
 
 export default function SideBarActionComponent(props: SideBarActionProps) {
-  const { children, onClick, isOpen, classes = 'px-2 py-2' } = props;
+  const { children, onClick, isOpen, classes = "px-2 py-2" } = props;
 
   return (
     <button

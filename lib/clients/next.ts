@@ -1,21 +1,24 @@
-import { HttpMethods } from '../../pages/api/methods';
+import { HttpMethods } from "../../pages/api/methods";
 
 export const createNextClient = () => {
   return {
-    get: <T>(endpoint, params?: { [key: string]: string | number }): Promise<T> => {
-      let search = '';
+    get: <T>(
+      endpoint,
+      params?: { [key: string]: string | number },
+    ): Promise<T> => {
+      let search = "";
       if (params) {
-        search = '?';
+        search = "?";
         let items = [];
         for (const param in params) {
           items.push(`${param}=${params[param]}`);
         }
-        search += items.join('&');
+        search += items.join("&");
       }
       return fetch(`/api/${endpoint}${search}`, {
         method: HttpMethods.get,
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
       }).then(async (response) => {
         if (!response.ok) {
@@ -30,7 +33,7 @@ export const createNextClient = () => {
         method: HttpMethods.post,
         body: JSON.stringify(body),
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
       }).then((response) => {
         if (!response.ok) {
@@ -39,22 +42,53 @@ export const createNextClient = () => {
         return response.json() as Promise<T>;
       });
     },
-    delete: (endpoint, params?: { [key: string]: string | number }): Promise<string> => {
-      let search = '';
+    delete: (
+      endpoint,
+      params?: { [key: string]: string | number },
+    ): Promise<string> => {
+      let search = "";
       if (params) {
         const items = [];
         for (const key in params) {
           items.push(`${key}=${params[key]}`);
         }
-        search = `?${items.join('&')}`;
+        search = `?${items.join("&")}`;
       }
       return fetch(`/api/${endpoint}${search}`, {
-        method: 'DELETE',
+        method: "DELETE",
       }).then((response) => {
         if (!response.ok) {
           throw response;
         }
         return response.text();
+      });
+    },
+    put: <T>(
+      endpoint,
+      body: {},
+      params?: { [key: string]: string | number },
+    ): Promise<T> => {
+      let search = "";
+      if (params) {
+        search = "?";
+        let items = [];
+        for (const param in params) {
+          items.push(`${param}=${params[param]}`);
+        }
+        search += items.join("&");
+      }
+      return fetch(`/api/${endpoint}${search}`, {
+        method: HttpMethods.put,
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }).then(async (response) => {
+        if (!response.ok) {
+          response.type;
+          throw response;
+        }
+        return response.json() as Promise<T>;
       });
     },
   };

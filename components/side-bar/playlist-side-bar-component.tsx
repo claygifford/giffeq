@@ -1,17 +1,15 @@
-import {
-  PlusIcon as PlusSolidIcon,
-} from '@heroicons/react/24/solid';
-import React from 'react';
+import { PlusIcon as PlusSolidIcon } from "@heroicons/react/24/solid";
+import React from "react";
 import {
   PageMode,
   PanelMode,
   useLayout,
-} from '../../lib/context/layout-context';
-import styles from './side-bar.module.css';
-import SideBarActionComponent from '../../lib/ui/side-bar/side-bar-action-component';
+} from "../../lib/context/layout-context";
+import styles from "./side-bar.module.css";
+import SideBarActionComponent from "../../lib/ui/side-bar/side-bar-action-component";
 
 export default function PlaylistSideBarComponent() {
-  const { mainPane, showMainPane, sideBarPane } = useLayout();
+  const { sideBarPane } = useLayout();
   const { changePageMode } = useLayout();
 
   const isOpen = sideBarPane === PanelMode.Expanded;
@@ -21,7 +19,7 @@ export default function PlaylistSideBarComponent() {
         isOpen ? styles.SideBarContainerOpen : styles.SideBarContainer
       }`}
     >
-      <div className={`${styles.SideBar} ${isOpen ? styles.SideBarOpen : ''}`}>
+      <div className={`${styles.SideBar} ${isOpen ? styles.SideBarOpen : ""}`}>
         <SideBarActionComponent
           isOpen={isOpen}
           onClick={() => {

@@ -1,10 +1,8 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { createNextClient } from '../clients/next';
-import { createApiClient } from '../clients/api';
-import debounce from 'lodash/debounce';
-import { useDialog } from '../hooks/use-dialog';
-import ErrorDialog from '../ui/dialog/error-dialog';
-import { useMusic } from './music-context';
+import React, { createContext, useCallback, useMemo, useState } from "react";
+import { createNextClient } from "../clients/next";
+import debounce from "lodash/debounce";
+import { useDialog } from "../hooks/use-dialog";
+import ErrorDialog from "../ui/dialog/error-dialog";
 
 type SearchValue = {
   isSearchingMusic: boolean;
@@ -21,13 +19,11 @@ const SearchProvider = (props) => {
 
   const [isSearchingMusic, setIsSearchingMusic] = useState<boolean>(false);
 
-
   const [currentResults, setCurrentResults] = useState<any>(null);
-  
-  
+
   const clearResults = useCallback(() => {
-      setCurrentResults(undefined);
-    }, []);
+    setCurrentResults(undefined);
+  }, []);
 
   const searchMusicHandler = useCallback(
     async (search: string) => {
@@ -38,9 +34,9 @@ const SearchProvider = (props) => {
           tracks: { items: any[] };
           albums: { items: any[] };
           artists: { items: any[] };
-        }>('search', {
+        }>("search", {
           q: search,
-          type: 'album,track,artist'
+          type: "album,track,artist",
         });
 
         if (data && data.tracks && data.tracks.items) {
@@ -57,19 +53,19 @@ const SearchProvider = (props) => {
         setIsSearchingMusic(false);
       }
     },
-    [client, dialog]
+    [client, dialog],
   );
 
   const searchMusic = debounce(searchMusicHandler, 300);
-    
+
   const value = useMemo(
     () => ({
       searchMusic,
       isSearchingMusic,
       clearResults,
-      currentResults
+      currentResults,
     }),
-    [searchMusic, isSearchingMusic, clearResults, currentResults]
+    [searchMusic, isSearchingMusic, clearResults, currentResults],
   );
 
   return (
@@ -82,7 +78,7 @@ const SearchProvider = (props) => {
 const useSearch = () => {
   const context = React.useContext(SearchContext);
   if (context === undefined) {
-    throw new Error('useSearch must be used within a SearchProvider');
+    throw new Error("useSearch must be used within a SearchProvider");
   }
   return context;
 };

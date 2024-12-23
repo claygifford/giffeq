@@ -1,24 +1,24 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { clearCookie } from '../../lib/cookies/cookies';
-import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '../../src/aws-exports';
-import { createRedisClient, createRedisClient123 } from '../../lib/clients/redis';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { clearCookie } from "../../lib/cookies/cookies";
+import { Amplify, Auth } from "aws-amplify";
+import awsExports from "../../src/aws-exports";
+import { createRedisClient } from "../../lib/clients/redis";
 
 Amplify.configure(awsExports);
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  if (req.method !== 'GET') {
-    res.status(405).send({ message: '405 Method Not Allowed' });
+  if (req.method !== "GET") {
+    res.status(405).send({ message: "405 Method Not Allowed" });
     return;
   }
-  const token = req.cookies['token'];
+  const token = req.cookies["token"];
   await Auth.signOut();
-  await using redisClient = await createRedisClient123();
-  const {client} = redisClient;
+  await using redisClient = await createRedisClient();
+  const { client } = redisClient;
   await client.del(`token:${token}`);
-  clearCookie(res, 'token');
-  res.status(200).json({message: 'successful log out'});
+  clearCookie(res, "token");
+  res.status(200).json({ message: "successful log out" });
 }

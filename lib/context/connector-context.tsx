@@ -1,8 +1,8 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
-import { useAuth } from './auth-context';
-import { forEach } from 'lodash';
-import { Connector } from '../types/playlist';
-import { getDateTime } from '../formats/date-time';
+import React, { createContext, useEffect, useMemo, useState } from "react";
+import { useAuth } from "./auth-context";
+import { forEach } from "lodash";
+import { Connector } from "../types/playlist";
+import { getDateTime } from "../formats/date-time";
 
 type ConnectorValue = {
   spotifyConnectorStatus: string;
@@ -19,36 +19,37 @@ export type Plugin = {
 };
 
 export const ConnectorStatus = {
-  none: 'none',
-  disconnected: 'disconnected',
-  connected: 'connected',
+  none: "none",
+  disconnected: "disconnected",
+  connected: "connected",
 };
 
-type ConnectorType = ['spotify', 'apple-music', 'amazon-music'];
+//type ConnectorType = ['spotify', 'apple-music', 'amazon-music'];
+
 const Plugins = [
   {
-    type: 'spotify',
+    type: "spotify",
     status: ConnectorStatus.none,
-    src: '/connectors/spotify.png',
-    link: '/api/spotify/login',
-    name: 'Spotify',
-    message: '',
+    src: "/connectors/spotify.png",
+    link: "/api/spotify/login",
+    name: "Spotify",
+    message: "",
   },
   {
-    type: 'apple',
+    type: "apple",
     status: ConnectorStatus.none,
-    src: '/connectors/apple-music.jpg',
-    link: '/api/spotify/login',
-    name: 'Apple Music',
-    message: '',
+    src: "/connectors/apple-music.jpg",
+    link: "/api/spotify/login",
+    name: "Apple Music",
+    message: "",
   },
   {
-    type: 'amazon',
+    type: "amazon",
     status: ConnectorStatus.none,
-    src: '/connectors/amazon-music.png',
-    link: '/api/spotify/login',
-    name: 'Amazon Music',
-    message: '',
+    src: "/connectors/amazon-music.png",
+    link: "/api/spotify/login",
+    name: "Amazon Music",
+    message: "",
   },
 ];
 
@@ -57,23 +58,22 @@ const ConnectorContext = createContext({} as ConnectorValue);
 const ConnectorProvider = (props) => {
   const { user } = useAuth();
 
-  const [spotifyConnectorStatus, setSpotifyConnectorStatus] =
-    useState<any>(null);
+  const [spotifyConnectorStatus] = useState<any>(null);
 
-  const [connectors, setConnectors] = useState<any[]>([]);  
+  const [connectors, setConnectors] = useState<any[]>([]);
   useEffect(() => {
     if (user) {
       if (user.connectors) {
-        forEach(Plugins, p => {
+        forEach(Plugins, (p) => {
           let connector = user.connectors[p.type] as Connector;
           if (connector) {
             p.message = `Last update ${getDateTime(connector.refresh_date)}`;
 
-            p.status = 'connected';
+            p.status = "connected";
           }
         });
       }
-      setConnectors(Plugins);    
+      setConnectors(Plugins);
     }
   }, [user]);
 
@@ -82,7 +82,7 @@ const ConnectorProvider = (props) => {
       spotifyConnectorStatus,
       connectors,
     }),
-    [spotifyConnectorStatus, connectors]
+    [spotifyConnectorStatus, connectors],
   );
 
   return (
@@ -95,7 +95,7 @@ const ConnectorProvider = (props) => {
 const useConnector = () => {
   const context = React.useContext(ConnectorContext);
   if (context === undefined) {
-    throw new Error('useConnector must be used within a ConnectorProvider');
+    throw new Error("useConnector must be used within a ConnectorProvider");
   }
   return context;
 };

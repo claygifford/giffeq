@@ -1,14 +1,6 @@
-import React from 'react';
+import React from "react";
 
-type InfoProps = {
-  id: string;
-  name: string;
-  label: string;
-  value: boolean | undefined;
-  onChange?: any;
-};
-export default function InfoComponent(props: InfoProps) {
-  const { label, name, id, value, onChange } = props;
+export default function InfoComponent() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4">
       <div className="flex">

@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-     "target": "es2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es2022",
-      "esnext.disposable"
-    ],
+    "target": "es2022",
+    "lib": ["dom", "dom.iterable", "es2022", "esnext.disposable"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -20,12 +15,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

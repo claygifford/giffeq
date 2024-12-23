@@ -1,4 +1,4 @@
-import { Bars3Icon } from '@heroicons/react/24/solid';
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 type MenuButtonProps = {
   onClick: () => void;
@@ -9,7 +9,7 @@ export default function MenuButtonComponent(props: MenuButtonProps) {
   return (
     <div className="relative pl-2">
       <button
-        aria-label='Menu button'
+        aria-label="Menu button"
         onClick={onClick}
         className="group relative flex w-full justify-center rounded-full border border-transparent py-2 px-2 text-sm font-medium text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
       >

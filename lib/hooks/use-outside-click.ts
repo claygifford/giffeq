@@ -10,12 +10,12 @@ const useOutsideClick = (callback) => {
       }
     };
 
-    document.addEventListener('click', handleClick, true);
+    document.addEventListener("click", handleClick, true);
 
     return () => {
-      document.removeEventListener('click', handleClick, true);
+      document.removeEventListener("click", handleClick, true);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 
   return ref;

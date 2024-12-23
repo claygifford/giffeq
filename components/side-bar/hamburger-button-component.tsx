@@ -1,11 +1,7 @@
-import { Bars3Icon } from '@heroicons/react/24/solid';
-import { PanelMode, useLayout } from '../../lib/context/layout-context';
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import { PanelMode, useLayout } from "../../lib/context/layout-context";
 
-type HamburgerButtonProps = {
-
-};
-
-export default function HamburgerButtonComponent(props: HamburgerButtonProps) {
+export default function HamburgerButtonComponent() {
   const { sideBarPane, changeSideBarPane } = useLayout();
 
   const onClick = () => {
@@ -17,7 +13,7 @@ export default function HamburgerButtonComponent(props: HamburgerButtonProps) {
   return (
     <div className="relative pl-2">
       <button
-        aria-label={'Menu toggle'}
+        aria-label={"Menu toggle"}
         onClick={onClick}
         className="group relative flex w-full justify-center rounded-full border border-transparent py-2 px-2 text-sm font-medium text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
       >

@@ -1,6 +1,6 @@
-import React from 'react';
-import HeadComponent from './head/head-component';
-import MainComponent from './main/main-component';
+import React from "react";
+import HeadComponent from "./head/head-component";
+import MainComponent from "./main/main-component";
 
 type Props = {
   header?: any;
@@ -15,9 +15,7 @@ export default function PageComponent(props: Props) {
   return (
     <React.Fragment>
       <HeadComponent />
-      <MainComponent classes={classes}>
-        {children}
-      </MainComponent>
+      <MainComponent classes={classes}>{children}</MainComponent>
     </React.Fragment>
   );
 }

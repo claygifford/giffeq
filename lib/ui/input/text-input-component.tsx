@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 type TextInputProps = {
-    id: string;
-    name: string;
-    type: string;
-    label: string;
-    autoComplete?: string;
-    placeHolder?: string;
-    required?: boolean;
-}
+  id: string;
+  name: string;
+  type: string;
+  label: string;
+  autoComplete?: string;
+  placeHolder?: string;
+  required?: boolean;
+};
 export default function TextInputComponent(props: TextInputProps) {
   const { label, name, id, type, autoComplete, placeHolder, required } = props;
   return (

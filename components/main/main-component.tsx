@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './main.module.css';
+import React from "react";
+import styles from "./main.module.css";
 
 type Props = {
   children: any;
@@ -8,9 +8,5 @@ type Props = {
 
 export default function MainComponent(props: Props) {
   const { children, classes } = props;
-  return (
-    <main className={`${styles.main} ${classes}`}>
-      {children}
-    </main>
-  );
+  return <main className={`${styles.main} ${classes}`}>{children}</main>;
 }

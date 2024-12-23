@@ -1,15 +1,11 @@
-import { MainMode, useLayout } from '../../lib/context/layout-context';
-import DecisionsComponent from '../decisions/decisions-component';
-import SongComponent from '../song/song-component';
-import SearchComponent from '../search/search-component';
-import SettingsComponent from '../settings/settings-component';
-import HistoryComponent from './../history/history-component';
+import { MainMode, useLayout } from "../../lib/context/layout-context";
+import DecisionsComponent from "../decisions/decisions-component";
+import SongComponent from "../song/song-component";
+import SearchComponent from "../search/search-component";
+import SettingsComponent from "../settings/settings-component";
+import HistoryComponent from "./../history/history-component";
 
-type ConnectorPanelProps = {
-
-};
-
-export default function MainPanelComponent(props: ConnectorPanelProps) {
+export default function MainPanelComponent() {
   const { mainPane } = useLayout();
 
   switch (mainPane) {

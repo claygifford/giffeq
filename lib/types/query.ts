@@ -6,8 +6,8 @@ export type Query<T> = {
 };
 
 export let EmptyQuery = {
-    items: [],
-    total: 0,
-    count: 0,
-    start: 0
-}
+  items: [],
+  total: 0,
+  count: 0,
+  start: 0,
+};

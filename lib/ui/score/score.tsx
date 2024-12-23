@@ -1,24 +1,13 @@
-{
-  /* <svg width="160" height="160" viewBox="0 0 160 160" style="transform: rotate(-90deg)">
-  <circle r="70" cx="80" cy="80" fill="transparent" stroke="#e0e0e0" stroke-width="12px"></circle>
-  <circle r="70" cx="80" cy="80" fill="transparent" stroke="#60e6a8" stroke-linecap="round" stroke-width="12px" stroke-dasharray="439.6px" stroke-dashoffset="109.9px"></circle>
-</svg> */
-}
+import React from "react";
 
-import React from 'react';
-
-type ScoreProps = {
-  message?: string;
-};
-
-export default function ScoreComponent(props: ScoreProps) {
+export default function ScoreComponent() {
   return (
     <div className="relative h-[80px] w-[80px]">
       <svg
         width="80"
         height="80"
         viewBox="0 0 160 160"
-        style={{ transform: 'rotate(-90deg)' }}
+        style={{ transform: "rotate(-90deg)" }}
       >
         <circle
           r="70"

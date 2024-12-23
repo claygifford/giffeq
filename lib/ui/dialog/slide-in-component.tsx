@@ -1,11 +1,7 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import styles from './slide-in-component.module.css';
-import { Dialog } from './modal-component';
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./slide-in-component.module.css";
+import { Dialog } from "./modal-component";
 
 type SlideInProps = {
   children: Dialog;
@@ -20,11 +16,11 @@ export default function SlideInComponent(props: SlideInProps) {
   useEffect(() => {
     const node = modal.current;
     if (node) {
-      node.addEventListener('click', animateClose);
+      node.addEventListener("click", animateClose);
     }
     return () => {
       if (node) {
-        node.removeEventListener('click', animateClose);
+        node.removeEventListener("click", animateClose);
       }
     };
   }, []);
@@ -51,7 +47,7 @@ export default function SlideInComponent(props: SlideInProps) {
         }`}
       >
         <div className={styles.ModalHeader}>
-          {children.Header}{' '}
+          {children.Header}{" "}
           <button
             aria-label="Close slide-in button"
             className={styles.ModalHeaderButton}

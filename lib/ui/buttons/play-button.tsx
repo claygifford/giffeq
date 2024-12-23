@@ -1,4 +1,4 @@
-import { PlayCircleIcon } from '@heroicons/react/24/solid';
+import { PlayCircleIcon } from "@heroicons/react/24/solid";
 
 type BackButtonProps = {
   onClick: () => void;

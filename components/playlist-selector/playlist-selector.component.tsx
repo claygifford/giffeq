@@ -1,15 +1,15 @@
-import React from 'react';
-import { usePlaylist } from '../../lib/context/playlist-context';
-import styles from './player-selector.module.css';
-import { PageMode, useLayout } from '../../lib/context/layout-context';
-import LoadingComponent from '../../lib/ui/loading/loading-component';
+import React from "react";
+import { usePlaylist } from "../../lib/context/playlist-context";
+import styles from "./player-selector.module.css";
+import { PageMode, useLayout } from "../../lib/context/layout-context";
+import LoadingComponent from "../../lib/ui/loading/loading-component";
 import {
   MusicalNoteIcon,
   SparklesIcon,
   LightBulbIcon,
   PlayIcon,
-} from '@heroicons/react/24/outline';
-import InfoComponent from '../../lib/ui/info/info-component';
+} from "@heroicons/react/24/outline";
+import InfoComponent from "../../lib/ui/info/info-component";
 
 export default function PlaylistSelectorComponent() {
   const { playlists, getPlaylistsAction } = usePlaylist();
@@ -49,7 +49,7 @@ export default function PlaylistSelectorComponent() {
   if (getPlaylistsAction.isBusy) return <LoadingComponent></LoadingComponent>;
   if (playlists && playlists.length === 0)
     return (
-      <InfoComponent id={''} name={''} label={''} value={false}></InfoComponent>
+      <InfoComponent id={""} name={""} label={""} value={false}></InfoComponent>
     );
   return (
     <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">

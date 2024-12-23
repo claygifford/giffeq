@@ -1,22 +1,18 @@
-import { useAuth } from '../../../lib/context/auth-context';
-import { useState } from 'react';
+import { useAuth } from "../../../lib/context/auth-context";
+import { useState } from "react";
 import {
   ArrowLeftOnRectangleIcon,
   UserCircleIcon,
-} from '@heroicons/react/24/outline';
-import styles from './user-profile.module.css';
-import { useOutsideClick } from '../../../lib/hooks/use-outside-click';
-import router from 'next/router';
-
-type UserProfileProps = {
-
-};
+} from "@heroicons/react/24/outline";
+import styles from "./user-profile.module.css";
+import { useOutsideClick } from "../../../lib/hooks/use-outside-click";
+import router from "next/router";
 
 const Env = {
   APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,
 };
 
-export default function UserProfileComponent(props: UserProfileProps) {
+export default function UserProfileComponent() {
   const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClick(() => setIsOpen(false));
@@ -37,7 +33,7 @@ export default function UserProfileComponent(props: UserProfileProps) {
           <div
             className={`${styles.dropdownitem} py-3 flex gap-2 hover:bg-blue-100`}
             onClick={() => {
-              router.push('/about');
+              router.push("/about");
             }}
           >
             About

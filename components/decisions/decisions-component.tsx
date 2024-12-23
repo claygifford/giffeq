@@ -1,17 +1,17 @@
-import React from 'react';
-import styles from './decisions.module.css';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import InputComponent from '../../lib/ui/input/input-component';
-import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
-import { useSearch } from '../../lib/context/search-context';
+import React from "react";
+import styles from "./decisions.module.css";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import InputComponent from "../../lib/ui/input/input-component";
+import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
+import { useSearch } from "../../lib/context/search-context";
 
 const ItemTemplate = ({ item, isSelected }) => {
   const artist = (i) => {
-    if (i.type === 'album' || i.type === 'track')
+    if (i.type === "album" || i.type === "track")
       return (
         <div className="flex px-2 gap-2 truncate">
-          |{' '}
-          {i.artists.map((artist, i) => {
+          |{" "}
+          {i.artists.map((artist) => {
             if (!artist) return;
             return <span key={artist.id}>{artist.name}</span>;
           })}
@@ -22,7 +22,7 @@ const ItemTemplate = ({ item, isSelected }) => {
   return (
     <div
       className={`flex rounded py-1 px-2 items-center ${
-        isSelected ? 'bg-indigo-200' : ''
+        isSelected ? "bg-indigo-200" : ""
       }`}
     >
       {/* <PlayButtonComponent></PlayButtonComponent>
@@ -42,11 +42,11 @@ export default function DecisionsComponent() {
         <div>Decisions </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={'song-search'}
-            name={'song-search'}
-            type={'string'}
-            placeHolder={'Search for songs'}
-            autoComplete={'off'}
+            id={"song-search"}
+            name={"song-search"}
+            type={"string"}
+            placeHolder={"Search for songs"}
+            autoComplete={"off"}
             spellCheck={false}
           >
             <>
@@ -59,7 +59,7 @@ export default function DecisionsComponent() {
       </div>
       <div className="px-4 overflow-auto">
         {currentResults &&
-          currentResults.map((result, i) => {
+          currentResults.map((result) => {
             return (
               <ItemTemplate
                 item={result}

@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './side-bar-button.module.css';
+import React from "react";
+import styles from "./side-bar-button.module.css";
 
 type SideBarButtonProps = {
   children: React.ReactNode;
@@ -10,7 +10,13 @@ type SideBarButtonProps = {
 };
 
 export default function SideBarButtonComponent(props: SideBarButtonProps) {
-  const { isSelected, children, onClick, isOpen, classes = 'px-2 py-2' } = props;
+  const {
+    isSelected,
+    children,
+    onClick,
+    isOpen,
+    classes = "px-2 py-2",
+  } = props;
 
   return (
     <button
@@ -18,7 +24,7 @@ export default function SideBarButtonComponent(props: SideBarButtonProps) {
       onClick={onClick}
       type="submit"
       className={`${styles.SideBarButton} ${classes} ${
-        isSelected ? styles.SideBarButtonSelected : ''
+        isSelected ? styles.SideBarButtonSelected : ""
       } ${isOpen ? styles.SideBarButtonOpen : styles.SideBarButtonDefault}`}
     >
       <div

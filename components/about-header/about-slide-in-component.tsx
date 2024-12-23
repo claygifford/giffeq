@@ -1,11 +1,9 @@
-import React from 'react';
-import { Dialog, DialogContainer, DialogPosition } from '../../lib/ui/dialog/modal-component';
-
-type AboutSlideInProps = {
-  response?: Response;
-  error?: any;
-  children?: React.ReactNode;
-};
+import React from "react";
+import {
+  Dialog,
+  DialogContainer,
+  DialogPosition,
+} from "../../lib/ui/dialog/modal-component";
 
 export default function AboutSlideInComponent(): Dialog {
   return {

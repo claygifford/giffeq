@@ -1,9 +1,9 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { createNextClient } from '../clients/next';
-import { Playlist } from '../types/playlist';
-import { Song } from '../types/song';
-import { Action } from '../types/action';
-import { EmptyQuery, Query } from '../types/query';
+import React, { createContext, useCallback, useMemo, useState } from "react";
+import { createNextClient } from "../clients/next";
+import { Playlist } from "../types/playlist";
+import { Song } from "../types/song";
+import { Action } from "../types/action";
+import { EmptyQuery, Query } from "../types/query";
 
 type HistoryValue = {
   deleteEvent: (playlist: Playlist, index: number) => void;
@@ -29,7 +29,7 @@ const HistoryProvider = (props) => {
           isBusy: true,
           errorMessage: undefined,
         });
-        const result = await client.get<Query<Song>>('history', {
+        const result = await client.get<Query<Song>>("history", {
           playlistId: playlistId,
           start: 0,
           count: 50,
@@ -47,12 +47,12 @@ const HistoryProvider = (props) => {
         });
       }
     },
-    [client, getHistoryAction.isBusy]
+    [client, getHistoryAction.isBusy],
   );
 
   const deleteEvent = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete('event', {
+      await client.delete("event", {
         playlistId: playlist.id,
         index: index,
       });
@@ -60,7 +60,7 @@ const HistoryProvider = (props) => {
       history.items.splice(index, 1);
       setHistory(history);
     },
-    [client, history]
+    [client, history],
   );
 
   const value = useMemo(
@@ -70,7 +70,7 @@ const HistoryProvider = (props) => {
       getHistoryAction,
       history,
     }),
-    [deleteEvent, getHistory, getHistoryAction, history]
+    [deleteEvent, getHistory, getHistoryAction, history],
   );
 
   return (
@@ -83,7 +83,7 @@ const HistoryProvider = (props) => {
 const useHistory = () => {
   const context = React.useContext(HistoryContext);
   if (context === undefined) {
-    throw new Error('useHistory must be used within a HistoryProvider');
+    throw new Error("useHistory must be used within a HistoryProvider");
   }
   return context;
 };

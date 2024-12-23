@@ -1,13 +1,7 @@
-import {
-  CpuChipIcon,
-} from '@heroicons/react/24/outline';
-import { PanelMode, useLayout } from '../../lib/context/layout-context';
+import { CpuChipIcon } from "@heroicons/react/24/outline";
+import { PanelMode, useLayout } from "../../lib/context/layout-context";
 
-type ConnectorButtonProps = {
-
-};
-
-export default function ConnectorButtonComponent(props: ConnectorButtonProps) {
+export default function ConnectorButtonComponent() {
   const { connectorPane, changeConnectorPane } = useLayout();
 
   const onClick = () => {

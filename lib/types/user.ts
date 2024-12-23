@@ -5,10 +5,10 @@ export type User = {
   email: string;
   preferences: Preferences;
   connectors: {
-    spotify: Connector,
-    amazon: Connector,
-    apple: Connector
-  }
+    spotify: Connector;
+    amazon: Connector;
+    apple: Connector;
+  };
 };
 
 export type Account = {

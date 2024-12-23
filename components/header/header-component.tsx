@@ -1,16 +1,16 @@
-import Link from 'next/link';
-import router from 'next/router';
-import React from 'react';
-import { useAuth } from '../../lib/context/auth-context';
-import NoteIcon from '../../lib/ui/icons/note-icon';
-import ConnectorButton from '../connectors/connector-button-component';
-import styles from './header.module.css';
-import UserProfileComponent from './user-profile/user-profile-component';
-import { usePlaylist } from '../../lib/context/playlist-context';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import HamburgerButtonComponent from '../side-bar/hamburger-button-component';
-import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
-import { PageMode, useLayout } from '../../lib/context/layout-context';
+import Link from "next/link";
+import router from "next/router";
+import React from "react";
+import { useAuth } from "../../lib/context/auth-context";
+import NoteIcon from "../../lib/ui/icons/note-icon";
+import ConnectorButton from "../connectors/connector-button-component";
+import styles from "./header.module.css";
+import UserProfileComponent from "./user-profile/user-profile-component";
+import { usePlaylist } from "../../lib/context/playlist-context";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import HamburgerButtonComponent from "../side-bar/hamburger-button-component";
+import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
+import { PageMode, useLayout } from "../../lib/context/layout-context";
 
 export default function HeaderComponent() {
   const { user } = useAuth();
@@ -22,14 +22,14 @@ export default function HeaderComponent() {
       <div className="flex px-3">
         <Link href="/">
           <div className="flex gap-3 items-center">
-            <NoteIcon height={32} width={32} className="fill-blue-900" />{' '}
+            <NoteIcon height={32} width={32} className="fill-blue-900" />{" "}
             Playlist
           </div>
         </Link>
       </div>
       {playlist && (
         <div className="flex items-center gap-2">
-          {playlist.name}{' '}
+          {playlist.name}{" "}
           <SideBarButtonComponent
             classes="py-1 px-1"
             onClick={() => {
@@ -48,14 +48,14 @@ export default function HeaderComponent() {
           <div className="flex gap-1">
             <button
               aria-label="Sign up"
-              onClick={() => router.push('/about/signup')}
+              onClick={() => router.push("/about/signup")}
               className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
               Sign up
             </button>
             <button
               aria-label="Log in"
-              onClick={() => router.push('/about/login')}
+              onClick={() => router.push("/about/login")}
               className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-2 px-5 text-sm font-medium text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
               Log in

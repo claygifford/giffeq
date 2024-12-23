@@ -28,7 +28,7 @@
 }
 
 .AboutSectionTextLeft {
-    @apply my-10 mx-10 lg:my-0 lg:mx-10 lg:pr-20 flex flex-1 flex-col justify-center items-start rounded-lg;
+  @apply my-10 mx-10 lg:my-0 lg:mx-10 lg:pr-20 flex flex-1 flex-col justify-center items-start rounded-lg;
 }
 
 .AboutSectionTextRight {
@@ -50,9 +50,9 @@
 }
 
 .Traveler {
-  font-family: 'Traveler';
+  font-family: "Traveler";
 }
 
 .Selfish {
-  font-family: 'Selfish';
+  font-family: "Selfish";
 }

@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import styles from './history.module.css';
-import { usePlaylist } from '../../lib/context/playlist-context';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import BusyIcon from '../../lib/ui/icons/busy-icon';
-import InputComponent from '../../lib/ui/input/input-component';
-import SideBarButtonComponent from '../../lib/ui/side-bar/side-bar-button-component';
-import PlayButtonComponent from '../../lib/ui/buttons/play-button';
-import { useMusic } from '../../lib/context/music-context';
-import DeleteButtonComponent from '../../lib/ui/buttons/delete-button';
-import { useHistory } from '../../lib/context/history-context';
+import React, { useState } from "react";
+import styles from "./history.module.css";
+import { usePlaylist } from "../../lib/context/playlist-context";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import BusyIcon from "../../lib/ui/icons/busy-icon";
+import InputComponent from "../../lib/ui/input/input-component";
+import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
+import PlayButtonComponent from "../../lib/ui/buttons/play-button";
+import { useMusic } from "../../lib/context/music-context";
+import DeleteButtonComponent from "../../lib/ui/buttons/delete-button";
+import { useHistory } from "../../lib/context/history-context";
 
 const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   const artist = (i) => {
-    if (i.type === 'album' || i.type === 'track')
+    if (i.type === "album" || i.type === "track")
       return (
         <div className="flex px-2 gap-2 truncate">
-          |{' '}
-          {i.artists.map((artist, i) => {
+          |{" "}
+          {i.artists.map((artist) => {
             if (!artist) return;
             return <span key={artist.id}>{artist.name}</span>;
           })}
@@ -27,7 +27,7 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   return (
     <div
       className={`flex rounded py-1 px-2 items-center ${
-        isSelected ? 'bg-indigo-200' : ''
+        isSelected ? "bg-indigo-200" : ""
       }`}
     >
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
@@ -43,10 +43,10 @@ export default function HistoryComponent() {
   const { playSong } = useMusic();
   const { playlist } = usePlaylist();
 
-  const [songSearch, setSongSearch] = useState('');
+  const [songSearch, setSongSearch] = useState("");
 
   const onPlay = (item) => {
-    item.type = 'track';
+    item.type = "track";
     playSong(item, true);
   };
 
@@ -61,41 +61,39 @@ export default function HistoryComponent() {
 
   const onClear = () => {
     //clearResults();
-    setSongSearch('');
+    setSongSearch("");
   };
 
   const getResults = () => {
     if (history) {
       if (songSearch)
-        return history.items.filter(h => h.name.includes(songSearch));
+        return history.items.filter((h) => h.name.includes(songSearch));
       return history.items;
     }
     return [];
   };
 
   return (
-    <div className={styles.History}>      
+    <div className={styles.History}>
       <div className="p-4">
         <div>
-          <div>History</div>{' '}
+          <div>History</div>{" "}
           <div>
             {history.start}-{history.count} of {history.total}
           </div>
           <div>
-            <div>
-              
-            </div>
+            <div></div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={'song-search'}
-            name={'song-search'}
-            type={'string'}
-            placeHolder={'Search history'}
+            id={"song-search"}
+            name={"song-search"}
+            type={"string"}
+            placeHolder={"Search history"}
             value={songSearch}
             onChange={(event) => onSearch(event.target.value)}
-            autoComplete={'off'}
+            autoComplete={"off"}
             spellCheck={false}
           >
             <>
