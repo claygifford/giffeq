@@ -10,7 +10,6 @@ import { Song } from "../types/song";
 import { createNextClient } from "../clients/next";
 import { tokenIsFresh } from "../clients/spotify";
 import { Connector } from "../types/playlist";
-import { createApiClient } from "../clients/api";
 
 type MusicValue = {
   testing: any;

@@ -49,7 +49,7 @@ export default function PlaylistSelectorComponent() {
   if (getPlaylistsAction.isBusy) return <LoadingComponent></LoadingComponent>;
   if (playlists && playlists.length === 0)
     return (
-      <InfoComponent id={""} name={""} label={""} value={false}></InfoComponent>
+      <InfoComponent></InfoComponent>
     );
   return (
     <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">
