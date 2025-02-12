@@ -4,13 +4,13 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 type ErrorMessageProps = {
   message?: string;
-  dismiss?: () => void;
+  dismiss?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 export default function ErrorMessageComponent(props: ErrorMessageProps) {
   const { message, dismiss } = props;
 
-  if (!message || dismiss) return;
+  if (!message) return;
   return (
     <div className="flex border border-transparent bg-yellow-200 rounded p-3 text-indigo-900">
       <HandRaisedIcon />
@@ -19,7 +19,7 @@ export default function ErrorMessageComponent(props: ErrorMessageProps) {
         <button
           aria-label="Dismiss error button"
           className="hover:bg-gray-500/50 rounded h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]"
-          onClick={() => dismiss()}
+          onClick={(e) => dismiss(e)}
         >
           <XMarkIcon />
         </button>

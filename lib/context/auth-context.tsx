@@ -20,6 +20,7 @@ type AuthValue = {
   user: User;
   signIn: ({ username, password, rememberMe }) => void;
   signInAction: Action;
+  clearSignInAction: () => void;
   forgotPassword: ({ email }) => void;
   forgotPasswordAction: Action;
   forgotPasswordSubmit: ({ email, code, newPassword }) => void;
@@ -68,6 +69,14 @@ const AuthProvider = (props) => {
     },
     [changePageMode, client],
   );
+
+  const clearSignInAction = useCallback(() => {
+    console.log("asdasd");
+    setSignInAction({
+      isBusy: false,
+      errorMessage: undefined,
+    });
+  }, []);
 
   const signUp = useCallback(
     async ({ username, password, email }) => {
@@ -200,6 +209,7 @@ const AuthProvider = (props) => {
       user,
       signIn,
       signInAction,
+      clearSignInAction,
       signUp,
       signUpAction,
       signOut,
@@ -211,6 +221,7 @@ const AuthProvider = (props) => {
       forgotPasswordAction,
       signIn,
       signInAction,
+      clearSignInAction,
       signOut,
       signUp,
       signUpAction,

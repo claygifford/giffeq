@@ -11,18 +11,19 @@ import LazyDogComponent from "../dogs/lazy-dog-component";
 import styles from "./login-in.module.css";
 
 export default function LogInComponent() {
-  const { signIn, signInAction } = useAuth();
+  const { signIn, signInAction, clearSignInAction } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleSubmit = (event) => {
-    signIn({ username, password, rememberMe });
     event.preventDefault();
+    signIn({ username, password, rememberMe });
   };
 
-  const dismiss = () => {
-    console.log("about to be dismissed");
+  const dismiss = (event) => {
+    event.preventDefault();
+    clearSignInAction();
   };
 
   return (

@@ -19,8 +19,8 @@ export default function SignUpComponent() {
     event.preventDefault();
   };
 
-  const dismiss = () => {
-    console.log("about to be dismissed");
+  const dismiss = (event) => {
+    event.preventDefault();
   };
 
   return (
