@@ -14,17 +14,19 @@ export default function SignUpComponent() {
   const [password, setPassword] = useState("");
   const [rememberMe] = useState(false);
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     signUp({ username: email, password, rememberMe, email });
     event.preventDefault();
   }
 
+  const dismiss = () => {
+    console.log('about to be dismissed');
+  };
+
   return (
     <div className="flex w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-[400px] space-y-8">
-        <div
-          className="flex relative flex-col justify-center"
-        >
+        <div className="flex relative flex-col justify-center">
           <FlashNotesComponent />
           {/* <div className="flex justify-center">
             <NoteIcon className="fill-blue-600" />
@@ -33,8 +35,8 @@ export default function SignUpComponent() {
             Sign up with your email address
           </h2>
         </div>
-        <ErrorMessageComponent message={signUpAction.errorMessage} />
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <ErrorMessageComponent message={signUpAction.errorMessage} dismiss={dismiss} />
           <InputComponent
             id={'email-address'}
             name={'email'}

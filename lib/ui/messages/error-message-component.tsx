@@ -4,14 +4,11 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 type ErrorMessageProps = {
   message?: string;
+  dismiss?: () => void;
 };
 
 export default function ErrorMessageComponent(props: ErrorMessageProps) {
-  const { message } = props;
-  const [dismiss, setDismiss] = useState(false);
-  useEffect(() => {
-    setDismiss(false);
-  }, [message]);
+  const { message, dismiss } = props;
 
   if (!message || dismiss) return;
   return (
@@ -21,8 +18,8 @@ export default function ErrorMessageComponent(props: ErrorMessageProps) {
       <div className="ml-auto flex items-center">
         <button
           aria-label="Dismiss error button"
-          className="hover:bg-gray-500/50 rounded"
-          onClick={() => setDismiss(true)}
+          className="hover:bg-gray-500/50 rounded h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]"
+          onClick={() => dismiss()}
         >
           <XMarkIcon />
         </button>

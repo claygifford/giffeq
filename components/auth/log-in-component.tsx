@@ -16,10 +16,14 @@ export default function LogInComponent() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     signIn({ username, password, rememberMe });
     event.preventDefault();
   }
+
+  const dismiss = () => {
+    console.log('about to be dismissed');
+  };
 
   return (
     <div className="flex w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -31,8 +35,12 @@ export default function LogInComponent() {
             Sign in to your account
           </h2>
         </div>
-        <ErrorMessageComponent message={signInAction.errorMessage} />
+
         <form className="space-y-6" onSubmit={handleSubmit}>
+          <ErrorMessageComponent
+            message={signInAction.errorMessage}
+            dismiss={dismiss}
+          />
           <InputComponent
             id={'email-address'}
             name={'email'}
