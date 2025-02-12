@@ -1,6 +1,6 @@
-import styles from './thumbs-up-dog.module.css';
+import styles from "./thumbs-up-dog.module.css";
 
-import Image from 'next/image';
+import Image from "next/image";
 export default function ThumbsUpDogComponent() {
   return (
     <div className={styles.ThumbsUpDog}>

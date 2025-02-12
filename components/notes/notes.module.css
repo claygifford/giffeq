@@ -9,7 +9,7 @@
   right: 0px;
 }
 
-.Note1 {  
+.Note1 {
   @apply fill-blue-900 stroke-white;
   animation: pulse 2s linear infinite alternate;
   animation-delay: 1s;

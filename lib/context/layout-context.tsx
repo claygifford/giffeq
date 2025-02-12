@@ -92,7 +92,7 @@ const LayoutProvider = (props) => {
       }
       setMainPane(pane);
     },
-    [getHistory, getDecisions, playlist]
+    [getHistory, getDecisions, playlist],
   );
 
   const changePageMode = useCallback(

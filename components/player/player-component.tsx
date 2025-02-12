@@ -18,7 +18,8 @@ import { usePlaylist } from "../../lib/context/playlist-context";
 import SoundComponent from "./sound/sound-component";
 
 export default function PlayerComponent() {
-  const { currentTrack, pauseSong, resumeSong, dislikeSong, likeSong, track } = useMusic();
+  const { currentTrack, pauseSong, resumeSong, dislikeSong, likeSong, track } =
+    useMusic();
   const { playlist } = usePlaylist();
 
   const isPlaying = () => {
@@ -26,31 +27,28 @@ export default function PlayerComponent() {
   };
 
   const getTrackTime = () => {
-    if (track && track.progress_ms) 
-      return getMilliseconds(track.progress_ms);
+    if (track && track.progress_ms) return getMilliseconds(track.progress_ms);
 
-    return '00:00';
-  }
+    return "00:00";
+  };
 
   const getTrackDuration = () => {
     if (track && track.item && track.item.duration_ms)
-        return getMilliseconds(track.item.duration_ms);
-    return '00:00';
-  }
+      return getMilliseconds(track.item.duration_ms);
+    return "00:00";
+  };
 
   const getDuration = () => {
     if (track && track.progress_ms) {
       return { value: track.progress_ms, max: track.item.duration_ms };
-    } 
+    }
     return undefined;
-  }
+  };
   const duration = getDuration();
 
   const onPlay = () => {
-    if (isPlaying())
-      pauseSong();
-    else 
-      resumeSong();
+    if (isPlaying()) pauseSong();
+    else resumeSong();
   };
 
   const onLike = () => {
@@ -115,7 +113,7 @@ export default function PlayerComponent() {
           <div className="flex justify-center">
             <ButtonComponent
               variant="player"
-              aria-label={isPlaying() ? 'Pause Song' : 'Play Song'}
+              aria-label={isPlaying() ? "Pause Song" : "Play Song"}
               onClick={onPlay}
               //disabled={!canPlay}
             >
@@ -138,7 +136,7 @@ export default function PlayerComponent() {
                 value={duration.value}
                 min={0}
                 max={duration.max}
-                onChange={() => console.log('asd')}
+                onChange={() => console.log("asd")}
               ></RangeInputComponent>
             )}
             <div className="flex text-sm min-w[36px]">{getTrackDuration()}</div>
@@ -173,7 +171,7 @@ export default function PlayerComponent() {
       <div className={styles.ActionPanel}>
         <ButtonComponent
           variant="player"
-          aria-label={isPlaying() ? 'Pause Song' : 'Play Song'}
+          aria-label={isPlaying() ? "Pause Song" : "Play Song"}
           onClick={onDislike}
           // disabled={!canPlay}
         >
@@ -181,13 +179,13 @@ export default function PlayerComponent() {
         </ButtonComponent>
         <ButtonComponent
           variant="player"
-          aria-label={isPlaying() ? 'Pause Song' : 'Play Song'}
+          aria-label={isPlaying() ? "Pause Song" : "Play Song"}
           onClick={onLike}
           // disabled={!canPlay}
         >
           <HandThumbUpIcon className="fill-blue-900 h-8 w-8 min-h-[1.5rem] min-w-[1.5rem]" />
         </ButtonComponent>
-        <SoundComponent></SoundComponent>        
+        <SoundComponent></SoundComponent>
         <EllipsisVerticalIcon className="fill-blue-900 h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
       </div>
     </div>

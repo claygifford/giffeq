@@ -18,7 +18,7 @@ export const createRedisClientManualDispose = async (req?: NextApiRequest) => {
 
   await client.connect();
   if (req) {
-    const token = req.cookies['token'];
+    const token = req.cookies["token"];
     const id = await client.get(`token:${token}`);
     return { id, client };
   }

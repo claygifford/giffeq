@@ -2,9 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Year, setCookie } from "../../lib/cookies/cookies";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "../../src/aws-exports";
-import {
-  createRedisClientManualDispose,
-} from '../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { generateToken } from "./methods";
 
 Amplify.configure(awsExports);

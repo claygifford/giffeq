@@ -14,7 +14,7 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
     if (i.type === "album" || i.type === "track")
       return (
         <div className="flex px-2 gap-2 truncate ">
-          |{' '}
+          |{" "}
           {i.artists.map((artist) => {
             if (!artist) return;
             return <span key={artist.id}>{artist.name}</span>;
@@ -42,7 +42,7 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
   return (
     <div
       className={`flex rounded py-1 px-2 items-center bg-white border cursor-pointer ${
-        isSelected ? 'bg-indigo-200' : ''
+        isSelected ? "bg-indigo-200" : ""
       }`}
       onClick={onItemClick}
     >
@@ -90,13 +90,13 @@ export default function SearchComponent() {
         <div>Search</div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={'song-search'}
-            name={'song-search'}
-            type={'string'}
-            placeHolder={'Search for songs'}
+            id={"song-search"}
+            name={"song-search"}
+            type={"string"}
+            placeHolder={"Search for songs"}
             value={songSearch}
             onChange={(event) => onSearch(event.target.value)}
-            autoComplete={'off'}
+            autoComplete={"off"}
             spellCheck={false}
           >
             <>

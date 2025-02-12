@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from '../../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../../lib/clients/redis";
 import { HttpMethods, hasToken } from "../methods";
 import { Song } from "../../../lib/types/song";
 import { Playlist } from "../../../lib/types/playlist";
@@ -11,9 +11,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!hasToken(req, res)) return;
 
-  if (method === HttpMethods.get && query === 'query') {
+  if (method === HttpMethods.get && query === "query") {
     return getHistory(req, res);
-  } else if (method === 'PUT' && query === 'addSong') {
+  } else if (method === "PUT" && query === "addSong") {
     return addSongToHistory(req, res);
   }
 

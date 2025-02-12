@@ -8,7 +8,7 @@ import ErrorMessageComponent from "../../lib/ui/messages/error-message-component
 import BusyIcon from "../../lib/ui/icons/busy-icon";
 import NotesComponent from "../notes/notes-component";
 import LazyDogComponent from "../dogs/lazy-dog-component";
-import styles from './login-in.module.css';
+import styles from "./login-in.module.css";
 
 export default function LogInComponent() {
   const { signIn, signInAction } = useAuth();
@@ -19,10 +19,10 @@ export default function LogInComponent() {
   const handleSubmit = (event) => {
     signIn({ username, password, rememberMe });
     event.preventDefault();
-  }
+  };
 
   const dismiss = () => {
-    console.log('about to be dismissed');
+    console.log("about to be dismissed");
   };
 
   return (
@@ -42,32 +42,32 @@ export default function LogInComponent() {
             dismiss={dismiss}
           />
           <InputComponent
-            id={'email-address'}
-            name={'email'}
-            type={'email'}
-            label={'Email Address'}
-            autoComplete={'email'}
-            placeHolder={'Email Address'}
+            id={"email-address"}
+            name={"email"}
+            type={"email"}
+            label={"Email Address"}
+            autoComplete={"email"}
+            placeHolder={"Email Address"}
             required={true}
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
           <InputComponent
-            id={'password'}
-            name={'password'}
-            type={'password'}
-            label={'Password'}
-            autoComplete={'password'}
-            placeHolder={'Password'}
+            id={"password"}
+            name={"password"}
+            type={"password"}
+            label={"Password"}
+            autoComplete={"password"}
+            placeHolder={"Password"}
             required={true}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
           <div className="flex items-center justify-between">
             <CheckboxInputComponent
-              id={'remember-me'}
-              name={'remember-me'}
-              label={'Remember me'}
+              id={"remember-me"}
+              name={"remember-me"}
+              label={"Remember me"}
               value={rememberMe}
               onChange={(event) => setRememberMe(event.target.value)}
             />
@@ -82,11 +82,11 @@ export default function LogInComponent() {
           <div>
             <ButtonComponent
               labelText="Sign In"
-              type={'submit'}
+              type={"submit"}
               disabled={signInAction.isBusy}
             >
-              {signInAction.isBusy && <BusyIcon />}{' '}
-              {signInAction.isBusy ? 'Signing In...' : 'Sign In'}
+              {signInAction.isBusy && <BusyIcon />}{" "}
+              {signInAction.isBusy ? "Signing In..." : "Sign In"}
             </ButtonComponent>
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">

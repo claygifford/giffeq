@@ -59,21 +59,20 @@ export const tokenIsFresh = (connector: Connector) => {
   const value = connector.refresh_date > getTimestamp(0);
   console.log(
     `tokenIsFresh: ${value} | ${new Date(connector.refresh_date).toLocaleTimeString()} --- ${new Date(
-      getTimestamp(0)
-    ).toLocaleTimeString()}`
+      getTimestamp(0),
+    ).toLocaleTimeString()}`,
   );
   return value;
 };
 
 export const getTimestamp = (seconds) => {
   let date = new Date();
-  if (seconds)
-    date.setSeconds(date.getSeconds() + seconds);
+  if (seconds) date.setSeconds(date.getSeconds() + seconds);
   return date.getTime();
 };
 
 export const getMilliseconds = (millis) => {
   const minutes = Math.floor(millis / 60000);
   const seconds = ((millis % 60000) / 1000).toFixed(0);
-  return minutes + ':' + (+seconds < 10 ? '0' : '') + seconds;
+  return minutes + ":" + (+seconds < 10 ? "0" : "") + seconds;
 };

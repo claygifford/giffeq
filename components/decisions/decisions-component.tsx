@@ -26,7 +26,7 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   return (
     <div
       className={`flex rounded py-1 px-2 items-center bg-white border ${
-        isSelected ? 'bg-indigo-200' : ''
+        isSelected ? "bg-indigo-200" : ""
       }`}
     >
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
@@ -78,21 +78,19 @@ export default function DecisionsComponent() {
         <div>Decisions </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={'decision-search'}
-            name={'decision-search'}
-            type={'string'}
-            placeHolder={'Search decisions'}
+            id={"decision-search"}
+            name={"decision-search"}
+            type={"string"}
+            placeHolder={"Search decisions"}
             value={songSearch}
             onChange={(event) => onSearch(event.target.value)}
-            autoComplete={'off'}
+            autoComplete={"off"}
             spellCheck={false}
           >
             <>
-            
               <SideBarButtonComponent onClick={onClear}>
-                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-                </SideBarButtonComponent>
-              
+                <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+              </SideBarButtonComponent>
             </>
           </InputComponent>
         </div>

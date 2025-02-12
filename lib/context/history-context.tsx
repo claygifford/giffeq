@@ -29,7 +29,7 @@ const HistoryProvider = (props) => {
           isBusy: true,
           errorMessage: undefined,
         });
-        const result = await client.get<Query<Song>>('history/query', {
+        const result = await client.get<Query<Song>>("history/query", {
           playlistId: playlistId,
           start: 0,
           count: 50,

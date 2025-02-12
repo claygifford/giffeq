@@ -1,6 +1,6 @@
-import styles from './lazy-dog.module.css';
+import styles from "./lazy-dog.module.css";
 
-import Image from 'next/image';
+import Image from "next/image";
 export default function LazyDogComponent() {
   return (
     <div className={styles.LazyDog}>

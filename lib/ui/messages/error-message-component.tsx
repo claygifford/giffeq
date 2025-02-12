@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import HandRaisedIcon from "../icons/hand-raised-icon";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 

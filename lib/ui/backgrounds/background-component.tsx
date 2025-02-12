@@ -1,6 +1,6 @@
 import React from "react";
 import { useLayout } from "../../context/layout-context";
-import styles from './background.module.css';
+import styles from "./background.module.css";
 
 export default function BackgroundComponent() {
   const { colors } = useLayout();

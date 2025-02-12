@@ -1,4 +1,4 @@
-import styles from './flash-notes.module.css';
+import styles from "./flash-notes.module.css";
 
 export default function FlashNotesComponent() {
   return (

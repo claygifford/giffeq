@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from '../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { HttpMethods, generateToken, hasToken } from "./methods";
 import { Playlist } from "../../lib/types/playlist";
 
@@ -15,7 +15,7 @@ const getPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const playlistId: string = req.query.playlistId
       ? (req.query.playlistId as string)
-      : '';
+      : "";
 
     //await using redisClient = await createRedisClient(req);
     const redisClient = await createRedisClientManualDispose(req);

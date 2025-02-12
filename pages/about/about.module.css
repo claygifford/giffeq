@@ -4,7 +4,7 @@
 }
 
 .AboutHeader2 {
-  @apply text-4xl ;
+  @apply text-4xl;
   padding: 20px 0px 10px 0px;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .AboutHeader5 {
-    @apply text-xl text-blue-800;
+  @apply text-xl text-blue-800;
   padding: 20px 0px 10px 0px;
 }
 
@@ -45,11 +45,9 @@
 }
 
 .AboutThumbsUp {
-
 }
 
 .AboutThumbsDown {
-
 }
 
 @media only screen and (max-width: 600px) {

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from '../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { HttpMethods, hasToken } from "./methods";
 import { User } from "../../lib/types/user";
 

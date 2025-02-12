@@ -29,7 +29,7 @@ const DecisionProvider = (props) => {
           isBusy: true,
           errorMessage: undefined,
         });
-        const result = await client.get<Query<Decision>>('decisions/query', {
+        const result = await client.get<Query<Decision>>("decisions/query", {
           playlistId: playlistId,
           start: 0,
           count: 50,
@@ -47,22 +47,22 @@ const DecisionProvider = (props) => {
         });
       }
     },
-    [client, getDecisionsAction.isBusy]
+    [client, getDecisionsAction.isBusy],
   );
 
   const deleteDecision = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete('decisions/decision', {
+      await client.delete("decisions/decision", {
         playlistId: playlist.id,
         index: index,
       });
 
       decisions.items.splice(index, 1);
       setDecisions({
-        ...decisions
+        ...decisions,
       });
     },
-    [client, decisions]
+    [client, decisions],
   );
 
   const value = useMemo(
@@ -72,7 +72,7 @@ const DecisionProvider = (props) => {
       getDecisionsAction,
       decisions,
     }),
-    [deleteDecision, getDecisions, getDecisionsAction, decisions]
+    [deleteDecision, getDecisions, getDecisionsAction, decisions],
   );
 
   return (

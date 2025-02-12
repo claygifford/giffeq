@@ -11,7 +11,7 @@ import debounce from "lodash/debounce";
 import router from "next/router";
 import styles from "./about.module.css";
 import { useAuth } from "../../lib/context/auth-context";
-import ThumbsUpDogComponent from './../../components/dogs/thumbs-up-dog-component';
+import ThumbsUpDogComponent from "./../../components/dogs/thumbs-up-dog-component";
 import ThumbsDownDogComponent from "../../components/dogs/thumbs-down-dog-component";
 import VibingDogComponent from "../../components/dogs/vibing-dog-component";
 
@@ -27,32 +27,32 @@ export default function About() {
   const sections = useMemo(
     () => [
       {
-        id: 'section1',
-        name: 'Music Discovery',
+        id: "section1",
+        name: "Music Discovery",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section2',
-        name: 'Explore New Music',
+        id: "section2",
+        name: "Explore New Music",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section3',
-        name: 'Featured Playlists',
+        id: "section3",
+        name: "Featured Playlists",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section4',
-        name: 'The Stack',
+        id: "section4",
+        name: "The Stack",
         position: { top: 0, bottom: 0 },
       },
       {
-        id: 'section5',
-        name: 'About Me',
+        id: "section5",
+        name: "About Me",
         position: { top: 0, bottom: 0 },
       },
     ],
-    []
+    [],
   );
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function About() {
                 {user ? (
                   <button
                     aria-label="Go to Playlist"
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push("/")}
                     className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   >
                     Go to Playlist
@@ -131,14 +131,14 @@ export default function About() {
                   <div className="flex gap-3">
                     <button
                       aria-label="Sign up"
-                      onClick={() => router.push('/about/signup')}
+                      onClick={() => router.push("/about/signup")}
                       className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Sign up
                     </button>
                     <button
                       aria-label="Log in"
-                      onClick={() => router.push('/about/login')}
+                      onClick={() => router.push("/about/login")}
                       className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Log in
@@ -180,8 +180,8 @@ export default function About() {
             <div className={`${styles.AboutSectionTextRight}`}>
               <h1 className={styles.AboutHeader2}>Explore New Music</h1>
               <h2 className={styles.AboutHeader5}>
-                After a song plays, users could easily upvote or downvote 
-                songs to let the system know if they like it or not
+                After a song plays, users could easily upvote or downvote songs
+                to let the system know if they like it or not
               </h2>
             </div>
           </div>

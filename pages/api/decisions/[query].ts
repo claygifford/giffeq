@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedisClientManualDispose } from '../../../lib/clients/redis';
-import { HttpMethods, hasToken } from '../methods';
-import { Decision } from '../../../lib/types/song';
-import { Playlist } from '../../../lib/types/playlist';
-import { EmptyQuery, Query } from '../../../lib/types/query';
+import { NextApiRequest, NextApiResponse } from "next";
+import { createRedisClientManualDispose } from "../../../lib/clients/redis";
+import { HttpMethods, hasToken } from "../methods";
+import { Decision } from "../../../lib/types/song";
+import { Playlist } from "../../../lib/types/playlist";
+import { EmptyQuery, Query } from "../../../lib/types/query";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req.query;
@@ -11,15 +11,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!hasToken(req, res)) return;
 
-  if (method === HttpMethods.get && query === 'query') {
+  if (method === HttpMethods.get && query === "query") {
     return getDecisions(req, res);
-  } else if (HttpMethods.put && query === 'addSong') {
+  } else if (HttpMethods.put && query === "addSong") {
     return addSongToDecisions(req, res);
-  } else if (HttpMethods.delete && query === 'decision') {
+  } else if (HttpMethods.delete && query === "decision") {
     return deleteDecision(req, res);
   }
 
-  return res.status(405).send({ message: '405 Method Not Allowed' });
+  return res.status(405).send({ message: "405 Method Not Allowed" });
 }
 
 const getDecisions = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -52,7 +52,10 @@ const getDecisions = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const addSongToDecisions = async (req: NextApiRequest, res: NextApiResponse) => {
+const addSongToDecisions = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   try {
     const { playlistId } = req.query;
     const { song, like } = req.body;
@@ -76,7 +79,7 @@ const addSongToDecisions = async (req: NextApiRequest, res: NextApiResponse) => 
     await client.json.set(
       `playlists:${id}`,
       `${playlistId}.decisions`,
-      decisions
+      decisions,
     );
 
     res.send({});
@@ -103,9 +106,9 @@ const deleteDecision = async (req: NextApiRequest, res: NextApiResponse) => {
     await client.json.set(
       `playlists:${id}`,
       `${playlistId}.decisions`,
-      decisions
+      decisions,
     );
-    res.status(200).send({ message: '200 OK' });
+    res.status(200).send({ message: "200 OK" });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

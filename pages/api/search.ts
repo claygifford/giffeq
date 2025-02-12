@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from '../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { HttpMethods, hasToken } from "./methods";
 import { createApiClient } from "../../lib/clients/api";
 import { getSpotifyAccessToken } from "../../lib/clients/spotify";
@@ -22,9 +22,9 @@ const getSearch = async (req: NextApiRequest, res: NextApiResponse) => {
     const response = await apiClient.get<any>(
       `https://api.spotify.com/v1/search?q=${q}&type=${type}`,
       {
-        Authorization: 'Bearer ' + spotifyAccessToken,
-        'Content-Type': 'application/json',
-      }
+        Authorization: "Bearer " + spotifyAccessToken,
+        "Content-Type": "application/json",
+      },
     );
     res.status(200).json(response);
   } catch (e) {

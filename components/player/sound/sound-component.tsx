@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/solid';
-import ButtonComponent from '../../../lib/ui/button/button-component';
-import { useMusic } from '../../../lib/context/music-context';
-import RangeInputComponent from '../../../lib/ui/range/range-component';
+import React, { useState } from "react";
+import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
+import ButtonComponent from "../../../lib/ui/button/button-component";
+import { useMusic } from "../../../lib/context/music-context";
+import RangeInputComponent from "../../../lib/ui/range/range-component";
 
 export default function SoundComponent() {
-  const {volume, changeVolume } = useMusic();
+  const { volume, changeVolume } = useMusic();
   const [isMuted, setIsMuted] = useState(false);
 
   const onMuteToggle = () => {
     if (isMuted) {
-        changeVolume(0.5);
+      changeVolume(0.5);
     } else {
-        changeVolume(1);
+      changeVolume(1);
     }
     setIsMuted(!isMuted);
   };
@@ -21,7 +21,7 @@ export default function SoundComponent() {
     <div className="flex items-center">
       <ButtonComponent
         variant="player"
-        aria-label={isMuted ? 'Mute audio' : 'Unmute audio'}
+        aria-label={isMuted ? "Mute audio" : "Unmute audio"}
         onClick={onMuteToggle}
       >
         {isMuted ? (
@@ -36,7 +36,7 @@ export default function SoundComponent() {
         value={volume}
         min={0}
         max={1}
-        onChange={() => console.log('asd')}
+        onChange={() => console.log("asd")}
         orient="vertical"
       ></RangeInputComponent>
     </div>

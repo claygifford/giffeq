@@ -27,7 +27,7 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   return (
     <div
       className={`flex rounded py-1 px-2 items-center bg-white border ${
-        isSelected ? 'bg-indigo-200' : ''
+        isSelected ? "bg-indigo-200" : ""
       }`}
     >
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
@@ -58,7 +58,7 @@ export default function HistoryComponent() {
   const onSearch = (search: string) => {
     setSongSearch(search);
   };
-  
+
   const onClear = () => {
     //clearResults();
     setSongSearch("");
@@ -77,7 +77,7 @@ export default function HistoryComponent() {
     <div className={styles.History}>
       <div className="p-4">
         <div>
-          <div>History</div>{' '}
+          <div>History</div>{" "}
           <div>
             {history.start}-{history.count} of {history.total}
           </div>
@@ -87,13 +87,13 @@ export default function HistoryComponent() {
         </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={'history-search'}
-            name={'history-search'}
-            type={'string'}
-            placeHolder={'Search history'}
+            id={"history-search"}
+            name={"history-search"}
+            type={"string"}
+            placeHolder={"Search history"}
             value={songSearch}
             onChange={(event) => onSearch(event.target.value)}
-            autoComplete={'off'}
+            autoComplete={"off"}
             spellCheck={false}
           >
             <>

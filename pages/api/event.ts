@@ -24,7 +24,7 @@ const deleteEvent = async (req: NextApiRequest, res: NextApiResponse) => {
     history.splice(index, 1);
 
     await client.json.set(`playlists:${id}`, `${playlistId}.history`, history);
-    res.status(200).send({ message: '200 OK' });
+    res.status(200).send({ message: "200 OK" });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

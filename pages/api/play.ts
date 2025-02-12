@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from '../../lib/clients/redis';
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { HttpMethods, hasToken } from "./methods";
 import { Song } from "../../lib/types/song";
 
@@ -27,7 +27,7 @@ const play = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     await client.json.set(`playlists:${id}`, `${playlistId}.history`, history);
-    res.status(201).send({ message: '201 Created' });
+    res.status(201).send({ message: "201 Created" });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

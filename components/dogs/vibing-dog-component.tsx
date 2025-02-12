@@ -1,6 +1,6 @@
-import styles from './vibing-dog.module.css';
+import styles from "./vibing-dog.module.css";
 
-import Image from 'next/image';
+import Image from "next/image";
 export default function VibingDogComponent() {
   return (
     <div className={styles.VibingDog}>

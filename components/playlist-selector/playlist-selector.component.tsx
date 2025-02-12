@@ -3,9 +3,7 @@ import { usePlaylist } from "../../lib/context/playlist-context";
 import styles from "./player-selector.module.css";
 import { PageMode, useLayout } from "../../lib/context/layout-context";
 import LoadingComponent from "../../lib/ui/loading/loading-component";
-import {
-  PlayIcon,
-} from "@heroicons/react/24/outline";
+import { PlayIcon } from "@heroicons/react/24/outline";
 import InfoComponent from "../../lib/ui/info/info-component";
 
 export default function PlaylistSelectorComponent() {
@@ -59,9 +57,7 @@ export default function PlaylistSelectorComponent() {
   };
   if (getPlaylistsAction.isBusy) return <LoadingComponent></LoadingComponent>;
   if (playlists && playlists.length === 0)
-    return (
-      <InfoComponent></InfoComponent>
-    );
+    return <InfoComponent></InfoComponent>;
   return (
     <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">
       {playlists?.map((i) => (

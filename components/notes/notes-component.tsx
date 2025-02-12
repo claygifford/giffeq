@@ -1,4 +1,4 @@
-import styles from './notes.module.css';
+import styles from "./notes.module.css";
 
 export default function NotesComponent() {
   return (
