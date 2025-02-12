@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClient } from "../../lib/clients/redis";
+import { createRedisClientManualDispose } from '../../lib/clients/redis';
 import { HttpMethods, hasToken } from "./methods";
 import { Song } from "../../lib/types/song";
 import { Playlist } from "../../lib/types/playlist";
@@ -16,7 +16,8 @@ const getNextSong = async (req: NextApiRequest, res: NextApiResponse) => {
     // do I query for it?
     // do I build generic genre playlists?
     const { playlistId } = req.query;
-    await using redisClient = await createRedisClient(req);
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
     const playlist = (await client.json.get(`playlists:${id}`, {

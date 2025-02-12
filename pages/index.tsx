@@ -12,6 +12,7 @@ import PlaylistSelectorComponent from "../components/playlist-selector/playlist-
 import NewPlaylistComponent from "../components/new-playlist/new-playlist-component";
 import PlaylistSideBarComponent from "../components/side-bar/playlist-side-bar-component";
 import BackgroundComponent from "./../lib/ui/backgrounds/background-component";
+import SearchBackgroundComponent from "../lib/ui/backgrounds/search-background-component";
 
 export default function Home() {
   const { pageMode } = useLayout();
@@ -22,7 +23,7 @@ export default function Home() {
         return (
           <>
             <ContainerComponent>
-              <BackgroundComponent></BackgroundComponent>
+              <SearchBackgroundComponent></SearchBackgroundComponent>
               <SideBarComponent></SideBarComponent>
               <MainPanelComponent></MainPanelComponent>
               <ConnectorPanel />

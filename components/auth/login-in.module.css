@@ -1,0 +1,7 @@
+.LoginIn {
+  @apply w-full max-w-[400px] space-y-8 flex flex-col justify-center lg:gap-20 lg:flex-row lg:max-w-full;
+}
+
+.SignInContainer {
+  @apply relative flex flex-col justify-center;
+}

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { clearCookie } from "../../lib/cookies/cookies";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "../../src/aws-exports";
-import { createRedisClient } from "../../lib/clients/redis";
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 
 Amplify.configure(awsExports);
 
@@ -16,7 +16,8 @@ export default async function handler(
   }
   const token = req.cookies["token"];
   await Auth.signOut();
-  await using redisClient = await createRedisClient();
+  //await using redisClient = await createRedisClient();
+  const redisClient = await createRedisClientManualDispose();
   const { client } = redisClient;
   await client.del(`token:${token}`);
   clearCookie(res, "token");

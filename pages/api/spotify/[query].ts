@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
 import { serialize, CookieSerializeOptions } from "cookie";
 import { createApiClient } from "../../../lib/clients/api";
-import { createRedisClient } from "../../../lib/clients/redis";
+import { createRedisClientManualDispose } from '../../../lib/clients/redis';
 import { Connector } from "../../../lib/types/playlist";
 import { getTimestamp } from "../../../lib/clients/spotify";
+import { hasToken } from "../methods";
 
 const Env = {
   CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
@@ -13,17 +14,22 @@ const Env = {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!hasToken(req, res)) return;
   const { query } = req.query;
-  const { method } = req;
+  const { method } = req; 
 
-  if (method === "GET" && query === "login") {
+  if (method === 'GET' && query === 'login') {
     return login(res);
-  } else if (method === "GET" && query === "callback") {
+  } else if (method === 'GET' && query === 'callback') {
     return callback(req, res);
-  } else if (method === "GET" && query === "refresh_token") {
+  } else if (method === 'GET' && query === 'refresh_token') {
     return refreshToken(req, res);
-  } else if (method === "PUT" && query === "play") {
+  } else if (method === 'GET' && query === 'status') {
+    return status(req, res);
+  } else if (method === 'PUT' && query === 'play') {
     return play(req, res);
+  } else if (method === 'PUT' && query === 'pause') {
+    return pause(req, res);
   }
 
   res.end(`Query: ${query} Method: ${method}`);
@@ -111,8 +117,8 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const auth_token = Buffer.from(
         `${Env.CLIENT_ID}:${Env.CLIENT_SECRET}`,
-        "utf-8",
-      ).toString("base64");
+        'utf-8'
+      ).toString('base64');
 
       const response = await apiClient.post<{
         access_token: string;
@@ -122,18 +128,19 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
         scope: string;
         refresh_date: number;
       }>(
-        "https://accounts.spotify.com/api/token",
+        'https://accounts.spotify.com/api/token',
         {
           Authorization: `Basic ${auth_token}`,
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         new URLSearchParams({
           code: code as string,
-          grant_type: "authorization_code",
+          grant_type: 'authorization_code',
           redirect_uri: Env.REDIRECT_URI,
-        }),
+        })
       );
-      await using redisClient = await createRedisClient(req);
+      //await using redisClient = await createRedisClient(req);
+      const redisClient = await createRedisClientManualDispose(req);
       const { client, id } = redisClient;
 
       let connectors: { [key: string]: Connector };
@@ -146,9 +153,9 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       response.refresh_date = getTimestamp(response.expires_in);
-      connectors["spotify"] = response;
+      connectors['spotify'] = response;
       await client.json.set(`user:${id}`, `connectors`, connectors);
-      res.redirect("/");
+      res.redirect('/');
     } catch (e) {
       res.status(500).json({ message: e.message });
     }
@@ -162,8 +169,8 @@ const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const auth_token = Buffer.from(
       `${Env.CLIENT_ID}:${Env.CLIENT_SECRET}`,
-      "utf-8",
-    ).toString("base64");
+      'utf-8'
+    ).toString('base64');
 
     const response = await apiClient.post<{
       access_token: string;
@@ -173,18 +180,19 @@ const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
       scope: string;
       refresh_date: number;
     }>(
-      "https://accounts.spotify.com/api/token",
+      'https://accounts.spotify.com/api/token',
       {
         Authorization: `Basic ${auth_token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       new URLSearchParams({
         refresh_token: refresh_token as string,
-        grant_type: "refresh_token",
+        grant_type: 'refresh_token',
         client_id: Env.CLIENT_ID,
-      }),
+      })
     );
-    await using redisClient = await createRedisClient(req);
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
     let connectors: { [key: string]: Connector };
@@ -196,15 +204,15 @@ const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
       connectors = {} as { [key: string]: Connector };
     }
 
-    connectors["spotify"] = {
-      ...connectors["spotify"],
+    connectors['spotify'] = {
+      ...connectors['spotify'],
       ...{
         access_token: response.access_token,
         refresh_date: getTimestamp(response.expires_in),
       },
     };
     await client.json.set(`user:${id}`, `connectors`, connectors);
-    res.send(connectors["spotify"]);
+    res.send(connectors['spotify']);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -212,29 +220,84 @@ const refreshToken = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const play = async (req: NextApiRequest, res: NextApiResponse) => {
   const { device_id } = req.query;
-  const { uris } = req.body;
-  console.log(`play ${device_id} ${uris}`);
-  await using redisClient = await createRedisClient(req);
+  const { uris, position_ms } = req.body;
+  //await using redisClient = await createRedisClient(req);
+  const redisClient = await createRedisClientManualDispose(req);
   const { client, id } = redisClient;
 
   const connectors = await client.json.get(`user:${id}`, {
     path: `connectors`,
   });
 
-  const access_token = connectors["spotify"].access_token;
+  const access_token = connectors['spotify'].access_token;
 
   try {
     const apiClient = createApiClient();
     await apiClient.put(
-      "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
+      'https://api.spotify.com/v1/me/player/play?device_id=' + device_id,
       {
         Authorization: `Bearer ${access_token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      { uris },
+      { uris, position_ms }
+    );
+    res.send({});
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+const pause = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { device_id } = req.query;
+  //await using redisClient = await createRedisClient(req);
+  const redisClient = await createRedisClientManualDispose(req);
+  const { client, id } = redisClient;
+
+  const connectors = await client.json.get(`user:${id}`, {
+    path: `connectors`,
+  });
+
+  const access_token = connectors['spotify'].access_token;
+
+  try {
+    const apiClient = createApiClient();
+    await apiClient.put(
+      'https://api.spotify.com/v1/me/player/pause?device_id=' + device_id,
+      {
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+      },
+      {}
     );
 
     res.send({});
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+const status = async (req: NextApiRequest, res: NextApiResponse) => {
+  //await using redisClient = await createRedisClient(req);
+  const redisClient = await createRedisClientManualDispose(req);
+  const { client, id } = redisClient;
+
+  const connectors = await client.json.get(`user:${id}`, {
+    path: `connectors`,
+  });
+
+  const access_token = connectors['spotify'].access_token;
+
+  try {
+    const apiClient = createApiClient();
+    const response = await apiClient.get(
+      'https://api.spotify.com/v1/me/player/currently-playing',
+      {
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+      }
+    );
+    const code = response ? 200 : 204;
+    res.status(code).send(response);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClient } from "../../lib/clients/redis";
+import { createRedisClientManualDispose } from '../../lib/clients/redis';
 import { HttpMethods, generateToken, hasToken } from "./methods";
 import { Playlist } from "../../lib/types/playlist";
 
@@ -15,9 +15,10 @@ const getPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const playlistId: string = req.query.playlistId
       ? (req.query.playlistId as string)
-      : "";
+      : '';
 
-    await using redisClient = await createRedisClient(req);
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
     const playlist = (await client.json.get(`playlists:${id}`, {
@@ -33,7 +34,8 @@ const getPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
 const createPlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { name } = req.body;
-    await using redisClient = await createRedisClient(req);
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
     //const playlists = await client.json.get(`playlists:${id}`);
@@ -56,7 +58,8 @@ const deletePlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
       query: { playlistId },
     } = req;
 
-    await using redisClient = await createRedisClient(req);
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
     await client.json.del(`playlists:${id}`, playlistId as string);

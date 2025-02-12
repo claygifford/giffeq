@@ -1,9 +1,10 @@
-import { Song } from "./song";
+import { Decision, Song } from "./song";
 
 export type Playlist = {
   name: string;
   id: string;
   history: Song[];
+  decisions: Decision[];
   searches: string[];
 };
 

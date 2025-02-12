@@ -4,9 +4,6 @@ import styles from "./player-selector.module.css";
 import { PageMode, useLayout } from "../../lib/context/layout-context";
 import LoadingComponent from "../../lib/ui/loading/loading-component";
 import {
-  MusicalNoteIcon,
-  SparklesIcon,
-  LightBulbIcon,
   PlayIcon,
 } from "@heroicons/react/24/outline";
 import InfoComponent from "../../lib/ui/info/info-component";
@@ -26,7 +23,21 @@ export default function PlaylistSelectorComponent() {
   const getBackground = () => {
     return (
       <div className="absolute h-full w-full">
-        <div className={`flex absolute top-8 left-1/2 -translate-x-1/2`}>
+        <div className={`flex flex-col`}>
+          <div
+            className={`h-4`}
+            style={{ backgroundColor: `${colors[2]}` }}
+          ></div>
+          <div
+            className={`h-6`}
+            style={{ backgroundColor: `${colors[1]}` }}
+          ></div>
+          <div
+            className={`h-8`}
+            style={{ backgroundColor: `${colors[0]}` }}
+          ></div>
+        </div>
+        {/* <div className={`flex absolute top-8 left-1/2 -translate-x-1/2`}>
           <LightBulbIcon
             stroke={`${colors[0]}`}
             className={`h-8 w-8`}
@@ -39,7 +50,7 @@ export default function PlaylistSelectorComponent() {
             stroke={`${colors[2]}`}
             className={`h-8 w-8`}
           ></SparklesIcon>
-        </div>
+        </div> */}
         <div className={`flex absolute bottom-8 left-1/2 -translate-x-1/2`}>
           <PlayIcon className={`h-8 w-8 text-${colors[3]}-500`}></PlayIcon>
         </div>

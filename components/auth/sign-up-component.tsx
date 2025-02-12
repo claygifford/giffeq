@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import NoteIcon from "../../lib/ui/icons/note-icon";
 import ButtonComponent from "../../lib/ui/button/button-component";
 import InputComponent from "../../lib/ui/input/input-component";
 import { useAuth } from "../../lib/context/auth-context";
 import ErrorMessageComponent from "../../lib/ui/messages/error-message-component";
 import BusyIcon from "../../lib/ui/icons/busy-icon";
+import FlashNotesComponent from "../notes/flash-notes-component";
 
 export default function SignUpComponent() {
   const { signUp, signUpAction } = useAuth();
@@ -22,10 +22,13 @@ export default function SignUpComponent() {
   return (
     <div className="flex w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-[400px] space-y-8">
-        <div>
-          <div className="flex justify-center">
+        <div
+          className="flex relative flex-col justify-center"
+        >
+          <FlashNotesComponent />
+          {/* <div className="flex justify-center">
             <NoteIcon className="fill-blue-600" />
-          </div>
+          </div> */}
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign up with your email address
           </h2>
@@ -33,34 +36,34 @@ export default function SignUpComponent() {
         <ErrorMessageComponent message={signUpAction.errorMessage} />
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <InputComponent
-            id={"email-address"}
-            name={"email"}
-            type={"email"}
+            id={'email-address'}
+            name={'email'}
+            type={'email'}
             label={"What's your email?"}
-            autoComplete={"email"}
-            placeHolder={"Enter your email."}
+            autoComplete={'email'}
+            placeHolder={'Enter your email.'}
             required={true}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
           <InputComponent
-            id={"confirm-email-address"}
-            name={"confirm-email"}
-            type={"email"}
-            label={"Confirm your email"}
-            autoComplete={"password"}
-            placeHolder={"Enter your email again."}
+            id={'confirm-email-address'}
+            name={'confirm-email'}
+            type={'email'}
+            label={'Confirm your email'}
+            autoComplete={'password'}
+            placeHolder={'Enter your email again.'}
             required={true}
             value={confirmEmail}
             onChange={(event) => setConfirmEmail(event.target.value)}
           />
           <InputComponent
-            id={"password"}
-            name={"password"}
-            type={"password"}
-            label={"Create a password"}
-            autoComplete={"password"}
-            placeHolder={"Create a password."}
+            id={'password'}
+            name={'password'}
+            type={'password'}
+            label={'Create a password'}
+            autoComplete={'password'}
+            placeHolder={'Create a password.'}
             required={true}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -68,11 +71,11 @@ export default function SignUpComponent() {
           <div>
             <ButtonComponent
               labelText="Sign up"
-              type={"submit"}
+              type={'submit'}
               disabled={signUpAction.isBusy}
             >
-              {signUpAction.isBusy && <BusyIcon />}{" "}
-              {signUpAction.isBusy ? "Signing Up..." : "Sign up"}
+              {signUpAction.isBusy && <BusyIcon />}{' '}
+              {signUpAction.isBusy ? 'Signing Up...' : 'Sign up'}
             </ButtonComponent>
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">

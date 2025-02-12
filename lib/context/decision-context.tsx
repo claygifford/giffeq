@@ -1,42 +1,78 @@
-import React, { createContext, useCallback, useMemo } from "react";
+import React, { createContext, useCallback, useMemo, useState } from "react";
 import { createNextClient } from "../clients/next";
+import { Action } from "../types/action";
+import { Query, EmptyQuery } from "../types/query";
+import { Decision } from "../types/song";
 import { Playlist } from "../types/playlist";
 
 type DecisionValue = {
-  deleteEvent: (playlist: Playlist, index: number) => void;
-  getHistory: (playlistId: string) => void;
+  deleteDecision: (playlist: Playlist, index: number) => void;
+  getDecisions: (playlistId: string) => void;
+  getDecisionsAction: Action;
+  decisions: Query<Decision>;
 };
 
 const DecisionContext = createContext({} as DecisionValue);
 
 const DecisionProvider = (props) => {
   const client = createNextClient();
+  const [decisions, setDecisions] = useState<Query<Decision>>(EmptyQuery);
+  const [getDecisionsAction, setGetDecisionsAction] = useState<Action>({
+    isBusy: false,
+  });
 
-  const getHistory = useCallback(
+  const getDecisions = useCallback(
     async (playlistId: string) => {
-      await client.get("history", {
-        playlistId: playlistId,
-      });
+      if (getDecisionsAction.isBusy) return;
+      try {
+        setGetDecisionsAction({
+          isBusy: true,
+          errorMessage: undefined,
+        });
+        const result = await client.get<Query<Decision>>('decisions/query', {
+          playlistId: playlistId,
+          start: 0,
+          count: 50,
+        });
+        setDecisions(result);
+        setGetDecisionsAction({
+          isBusy: false,
+          errorMessage: undefined,
+        });
+      } catch (error) {
+        const item = await error.json();
+        setGetDecisionsAction({
+          isBusy: false,
+          errorMessage: item.message,
+        });
+      }
     },
-    [client],
+    [client, getDecisionsAction.isBusy]
   );
 
-  const deleteEvent = useCallback(
+  const deleteDecision = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete("event", {
+      await client.delete('decisions/decision', {
         playlistId: playlist.id,
         index: index,
       });
+
+      decisions.items.splice(index, 1);
+      setDecisions({
+        ...decisions
+      });
     },
-    [client],
+    [client, decisions]
   );
 
   const value = useMemo(
     () => ({
-      deleteEvent,
-      getHistory,
+      deleteDecision,
+      getDecisions,
+      getDecisionsAction,
+      decisions,
     }),
-    [deleteEvent, getHistory],
+    [deleteDecision, getDecisions, getDecisionsAction, decisions]
   );
 
   return (

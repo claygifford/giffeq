@@ -2,10 +2,10 @@ import { useRouter } from "next/router";
 import { usePlaylist } from "./playlist-context";
 import React, { createContext, useCallback, useMemo, useState } from "react";
 import { Playlist } from "../types/playlist";
-import { useSong } from "./song-context";
 import { useMusic } from "./music-context";
 import { useHistory } from "./history-context";
 import { getColor } from "../ui/colors/colors";
+import { useDecision } from "./decision-context";
 
 export const PanelMode = {
   Collapsed: 1,
@@ -49,9 +49,9 @@ const LayoutProvider = (props) => {
   const { asPath } = useRouter();
   const { playlist, setPlaylist, getPlaylistById, getPlaylists } =
     usePlaylist();
-  const { playNextSong } = useSong();
   const { clearSong } = useMusic();
   const { getHistory } = useHistory();
+  const { getDecisions } = useDecision();
 
   const [connectorPane, setConnectorPane] = useState<PanelModeType>(
     PanelMode.Collapsed,
@@ -82,11 +82,17 @@ const LayoutProvider = (props) => {
         case MainMode.History: {
           if (!playlist) return;
           getHistory(playlist.id);
+          break;
+        }
+        case MainMode.Decisions: {
+          if (!playlist) return;
+          getDecisions(playlist.id);
+          break;
         }
       }
       setMainPane(pane);
     },
-    [getHistory, playlist],
+    [getHistory, getDecisions, playlist]
   );
 
   const changePageMode = useCallback(
@@ -95,7 +101,7 @@ const LayoutProvider = (props) => {
         case PageMode.Listening:
           if (!list) return;
           setPlaylist(list);
-          playNextSong(list.id);
+          //playNextSong(list.id);
           getHistory(list.id);
           router.push(`/#listening/${list.id}`, undefined, { shallow: true });
           break;
@@ -113,7 +119,7 @@ const LayoutProvider = (props) => {
 
       setPageMode(pane);
     },
-    [setPlaylist, playNextSong, getHistory, router, clearSong, getPlaylists],
+    [setPlaylist, getHistory, router, clearSong, getPlaylists],
   );
 
   const initializeLayout = useCallback(async () => {

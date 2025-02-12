@@ -11,6 +11,9 @@ import debounce from "lodash/debounce";
 import router from "next/router";
 import styles from "./about.module.css";
 import { useAuth } from "../../lib/context/auth-context";
+import ThumbsUpDogComponent from './../../components/dogs/thumbs-up-dog-component';
+import ThumbsDownDogComponent from "../../components/dogs/thumbs-down-dog-component";
+import VibingDogComponent from "../../components/dogs/vibing-dog-component";
 
 export default function About() {
   const { user } = useAuth();
@@ -24,32 +27,32 @@ export default function About() {
   const sections = useMemo(
     () => [
       {
-        id: "section1",
-        name: "Choice 1",
+        id: 'section1',
+        name: 'Music Discovery',
         position: { top: 0, bottom: 0 },
       },
       {
-        id: "section2",
-        name: "Choice 2",
+        id: 'section2',
+        name: 'Explore New Music',
         position: { top: 0, bottom: 0 },
       },
       {
-        id: "section3",
-        name: "Choice 3",
+        id: 'section3',
+        name: 'Featured Playlists',
         position: { top: 0, bottom: 0 },
       },
       {
-        id: "section4",
-        name: "Choice 4",
+        id: 'section4',
+        name: 'The Stack',
         position: { top: 0, bottom: 0 },
       },
       {
-        id: "section5",
-        name: "Choice 5",
+        id: 'section5',
+        name: 'About Me',
         position: { top: 0, bottom: 0 },
       },
     ],
-    [],
+    []
   );
 
   useEffect(() => {
@@ -110,17 +113,16 @@ export default function About() {
         <div id="section1" ref={section1} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className={`${styles.AboutSectionTextLeft}`}>
-              <h1 className={styles.AboutHeader1}>
-                Playlist words that describe the product
-              </h1>
+              <h1 className={styles.AboutHeader1}>Likeness AI</h1>
               <h2 className={styles.AboutHeader3}>
-                Playlist words that describe the product
+                A personal project discovering music that uses Likeness AI for
+                music discovery. Sign up, Login, and see if I can match songs.
               </h2>
               <div className="pt-5">
                 {user ? (
                   <button
                     aria-label="Go to Playlist"
-                    onClick={() => router.push("/")}
+                    onClick={() => router.push('/')}
                     className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   >
                     Go to Playlist
@@ -129,14 +131,14 @@ export default function About() {
                   <div className="flex gap-3">
                     <button
                       aria-label="Sign up"
-                      onClick={() => router.push("/about/signup")}
+                      onClick={() => router.push('/about/signup')}
                       className="flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Sign up
                     </button>
                     <button
                       aria-label="Log in"
-                      onClick={() => router.push("/about/login")}
+                      onClick={() => router.push('/about/login')}
                       className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 hover:bg-blue-100 hover:ring-blue-300 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     >
                       Log in
@@ -148,8 +150,8 @@ export default function About() {
             <div
               className={`${styles.AboutSubsection} ${styles.Traveler} bg-red-500`}
             >
-              <div>Section 1</div>
-              <div>Image</div>
+              <div>Playlist</div>
+              <VibingDogComponent></VibingDogComponent>
             </div>
           </div>
         </div>
@@ -162,15 +164,24 @@ export default function About() {
             <div
               className={`${styles.AboutSubsection} ${styles.Selfish} bg-blue-500`}
             >
-              <div>Section 2</div>
-              <div>Image</div>
+              <div>Upvote</div>
+              <ThumbsUpDogComponent></ThumbsUpDogComponent>
+              <div>Downvote</div>
+              <ThumbsDownDogComponent></ThumbsDownDogComponent>
+              {/* <div className={styles.AboutThumbsSection}>
+                <div className={styles.AboutThumbsUp}>
+                  <ThumbsUpDogComponent></ThumbsUpDogComponent>
+                </div>
+                <div className={styles.AboutThumbsDown}>
+                  <ThumbsDownDogComponent></ThumbsDownDogComponent>
+                </div>
+              </div> */}
             </div>
             <div className={`${styles.AboutSectionTextRight}`}>
-              <h1 className={styles.AboutHeader2}>
-                Playlist words that describe the product
-              </h1>
-              <h2 className={styles.AboutHeader4}>
-                Playlist words that describe the product
+              <h1 className={styles.AboutHeader2}>Explore New Music</h1>
+              <h2 className={styles.AboutHeader5}>
+                After a song plays, users could easily upvote or downvote 
+                songs to let the system know if they like it or not
               </h2>
             </div>
           </div>
@@ -178,11 +189,11 @@ export default function About() {
         <div id="section3" ref={section3} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className={`${styles.AboutSectionTextLeft}`}>
-              <h1 className={styles.AboutHeader2}>
-                Playlist words that describe the product
-              </h1>
+              <h1 className={styles.AboutHeader2}>Featured Playlists</h1>
               <h2 className={styles.AboutHeader4}>
-                Playlist words that describe the product
+                Curated playlists to predict more specific tracks or even dive
+                into similar, lesser-known artists and tracks that a loved one
+                might not know about but would be a perfect fit.
               </h2>
             </div>
             <div
@@ -202,13 +213,12 @@ export default function About() {
             <div
               className={`${styles.AboutSubsection} ${styles.Selfish} bg-yellow-500`}
             >
-              <div>Section 4</div>
+              <div>Client</div>
+              <div>Server</div>
               <div>Image</div>
             </div>
             <div className={`${styles.AboutSectionTextRight}`}>
-              <h1 className={styles.AboutHeader2}>
-                Playlist words that describe the product
-              </h1>
+              <h1 className={styles.AboutHeader2}>The Stack</h1>
               <h2 className={styles.AboutHeader4}>
                 Playlist words that describe the product
               </h2>
@@ -218,11 +228,10 @@ export default function About() {
         <div id="section5" ref={section5} className={`${styles.AboutSection}`}>
           <div className="flex flex-1 h-4/6 max-w-6xl lg:flex-row flex-col">
             <div className={`${styles.AboutSectionTextLeft}`}>
-              <h1 className={styles.AboutHeader2}>
-                Playlist words that describe the product
-              </h1>
+              <h1 className={styles.AboutHeader2}>About Me</h1>
               <h2 className={styles.AboutHeader4}>
-                Playlist words that describe the product
+                Software developer, father. I decided to make this passion
+                project based on my take on AI. Enough said, login already.
               </h2>
             </div>
             <div

@@ -56,14 +56,24 @@ export const getSpotifyAccessToken = async (client, id) => {
 };
 
 export const tokenIsFresh = (connector: Connector) => {
+  const value = connector.refresh_date > getTimestamp(0);
   console.log(
-    `${new Date(connector.refresh_date).toLocaleTimeString()} --- ${new Date(
-      getTimestamp(0),
-    ).toLocaleTimeString()}`,
+    `tokenIsFresh: ${value} | ${new Date(connector.refresh_date).toLocaleTimeString()} --- ${new Date(
+      getTimestamp(0)
+    ).toLocaleTimeString()}`
   );
-  return connector.refresh_date > getTimestamp(0);
+  return value;
 };
 
 export const getTimestamp = (seconds) => {
-  return new Date(Date.now() + seconds * 1000).getTime();
+  let date = new Date();
+  if (seconds)
+    date.setSeconds(date.getSeconds() + seconds);
+  return date.getTime();
+};
+
+export const getMilliseconds = (millis) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ':' + (+seconds < 10 ? '0' : '') + seconds;
 };

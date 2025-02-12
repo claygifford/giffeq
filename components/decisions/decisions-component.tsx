@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./decisions.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import InputComponent from "../../lib/ui/input/input-component";
 import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
-import { useSearch } from "../../lib/context/search-context";
+import { useDecision } from "../../lib/context/decision-context";
+import DeleteButtonComponent from "../../lib/ui/buttons/delete-button";
+import PlayButtonComponent from "../../lib/ui/buttons/play-button";
+import { usePlaylist } from "../../lib/context/playlist-context";
+import { useMusic } from "../../lib/context/music-context";
 
-const ItemTemplate = ({ item, isSelected }) => {
+const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   const artist = (i) => {
     if (i.type === "album" || i.type === "track")
       return (
-        <div className="flex px-2 gap-2 truncate">
+        <div className="flex px-2 gap-2 truncate bg-white border">
           |{" "}
           {i.artists.map((artist) => {
             if (!artist) return;
@@ -21,12 +25,12 @@ const ItemTemplate = ({ item, isSelected }) => {
 
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center ${
-        isSelected ? "bg-indigo-200" : ""
+      className={`flex rounded py-1 px-2 items-center bg-white border ${
+        isSelected ? 'bg-indigo-200' : ''
       }`}
     >
-      {/* <PlayButtonComponent></PlayButtonComponent>
-      <DeleteButtonComponent></DeleteButtonComponent> */}
+      <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
+      <DeleteButtonComponent onClick={onDelete}></DeleteButtonComponent>
       <div className="font-medium truncate">{item.name}</div>
       {artist(item)}
     </div>
@@ -34,7 +38,39 @@ const ItemTemplate = ({ item, isSelected }) => {
 };
 
 export default function DecisionsComponent() {
-  const { currentResults } = useSearch();
+  const { decisions, deleteDecision } = useDecision();
+  const { playSong } = useMusic();
+  const { playlist } = usePlaylist();
+
+  const [songSearch, setSongSearch] = useState("");
+
+  const onPlay = (item) => {
+    item.type = "track";
+    playSong(item, playlist.id, true);
+  };
+
+  const onDelete = (index: number) => {
+    deleteDecision(playlist, index);
+  };
+
+  const getResults = () => {
+    if (decisions) {
+      console.log(`${JSON.stringify(decisions.items)}`);
+      if (songSearch)
+        return decisions.items.filter((h) => h.song.name.includes(songSearch));
+      return decisions.items;
+    }
+    return [];
+  };
+
+  const onSearch = (search: string) => {
+    setSongSearch(search);
+  };
+
+  const onClear = () => {
+    //clearResults();
+    setSongSearch("");
+  };
 
   return (
     <div className={styles.Decisions}>
@@ -42,32 +78,38 @@ export default function DecisionsComponent() {
         <div>Decisions </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={"song-search"}
-            name={"song-search"}
-            type={"string"}
-            placeHolder={"Search for songs"}
-            autoComplete={"off"}
+            id={'decision-search'}
+            name={'decision-search'}
+            type={'string'}
+            placeHolder={'Search decisions'}
+            value={songSearch}
+            onChange={(event) => onSearch(event.target.value)}
+            autoComplete={'off'}
             spellCheck={false}
           >
             <>
-              <SideBarButtonComponent>
-                <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
-              </SideBarButtonComponent>
+            
+              <SideBarButtonComponent onClick={onClear}>
+                  <XMarkIcon className="h-6 w-6 min-h-[1.5rem] min-w-[1.5rem]" />
+                </SideBarButtonComponent>
+              
             </>
           </InputComponent>
         </div>
       </div>
-      <div className="px-4 overflow-auto">
-        {currentResults &&
-          currentResults.map((result) => {
-            return (
-              <ItemTemplate
-                item={result}
-                key={result.id}
-                isSelected={1 === result.id}
-              />
-            );
-          })}
+      <div className="px-4 overflow-auto flex flex-col gap-1">
+        {getResults().map((result, i) => {
+          return (
+            <ItemTemplate
+              onPlay={onPlay}
+              onDelete={() => onDelete(i)}
+              item={result}
+              key={i}
+              isSelected={false}
+              //isSelected={currentSong.id === result.id}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -4,7 +4,11 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 10px);
+  /* box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075); */
+  margin: 5px;
+  filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+  background: white;
 }
 
 .CurrentSongContainer {
@@ -47,4 +51,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.CurrentSongImgContainer {
+  position: absolute;
+  height: 200px;
+  width: 200px;
+  height: 200px;
+  bottom: 116px;
+  border: 5px solid white;
+}
+
+.AudioPlayerControls {
+  display: flex;
+  flex-direction: column;
 }

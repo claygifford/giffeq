@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import NoteIcon from "../../lib/ui/icons/note-icon";
 import InputComponent from "../../lib/ui/input/input-component";
 import ButtonComponent from "../../lib/ui/button/button-component";
 import CheckboxInputComponent from "../../lib/ui/input/checkbox-input-component";
 import { useAuth } from "../../lib/context/auth-context";
 import ErrorMessageComponent from "../../lib/ui/messages/error-message-component";
 import BusyIcon from "../../lib/ui/icons/busy-icon";
+import NotesComponent from "../notes/notes-component";
+import LazyDogComponent from "../dogs/lazy-dog-component";
+import styles from './login-in.module.css';
 
 export default function LogInComponent() {
   const { signIn, signInAction } = useAuth();
@@ -21,44 +23,43 @@ export default function LogInComponent() {
 
   return (
     <div className="flex w-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-[400px] space-y-8">
-        <div>
-          <div className="flex justify-center">
-            <NoteIcon className="fill-blue-600" />
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+      <div className={styles.LoginIn}>
+        <div className={styles.SignInContainer}>
+          <NotesComponent></NotesComponent>
+          <LazyDogComponent></LazyDogComponent>
+          <h2 className="pt-2 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign in to your account
           </h2>
         </div>
         <ErrorMessageComponent message={signInAction.errorMessage} />
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <InputComponent
-            id={"email-address"}
-            name={"email"}
-            type={"email"}
-            label={"Email Address"}
-            autoComplete={"email"}
-            placeHolder={"Email Address"}
+            id={'email-address'}
+            name={'email'}
+            type={'email'}
+            label={'Email Address'}
+            autoComplete={'email'}
+            placeHolder={'Email Address'}
             required={true}
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
           <InputComponent
-            id={"password"}
-            name={"password"}
-            type={"password"}
-            label={"Password"}
-            autoComplete={"password"}
-            placeHolder={"Password"}
+            id={'password'}
+            name={'password'}
+            type={'password'}
+            label={'Password'}
+            autoComplete={'password'}
+            placeHolder={'Password'}
             required={true}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
           <div className="flex items-center justify-between">
             <CheckboxInputComponent
-              id={"remember-me"}
-              name={"remember-me"}
-              label={"Remember me"}
+              id={'remember-me'}
+              name={'remember-me'}
+              label={'Remember me'}
               value={rememberMe}
               onChange={(event) => setRememberMe(event.target.value)}
             />
@@ -73,11 +74,11 @@ export default function LogInComponent() {
           <div>
             <ButtonComponent
               labelText="Sign In"
-              type={"submit"}
+              type={'submit'}
               disabled={signInAction.isBusy}
             >
-              {signInAction.isBusy && <BusyIcon />}{" "}
-              {signInAction.isBusy ? "Signing In..." : "Sign In"}
+              {signInAction.isBusy && <BusyIcon />}{' '}
+              {signInAction.isBusy ? 'Signing In...' : 'Sign In'}
             </ButtonComponent>
           </div>
           <p className="mt-2 text-center text-lg text-gray-600">

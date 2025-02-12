@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Year, setCookie } from "../../lib/cookies/cookies";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "../../src/aws-exports";
-import { createRedisClient } from "../../lib/clients/redis";
+import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { generateToken } from "./methods";
 
 Amplify.configure(awsExports);
@@ -32,7 +32,8 @@ export default async function handler(
     });
 
     const token = generateToken();
-    await using redisClient = await createRedisClient();
+    //await using redisClient = await createRedisClient();
+    const redisClient = await createRedisClientManualDispose();    
     const { client } = redisClient;
     const user = {
       username: username,

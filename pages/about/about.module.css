@@ -4,7 +4,7 @@
 }
 
 .AboutHeader2 {
-  @apply text-4xl;
+  @apply text-4xl ;
   padding: 20px 0px 10px 0px;
 }
 
@@ -15,6 +15,11 @@
 
 .AboutHeader4 {
   @apply text-xl text-gray-600;
+  padding: 20px 0px 10px 0px;
+}
+
+.AboutHeader5 {
+    @apply text-xl text-blue-800;
   padding: 20px 0px 10px 0px;
 }
 
@@ -33,6 +38,18 @@
 
 .AboutSectionTextRight {
   @apply my-10 mx-10 lg:my-0 lg:mx-10 lg:pl-20 flex flex-1 flex-col justify-center items-start rounded-lg;
+}
+
+.AboutThumbsSection {
+  @apply flex;
+}
+
+.AboutThumbsUp {
+
+}
+
+.AboutThumbsDown {
+
 }
 
 @media only screen and (max-width: 600px) {

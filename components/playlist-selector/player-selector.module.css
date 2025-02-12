@@ -6,6 +6,10 @@
   width: 160px;
   height: 240px;
 }
+.SelectorItem:hover {
+  
+}
+
 
 .SelectorNewItem {
   @apply flex items-center justify-center cursor-pointer bg-red-300 rounded border-2 border-red-400;

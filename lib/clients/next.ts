@@ -25,6 +25,7 @@ export const createNextClient = () => {
           response.type;
           throw response;
         }
+        if (response.status === 204) return;
         return response.json() as Promise<T>;
       });
     },

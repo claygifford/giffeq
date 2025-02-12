@@ -1,0 +1,41 @@
+.FlashNoteContainer {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: -1;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.FlashNote1 {  
+  @apply fill-blue-900 stroke-white;
+  animation: pulse 2s linear infinite alternate;
+  animation-delay: 1s;
+}
+
+.FlashNote2 {
+  @apply fill-red-500 stroke-white;
+  animation: pulse 2.2s linear infinite alternate;
+  animation-delay: 1.5s;
+}
+
+.FlashNote3 {
+  @apply fill-blue-300 stroke-white;
+  animation: pulse 2.4s linear infinite alternate;
+  animation-delay: 0.8s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    -webkit-transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(0px, 10px);
+    -ms-transform: translate(0px, 10px);
+    -webkit-transform: translate(0px, 10px);
+  }
+}

@@ -14,7 +14,7 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
   const artist = (i) => {
     if (i.type === "album" || i.type === "track")
       return (
-        <div className="flex px-2 gap-2 truncate">
+        <div className="flex px-2 gap-2 truncate bg-white border">
           |{" "}
           {i.artists.map((artist) => {
             if (!artist) return;
@@ -26,8 +26,8 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
 
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center ${
-        isSelected ? "bg-indigo-200" : ""
+      className={`flex rounded py-1 px-2 items-center bg-white border ${
+        isSelected ? 'bg-indigo-200' : ''
       }`}
     >
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
@@ -47,7 +47,7 @@ export default function HistoryComponent() {
 
   const onPlay = (item) => {
     item.type = "track";
-    playSong(item, true);
+    playSong(item, playlist.id, true);
   };
 
   const onDelete = (index: number) => {
@@ -58,7 +58,7 @@ export default function HistoryComponent() {
   const onSearch = (search: string) => {
     setSongSearch(search);
   };
-
+  
   const onClear = () => {
     //clearResults();
     setSongSearch("");
@@ -77,7 +77,7 @@ export default function HistoryComponent() {
     <div className={styles.History}>
       <div className="p-4">
         <div>
-          <div>History</div>{" "}
+          <div>History</div>{' '}
           <div>
             {history.start}-{history.count} of {history.total}
           </div>
@@ -87,13 +87,13 @@ export default function HistoryComponent() {
         </div>
         <div className="flex flex-col gap-2">
           <InputComponent
-            id={"song-search"}
-            name={"song-search"}
-            type={"string"}
-            placeHolder={"Search history"}
+            id={'history-search'}
+            name={'history-search'}
+            type={'string'}
+            placeHolder={'Search history'}
             value={songSearch}
             onChange={(event) => onSearch(event.target.value)}
-            autoComplete={"off"}
+            autoComplete={'off'}
             spellCheck={false}
           >
             <>
@@ -105,7 +105,7 @@ export default function HistoryComponent() {
           </InputComponent>
         </div>
       </div>
-      <div className="px-4 overflow-auto">
+      <div className="px-4 overflow-auto flex flex-col gap-1">
         {getResults().map((result, i) => {
           return (
             <ItemTemplate
