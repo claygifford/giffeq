@@ -2,16 +2,78 @@
   /* @apply flex items-center justify-center cursor-pointer bg-slate-300 rounded border-2 border-slate-400;
   @apply hover:bg-slate-500; */
   @apply flex items-center justify-center cursor-pointer bg-white rounded border border-neutral-400/50 drop-shadow-xl;
-  @apply hover:bg-gray-300;
   width: 160px;
   height: 240px;
-}
-.SelectorItem:hover {
+  font-size: medium;
+
+  /* animation-timing-function: ease; */
+  animation-name: in;
+  animation-duration: 0.25s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
 }
 
-.SelectorNewItem {
-  @apply flex items-center justify-center cursor-pointer bg-red-300 rounded border-2 border-red-400;
-  @apply hover:bg-red-500;
-  width: 160px;
-  height: 240px;
+.SelectorItem:hover .SelectorItemOverlay {
+  /* background-color: rgba(255, 255, 255, 0.107); */
+  outline: 8px solid rgba(219, 188, 188, 0.3);
+  outline-offset: 1px;
+  animation-name: hover;
+  animation-duration: 0.2s;
+  /* animation-timing-function: ease; */
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.SelectorItem:hover {
+  animation-name: out;
+  animation-duration: 0.25s;
+  /* animation-timing-function: ease; */
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+.SelectorItemOverlay {
+  /* @apply rounded border-2 border-slate-400 outline-2 outline-offset-2 outline-rose-500; */
+  /* border-radius: 2rem; */
+  /* transition: 0.1s;
+  transition-timing-function: ease-in; */
+  @apply rounded h-full w-full absolute top-0 left-0;
+}
+
+@keyframes hover {
+  0% {
+    outline-color: rgba(255, 255, 255, 0);
+  }
+  100% {
+    outline-color: rgba(167, 167, 167, 0.1);
+  }
+}
+
+@keyframes in {
+  0% {
+    width: 200px;
+    height: 260px;
+    margin-top: 0px;
+    font-size: large;
+  }
+  100% {
+    width: 160px;
+    height: 240px;
+    margin-top: 20px;
+    font-size: medium;
+  }
+}
+
+@keyframes out {
+  0% {
+    width: 160px;
+    height: 240px;
+    margin-top: 20px;
+    font-size: medium;
+  }
+  100% {
+    width: 200px;
+    height: 260px;
+    margin-top: 0px;
+    font-size: large;
+  }
 }

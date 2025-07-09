@@ -5,6 +5,8 @@ import { PageMode, useLayout } from "../../lib/context/layout-context";
 import LoadingComponent from "../../lib/ui/loading/loading-component";
 import { PlayIcon } from "@heroicons/react/24/outline";
 import InfoComponent from "../../lib/ui/info/info-component";
+import LineBackgroundComponent from "../cards/line-background-component";
+import CandyBackgroundComponent from "../cards/candy-background-component";
 
 export default function PlaylistSelectorComponent() {
   const { playlists, getPlaylistsAction } = usePlaylist();
@@ -18,56 +20,44 @@ export default function PlaylistSelectorComponent() {
     }
   };
 
-  const getBackground = () => {
+  const getBackgroundCandy = (index: number) => {
+    if (index === 0)
+      return (
+        <LineBackgroundComponent colors={colors}></LineBackgroundComponent>
+      );
+    return (
+      <CandyBackgroundComponent
+        colors={colors}
+        index={index}
+      ></CandyBackgroundComponent>
+    );
+  };
+
+  const getBackground = (index: number) => {
     return (
       <div className="absolute h-full w-full">
-        <div className={`flex flex-col`}>
-          <div
-            className={`h-4`}
-            style={{ backgroundColor: `${colors[2]}` }}
-          ></div>
-          <div
-            className={`h-6`}
-            style={{ backgroundColor: `${colors[1]}` }}
-          ></div>
-          <div
-            className={`h-8`}
-            style={{ backgroundColor: `${colors[0]}` }}
-          ></div>
-        </div>
-        {/* <div className={`flex absolute top-8 left-1/2 -translate-x-1/2`}>
-          <LightBulbIcon
-            stroke={`${colors[0]}`}
-            className={`h-8 w-8`}
-          ></LightBulbIcon>
-          <MusicalNoteIcon
-            stroke={`${colors[1]}`}
-            className={`h-8 w-8`}
-          ></MusicalNoteIcon>
-          <SparklesIcon
-            stroke={`${colors[2]}`}
-            className={`h-8 w-8`}
-          ></SparklesIcon>
-        </div> */}
+        {getBackgroundCandy(index)}
         <div className={`flex absolute bottom-8 left-1/2 -translate-x-1/2`}>
           <PlayIcon className={`h-8 w-8 text-${colors[3]}-500`}></PlayIcon>
         </div>
       </div>
     );
   };
+
   if (getPlaylistsAction.isBusy) return <LoadingComponent></LoadingComponent>;
   if (playlists && playlists.length === 0)
     return <InfoComponent></InfoComponent>;
   return (
     <div className="flex flex-1 flex-wrap content-center items-center justify-center gap-4">
-      {playlists?.map((i) => (
+      {playlists?.map((i, index) => (
         <div
           key={i.id}
           className={styles.SelectorItem}
           onClick={() => onSelectPlaylist(i)}
         >
-          {getBackground()}
-          {i.name}
+          {getBackground(index)}
+          <div className={`z-0 bg-white`}>{i.name}</div>
+          <div className={styles.SelectorItemOverlay}></div>
         </div>
       ))}
     </div>

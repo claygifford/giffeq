@@ -76,3 +76,24 @@ export const getMilliseconds = (millis) => {
   const seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (+seconds < 10 ? "0" : "") + seconds;
 };
+
+export const getRelativeTime = (timestamp) => {
+  const now = new Date();
+  const diffInMs = timestamp - now.getTime();
+  const diffInSeconds = Math.round(diffInMs / 1000);
+  const diffInMinutes = Math.round(diffInSeconds / 60);
+  const diffInHours = Math.round(diffInMinutes / 60);
+  const diffInDays = Math.round(diffInHours / 24);
+
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+
+  if (Math.abs(diffInSeconds) < 60) {
+    return rtf.format(diffInSeconds, "second");
+  } else if (Math.abs(diffInMinutes) < 60) {
+    return rtf.format(diffInMinutes, "minute");
+  } else if (Math.abs(diffInHours) < 24) {
+    return rtf.format(diffInHours, "hour");
+  } else {
+    return rtf.format(diffInDays, "day");
+  }
+};

@@ -9,44 +9,50 @@ import PlayButtonComponent from "../../lib/ui/buttons/play-button";
 import { useMusic } from "../../lib/context/music-context";
 import DeleteButtonComponent from "../../lib/ui/buttons/delete-button";
 import { useHistory } from "../../lib/context/history-context";
+import { HistoryData } from "../../lib/types/song";
+import { getMilliseconds, getRelativeTime } from "../../lib/clients/spotify";
+import Image from "next/image";
 
-const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
-  const artist = (i) => {
-    if (i.type === "album" || i.type === "track")
-      return (
-        <div className="flex px-2 gap-2 truncate bg-white border">
-          |{" "}
-          {i.artists.map((artist) => {
-            if (!artist) return;
-            return <span key={artist.id}>{artist.name}</span>;
-          })}
-        </div>
-      );
-  };
+type Item = {
+  item: HistoryData;
+  onDelete: () => void;
+  onPlay: (item: HistoryData) => void;
+  isSelected: boolean;
+};
 
+const ItemTemplate = ({ item, onPlay, onDelete, isSelected }: Item) => {
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center bg-white border ${
-        isSelected ? "bg-indigo-200" : ""
+      className={`flex gap-2 p-1 items-center border ${
+        isSelected ? "bg-blue-100" : "bg-white"
       }`}
     >
+      <Image
+        src={item.album.images[0].url}
+        width={32}
+        height={32}
+        alt="Picture of the artist"
+      />
+      <div className="font-medium truncate">{item.name}</div>
+      <div className="truncate">{item.group}</div>
+      <div className="grow"></div>
+      <div>{getRelativeTime(item.timestamp)}</div>
+      <div>{item.count}</div>
+      <div>{getMilliseconds(item.track.duration_ms)}</div>
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
       <DeleteButtonComponent onClick={onDelete}></DeleteButtonComponent>
-      <div className="font-medium truncate">{item.name}</div>
-      {artist(item)}
     </div>
   );
 };
 
 export default function HistoryComponent() {
   const { deleteEvent, history } = useHistory();
-  const { playSong } = useMusic();
+  const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
   const [songSearch, setSongSearch] = useState("");
 
-  const onPlay = (item) => {
-    item.type = "track";
+  const onPlay = (item: HistoryData) => {
     playSong(item, playlist.id, true);
   };
 
@@ -61,6 +67,7 @@ export default function HistoryComponent() {
 
   const onClear = () => {
     //clearResults();
+    console.log("onClear");
     setSongSearch("");
   };
 
@@ -77,7 +84,7 @@ export default function HistoryComponent() {
     <div className={styles.History}>
       <div className="p-4">
         <div>
-          <div>History</div>{" "}
+          <div className={styles.HistoryHeader}>History</div>{" "}
           <div>
             {history.start}-{history.count} of {history.total}
           </div>
@@ -113,8 +120,7 @@ export default function HistoryComponent() {
               onDelete={() => onDelete(i)}
               item={result}
               key={i}
-              isSelected={false}
-              //isSelected={currentSong.id === result.id}
+              isSelected={currentSong && currentSong.uri === result.uri}
             />
           );
         })}

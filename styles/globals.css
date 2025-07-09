@@ -80,3 +80,19 @@ a {
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "DsDigital";
+  src: url("../fonts/DS-Digital.ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "digital7";
+  src: url("../fonts/digital-7.ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

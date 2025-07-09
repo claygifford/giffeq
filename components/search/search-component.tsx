@@ -4,12 +4,17 @@ import { useMusic } from "../../lib/context/music-context";
 import BusyIcon from "../../lib/ui/icons/busy-icon";
 import InputComponent from "../../lib/ui/input/input-component";
 import SideBarButtonComponent from "../../lib/ui/side-bar/side-bar-button-component";
-
+import ImageComponent from "../image/image-component";
 import styles from "./search.module.css";
-import { useSearch } from "../../lib/context/search-context";
+import { SearchItem, useSearch } from "../../lib/context/search-context";
 import { usePlaylist } from "../../lib/context/playlist-context";
 
-const ItemTemplate = ({ item, onClick, isSelected }) => {
+type ItemType = {
+  item: SearchItem;
+  onClick: (item: SearchItem) => void;
+  isSelected: boolean;
+};
+const ItemTemplate = ({ item, onClick, isSelected }: ItemType) => {
   const artist = (i) => {
     if (i.type === "album" || i.type === "track")
       return (
@@ -41,13 +46,14 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
 
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center bg-white border cursor-pointer ${
+      className={`flex gap-4 rounded py-1 px-2 items-center bg-white border cursor-pointer ${
         isSelected ? "bg-indigo-200" : ""
       }`}
       onClick={onItemClick}
     >
+      <ImageComponent item={item}></ImageComponent>
       <div className="font-medium truncate">{item.name}</div>
-      {artist(item)}
+      <div className="truncate">{artist(item)}</div>
       <div className={`${getClass()} rounded px-2 py-1 text-white ml-auto`}>
         {item.type}
       </div>
@@ -56,7 +62,7 @@ const ItemTemplate = ({ item, onClick, isSelected }) => {
 };
 
 export default function SearchComponent() {
-  const { playSong } = useMusic();
+  const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
   const { isSearchingMusic, searchMusic, currentResults, clearResults } =
@@ -116,7 +122,7 @@ export default function SearchComponent() {
                 onClick={onItemClick}
                 item={result}
                 key={result.id}
-                isSelected={1 === result.id}
+                isSelected={currentSong && currentSong.uri === result.uri}
               />
             );
           })}

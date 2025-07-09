@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from "../../lib/clients/redis";
-import { HttpMethods, hasToken } from "./methods";
-import { Preferences } from "../../lib/types/playlist";
+import { createRedisClientManualDispose } from "../../../lib/clients/redis";
+import { HttpMethods, hasToken } from "../methods";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!hasToken(req, res)) return;
@@ -11,21 +10,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 const setPreference = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    //const { playlistId } = req.query;
+    const { preferences } = req.body;
+
     //await using redisClient = await createRedisClient(req);
     const redisClient = await createRedisClientManualDispose(req);
     const { client, id } = redisClient;
 
-    let preferences: Preferences;
-    try {
-      preferences = (await client.json.get(`user:${id}`, {
-        path: `preferences`,
-      })) as Preferences;
-    } catch {
-      preferences = {} as Preferences;
-    }
-
-    res.send(preferences);
+    await client.json.set(`user:${id}`, `preferences`, preferences);
+    res.send({});
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

@@ -1,3 +1,7 @@
 .History {
   @apply flex flex-col flex-1;
 }
+
+.HistoryHeader {
+  @apply text-xl text-blue-900;
+}

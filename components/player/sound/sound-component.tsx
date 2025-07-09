@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
 import ButtonComponent from "../../../lib/ui/button/button-component";
 import { useMusic } from "../../../lib/context/music-context";
@@ -6,15 +6,19 @@ import RangeInputComponent from "../../../lib/ui/range/range-component";
 
 export default function SoundComponent() {
   const { volume, changeVolume } = useMusic();
-  const [isMuted, setIsMuted] = useState(false);
 
+  const onUpdateSimple = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeVolume(+e.target.value);
+  };
+
+  const isMuted = volume === 0;
   const onMuteToggle = () => {
-    if (isMuted) {
-      changeVolume(0.5);
+    const value = !isMuted;
+    if (value) {
+      changeVolume(0);
     } else {
       changeVolume(1);
     }
-    setIsMuted(!isMuted);
   };
 
   return (
@@ -31,12 +35,12 @@ export default function SoundComponent() {
         )}
       </ButtonComponent>
 
-      <div>{volume}</div>
       <RangeInputComponent
         value={volume}
         min={0}
         max={1}
-        onChange={() => console.log("asd")}
+        step={0.1}
+        onChange={onUpdateSimple}
         orient="vertical"
       ></RangeInputComponent>
     </div>

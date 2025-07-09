@@ -1,6 +1,6 @@
 .Player {
   display: flex;
-  padding: 1rem 0;
+  padding: 4px 0;
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
@@ -53,16 +53,55 @@
   align-items: center;
 }
 
-.CurrentSongImgContainer {
+.CurrentSongControls {
   position: absolute;
+  display: flex;
+  align-items: end;
   height: 200px;
-  width: 200px;
-  height: 200px;
-  bottom: 116px;
+  width: 400px;
+  bottom: 93px;
+}
+
+.CurrentSongScoreContainer {
   border: 5px solid white;
+  background-color: white;
+  height: 100px;
+  width: 100px;
+  border-radius: 5px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CurrentSongImgContainer {
+  border: 5px solid white;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CurrentSongNextContainer {
+  border: 5px solid white;
+  background-color: white;
+  height: 100px;
+  width: 100px;
+  border-radius: 0px 5px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .AudioPlayerControls {
   display: flex;
   flex-direction: column;
+}
+
+.DsDigital {
+  font-family: "DsDigital";
+}
+
+.digital7 {
+  font-family: "digital7";
 }

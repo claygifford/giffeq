@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import { Song, Track } from "../types/song";
+import { Song } from "../types/song";
 import { createNextClient } from "../clients/next";
 import { tokenIsFresh } from "../clients/spotify";
 import { Connector } from "../types/playlist";
@@ -16,7 +16,7 @@ type MusicValue = {
   currentSong: Song;
   autoPlay: Song;
   setAutoPlay: Dispatch<Song>;
-  playSong: (song: Song, playlistId?: string, autoPlay?: boolean) => void;
+  playSong: (song: any, playlistId?: string, autoPlay?: boolean) => void;
   pauseSong: () => void;
   resumeSong: () => void;
   clearSong: () => void;
@@ -24,9 +24,10 @@ type MusicValue = {
   dislikeSong: (playlistId: string) => void;
   setConnector: React.Dispatch<Connector>;
   spotifyToken: string;
-  track: Track;
   volume: number;
   changeVolume: (volume: number) => void;
+  progress: number;
+  isPlaying: boolean;
 };
 
 const MusicContext = createContext({} as MusicValue);
@@ -35,15 +36,15 @@ const MusicProvider = (props) => {
   const client = createNextClient();
 
   const [currentSong, setCurrentSong] = useState<any>(null);
-  const [track, setTrack] = useState<Track>(undefined);
 
   const [autoPlay, setAutoPlay] = useState<Song>(null);
   const [deviceId, setDeviceId] = useState<string>(undefined);
-  const [volume, setVolume] = useState<number>(undefined);
+  const [volume, setVolume] = useState<number>(1);
   const [spotifyToken, setSpotifyToken] = useState<string>("");
   const [connector, setConnector] = useState<Connector>(undefined);
   const [currentTrack, setCurrentTrack] = useState<Spotify.Track>(null);
-  const [pollDeviceStatus, setPollDeviceStatus] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     if (!connector) return;
@@ -68,7 +69,7 @@ const MusicProvider = (props) => {
 
   const playSong = useCallback(
     async (song: any, playlistId, autoPlay = false) => {
-      if (song.type === "track" && deviceId) {
+      if (song && deviceId) {
         setCurrentSong(song);
         await client.put(
           "spotify/play",
@@ -85,22 +86,23 @@ const MusicProvider = (props) => {
   );
 
   const resumeSong = useCallback(async () => {
-    if (track) {
+    if (currentTrack) {
       //if (item.type === 'track' && deviceId) {
       //  setCurrentSong(item);
       await client.put(
         "spotify/play",
         {
-          uris: [track.item.uri],
+          uris: [currentTrack.uri],
           //offset: {
           //  position: track.item.,
           //},
-          position_ms: track.progress_ms,
+          position_ms: progress,
         },
         { device_id: deviceId },
       );
     }
-  }, [client, deviceId, track]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, deviceId]);
 
   // const playNextSong = useCallback(
   //   async (id?: string) => {
@@ -161,35 +163,16 @@ const MusicProvider = (props) => {
 
   const [isReady, setIsReady] = React.useState(false);
   const [isConnecting, setIsConnecting] = React.useState(false);
-  const [isPolling, setIsPolling] = React.useState(false);
 
   const accountError = () => {
     console.log("accountError");
   };
-
-  const pollSpotifyDevice = useCallback(async () => {
-    if (pollDeviceStatus) {
-      const status = await client.get<Track>("spotify/status");
-      console.log(`${status?.is_playing} ${status?.progress_ms}`);
-      setTrack(status);
-      setTimeout(pollSpotifyDevice, 1000);
-    }
-  }, [client, pollDeviceStatus]);
-
-  useEffect(() => {
-    if (deviceId && !isPolling) {
-      setIsPolling(true);
-      pollSpotifyDevice();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceId]);
 
   const playerRef = React.useRef<Spotify.Player | null>(null);
 
   const getVolume = useCallback(async () => {
     if (playerRef.current) {
       const currentVolume = await playerRef.current.getVolume();
-      console.log(`currentVolume: ${currentVolume}`);
       setVolume(currentVolume);
     }
   }, [setVolume]);
@@ -197,7 +180,7 @@ const MusicProvider = (props) => {
   const changeVolume = useCallback(async (currentVolume: number) => {
     if (playerRef.current) {
       await playerRef.current.setVolume(currentVolume);
-      console.log(`changeVolume: change volume ${currentVolume}`);
+      setVolume(currentVolume);
     }
   }, []);
 
@@ -207,22 +190,27 @@ const MusicProvider = (props) => {
 
       getVolume();
       setDeviceId(cb.device_id);
-      setPollDeviceStatus(true);
-      pollSpotifyDevice();
     },
-    [pollSpotifyDevice, getVolume],
+    [getVolume],
   );
 
   const notReady = (cb: Spotify.WebPlaybackInstance) => {
     console.log(`notReady --> ${cb.device_id}`);
   };
 
+  const progressChanged = ({ position }: { position: number }) => {
+    setProgress(position);
+  };
+
   const playerStateChanged = (cb: Spotify.PlaybackState) => {
     if (cb && cb.track_window && cb.track_window.current_track) {
-      console.log(
-        `playerStateChanged --> ${cb.track_window.current_track.name}`,
-      );
-      setCurrentTrack(cb.track_window.current_track);
+      const {
+        loading,
+        paused,
+        track_window: { current_track },
+      } = cb;
+      setCurrentTrack(current_track);
+      setIsPlaying(!loading && !paused);
     }
   };
 
@@ -246,8 +234,9 @@ const MusicProvider = (props) => {
     playerRef.current.addListener("initialization_error", initializationError);
     playerRef.current.addListener("authentication_error", authenticationError);
     playerRef.current.addListener("playback_error", playbackError);
+    console.log("did I add the listener too many times?");
     playerRef.current.addListener("player_state_changed", playerStateChanged);
-
+    playerRef.current.addListener("progress" as any, progressChanged as any);
     playerRef.current.connect();
   }, [isReady, ready, isConnecting]);
 
@@ -299,9 +288,10 @@ const MusicProvider = (props) => {
       dislikeSong,
       setConnector,
       spotifyToken,
-      track,
       volume,
       changeVolume,
+      progress,
+      isPlaying,
     }),
     [
       currentSong,
@@ -316,9 +306,10 @@ const MusicProvider = (props) => {
       dislikeSong,
       setConnector,
       spotifyToken,
-      track,
       volume,
       changeVolume,
+      progress,
+      isPlaying,
     ],
   );
 

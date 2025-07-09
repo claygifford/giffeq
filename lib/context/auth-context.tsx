@@ -71,7 +71,6 @@ const AuthProvider = (props) => {
   );
 
   const clearSignInAction = useCallback(() => {
-    console.log("asdasd");
     setSignInAction({
       isBusy: false,
       errorMessage: undefined,
@@ -185,7 +184,6 @@ const AuthProvider = (props) => {
         setConnector(spotify);
       }
       setUser(user);
-
       await initializeLayout();
     } catch (exception) {
       console.log(`error ${exception}`);

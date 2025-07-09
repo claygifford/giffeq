@@ -23,20 +23,12 @@ const PreferencesProvider = (props) => {
 
   const setPreference = useCallback(
     async (key: string, value) => {
-      await client.post("preferences", { key: value });
       preferences[key] = value;
+      setPreferences({ ...preferences, [key]: value });
       localStorage.setItem("preferences", JSON.stringify(preferences));
-      setPreferences(preferences);
+      await client.post("preferences/set", { preferences });
     },
     [client, preferences],
-  );
-
-  const value = useMemo(
-    () => ({
-      setPreference,
-      preferences,
-    }),
-    [setPreference, preferences],
   );
 
   useEffect(() => {
@@ -46,6 +38,14 @@ const PreferencesProvider = (props) => {
       setPreferences(preferences);
     }
   }, [user]);
+
+  const value = useMemo(
+    () => ({
+      setPreference,
+      preferences,
+    }),
+    [setPreference, preferences],
+  );
 
   return (
     <PreferencesContext.Provider value={value}>

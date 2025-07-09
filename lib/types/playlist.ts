@@ -1,15 +1,16 @@
-import { Decision, Song } from "./song";
+import { Decision, History } from "./song";
 
 export type Playlist = {
   name: string;
   id: string;
-  history: Song[];
+  history: History[];
   decisions: Decision[];
   searches: string[];
 };
 
 export type Preferences = {
   AutoPlaySong: boolean;
+  PollForStatus: boolean;
 };
 
 export type Connector = {

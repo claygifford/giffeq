@@ -14,6 +14,7 @@ import { useAuth } from "../../lib/context/auth-context";
 import ThumbsUpDogComponent from "./../../components/dogs/thumbs-up-dog-component";
 import ThumbsDownDogComponent from "../../components/dogs/thumbs-down-dog-component";
 import VibingDogComponent from "../../components/dogs/vibing-dog-component";
+import FeaturedPlaylistComponent from "../../components/dogs/featured-playlist-component";
 
 export default function About() {
   const { user } = useAuth();
@@ -183,6 +184,9 @@ export default function About() {
                 After a song plays, users could easily upvote or downvote songs
                 to let the system know if they like it or not
               </h2>
+              <div className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 ring-blue-300 ring-2 focus:outline-none">
+                Collaborative filtering
+              </div>
             </div>
           </div>
         </div>
@@ -195,12 +199,14 @@ export default function About() {
                 into similar, lesser-known artists and tracks that a loved one
                 might not know about but would be a perfect fit.
               </h2>
+              <div className="bg-blue-200 flex whitespace-nowrap items-center group relative w-full justify-center rounded-full border border-transparent py-5 px-10 text-xl font-medium text-gray-800 ring-blue-300 ring-2 focus:outline-none">
+                Content-based filtering
+              </div>
             </div>
             <div
               className={`${styles.AboutSubsection} ${styles.Traveler} bg-green-500`}
             >
-              <div>Section 3</div>
-              <div>Image</div>
+              <FeaturedPlaylistComponent></FeaturedPlaylistComponent>
             </div>
           </div>
         </div>
@@ -213,15 +219,17 @@ export default function About() {
             <div
               className={`${styles.AboutSubsection} ${styles.Selfish} bg-yellow-500`}
             >
-              <div>Client</div>
-              <div>Server</div>
-              <div>Image</div>
+              <div className={styles.AboutSubsectionItem}>React</div>
+              <div className={styles.AboutSubsectionItem}>JS</div>
+              <div className={styles.AboutSubsectionItem}>Next.js</div>
+              <div className={styles.AboutSubsectionItem}>GraphQL</div>
+              <div className={styles.AboutSubsectionItem}>Github</div>
+              <div className={styles.AboutSubsectionItem}>AWS</div>
+              <div className={styles.AboutSubsectionItem}>Redis</div>
             </div>
             <div className={`${styles.AboutSectionTextRight}`}>
               <h1 className={styles.AboutHeader2}>The Stack</h1>
-              <h2 className={styles.AboutHeader4}>
-                Playlist words that describe the product
-              </h2>
+              <FeaturedPlaylistComponent></FeaturedPlaylistComponent>
             </div>
           </div>
         </div>
@@ -242,8 +250,8 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className="bg-blue-200 h-1/5 flex justify-center items-center">
-          Footer
+        <div className="bg-blue-200 flex justify-center items-center h-20">
+          Copyright © 2025 Giff Eq Inc. All rights reserved.
         </div>
       </div>
     </PageComponent>

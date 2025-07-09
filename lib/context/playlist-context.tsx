@@ -89,7 +89,7 @@ const PlaylistProvider = (props) => {
           errorMessage: undefined,
         });
 
-        const item = await client.post<Playlist>("playlist", {
+        const item = await client.post<Playlist>("playlist/createPlaylist", {
           name,
         });
         setCreatePlaylistAction({
@@ -124,9 +124,7 @@ const PlaylistProvider = (props) => {
         errorMessage: undefined,
       });
 
-      console.log(`yo::>${playlist.id}`);
-
-      await client.delete("playlist", {
+      await client.delete("playlist/deletePlaylist", {
         playlistId: playlist.id,
       });
 
@@ -152,7 +150,9 @@ const PlaylistProvider = (props) => {
   const getPlaylistById = useCallback(
     async (id) => {
       try {
-        return await client.get<Playlist>("playlist", { playlistId: id });
+        return await client.get<Playlist>("playlist/getPlaylist", {
+          playlistId: id,
+        });
       } catch (error) {
         let item = {};
         if (error instanceof Response) {
@@ -174,7 +174,7 @@ const PlaylistProvider = (props) => {
         isBusy: true,
         errorMessage: undefined,
       });
-      const items = await client.get<Playlist[]>("playlists");
+      const items = await client.get<Playlist[]>("playlist/getPlaylists");
       setPlaylists(items);
       setGetPlaylistsAction({
         isBusy: false,

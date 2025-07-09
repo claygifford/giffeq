@@ -8,44 +8,49 @@ import DeleteButtonComponent from "../../lib/ui/buttons/delete-button";
 import PlayButtonComponent from "../../lib/ui/buttons/play-button";
 import { usePlaylist } from "../../lib/context/playlist-context";
 import { useMusic } from "../../lib/context/music-context";
+import { DecisionData } from "../../lib/types/song";
+import { getRelativeTime } from "../../lib/clients/spotify";
+import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import ImageComponent from "../image/image-component";
 
-const ItemTemplate = ({ item, onPlay, onDelete, isSelected }) => {
-  const artist = (i) => {
-    if (i.type === "album" || i.type === "track")
-      return (
-        <div className="flex px-2 gap-2 truncate bg-white border">
-          |{" "}
-          {i.artists.map((artist) => {
-            if (!artist) return;
-            return <span key={artist.id}>{artist.name}</span>;
-          })}
-        </div>
-      );
-  };
+type Item = {
+  item: DecisionData;
+  onDelete: () => void;
+  onPlay: (item: DecisionData) => void;
+  isSelected: boolean;
+};
 
+const ItemTemplate = ({ item, onPlay, onDelete, isSelected }: Item) => {
   return (
     <div
-      className={`flex rounded py-1 px-2 items-center bg-white border ${
-        isSelected ? "bg-indigo-200" : ""
+      className={`flex gap-4 rounded py-1 px-2 items-center border ${
+        isSelected ? "bg-blue-100" : "bg-white"
       }`}
     >
+      <ImageComponent item={item.album}></ImageComponent>
+      <div className="font-medium truncate">{item.name}</div>
+      <div className="truncate">{item.group}</div>
+      <div className="grow"></div>
+      {item.like ? (
+        <HandThumbUpIcon className="h-8 w-8 min-h-[1.5rem] min-w-[1.5rem] text-blue-900" />
+      ) : (
+        <HandThumbDownIcon className="h-8 w-8 min-h-[1.5rem] min-w-[1.5rem] text-blue-900" />
+      )}
+      <div>{getRelativeTime(item.timestamp)}</div>
       <PlayButtonComponent onClick={() => onPlay(item)}></PlayButtonComponent>
       <DeleteButtonComponent onClick={onDelete}></DeleteButtonComponent>
-      <div className="font-medium truncate">{item.name}</div>
-      {artist(item)}
     </div>
   );
 };
 
 export default function DecisionsComponent() {
   const { decisions, deleteDecision } = useDecision();
-  const { playSong } = useMusic();
+  const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
   const [songSearch, setSongSearch] = useState("");
 
   const onPlay = (item) => {
-    item.type = "track";
     playSong(item, playlist.id, true);
   };
 
@@ -55,9 +60,8 @@ export default function DecisionsComponent() {
 
   const getResults = () => {
     if (decisions) {
-      console.log(`${JSON.stringify(decisions.items)}`);
       if (songSearch)
-        return decisions.items.filter((h) => h.song.name.includes(songSearch));
+        return decisions.items.filter((h) => h.name.includes(songSearch));
       return decisions.items;
     }
     return [];
@@ -103,8 +107,7 @@ export default function DecisionsComponent() {
               onDelete={() => onDelete(i)}
               item={result}
               key={i}
-              isSelected={false}
-              //isSelected={currentSong.id === result.id}
+              isSelected={currentSong && currentSong.uri === result.uri}
             />
           );
         })}

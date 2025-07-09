@@ -1,12 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from "../../lib/clients/redis";
-import { HttpMethods, hasToken } from "./methods";
-import { createApiClient } from "../../lib/clients/api";
-import { getSpotifyAccessToken } from "../../lib/clients/spotify";
+import { createRedisClientManualDispose } from "../../../lib/clients/redis";
+import { HttpMethods, hasToken } from "../methods";
+import { createApiClient } from "../../../lib/clients/api";
+import { getSpotifyAccessToken } from "../../../lib/clients/spotify";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!hasToken(req, res)) return;
-  if (req.method === HttpMethods.get) return getSearch(req, res);
+  const { query } = req.query;
+  if (req.method === HttpMethods.get && query === "get")
+    return getSearch(req, res);
   return res.status(405).send({ message: "405 Method Not Allowed" });
 }
 

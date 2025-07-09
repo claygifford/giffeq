@@ -3,12 +3,27 @@ import { createNextClient } from "../clients/next";
 import debounce from "lodash/debounce";
 import { useDialog } from "../hooks/use-dialog";
 import ErrorDialog from "../ui/dialog/error-dialog";
+import { Album, Artist, Track } from "../types/song";
 
 type SearchValue = {
   isSearchingMusic: boolean;
   searchMusic: (search: string) => void;
   clearResults: () => void;
-  currentResults: any;
+  currentResults: SearchItem[];
+};
+
+export type SearchItem = Album | Artist | Track;
+
+export const isAlbum = (check: Album | Artist | Track): check is Album => {
+  return check.type === "album";
+};
+
+export const isArtist = (check: Album | Artist | Track): check is Artist => {
+  return check.type === "artist";
+};
+
+export const isTrack = (check: Album | Artist | Track): check is Track => {
+  return check.type === "track";
 };
 
 const SearchContext = createContext({} as SearchValue);
@@ -19,7 +34,7 @@ const SearchProvider = (props) => {
 
   const [isSearchingMusic, setIsSearchingMusic] = useState<boolean>(false);
 
-  const [currentResults, setCurrentResults] = useState<any>(null);
+  const [currentResults, setCurrentResults] = useState<SearchItem[]>(null);
 
   const clearResults = useCallback(() => {
     setCurrentResults(undefined);
@@ -31,10 +46,10 @@ const SearchProvider = (props) => {
         setIsSearchingMusic(true);
 
         const data = await client.get<{
-          tracks: { items: any[] };
-          albums: { items: any[] };
-          artists: { items: any[] };
-        }>("search", {
+          tracks: { items: Track[] };
+          albums: { items: Album[] };
+          artists: { items: Artist[] };
+        }>("search/get", {
           q: search,
           type: "album,track,artist",
         });

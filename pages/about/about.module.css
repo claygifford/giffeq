@@ -25,11 +25,20 @@
 
 .AboutSection {
   @apply pt-[60px] flex justify-center items-center;
-  height: calc(80% - 60px);
+  /* height: calc(80% - 60px); */
+  height: 100vh;
 }
 
 .AboutSubsection {
-  @apply mb-10 flex flex-col flex-1 rounded-lg justify-center items-center mx-10 text-white text-7xl;
+  @apply mb-10  rounded-lg justify-center items-center mx-10 text-white text-7xl;
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+}
+
+.AboutSubsectionItem {
+  flex-grow: 1;
+  width: 33%;
+  height: 100px;
 }
 
 .AboutSectionTextLeft {

@@ -7,34 +7,37 @@ const nextConfig = {
   reactStrictMode: true,
   //swcMinify: true,
   eslint: {
-    dirs: ["pages", "lib", "components"],
+    dirs: ['pages', 'lib', 'components'],
   },
   exportPathMap: async function (
     defaultPathMap,
-    { dev, dir, outDir, distDir, buildId },
+    { dev, dir, outDir, distDir, buildId }
   ) {
     return {
-      "/": { page: "/", query: { __nextDefaultLocale: "en-US" } },
-      "/about": { page: "/about", query: { __nextDefaultLocale: "en-US" } },
-      "/about/login": {
-        page: "/about/login",
-        query: { __nextDefaultLocale: "en-US" },
+      '/': { page: '/', query: { __nextDefaultLocale: 'en-US' } },
+      '/about': { page: '/about', query: { __nextDefaultLocale: 'en-US' } },
+      '/about/login': {
+        page: '/about/login',
+        query: { __nextDefaultLocale: 'en-US' },
       },
-      "/about/recovery": {
-        page: "/about/recovery",
-        query: { __nextDefaultLocale: "en-US" },
+      '/about/recovery': {
+        page: '/about/recovery',
+        query: { __nextDefaultLocale: 'en-US' },
       },
-      "/about/signup": {
-        page: "/about/signup",
-        query: { __nextDefaultLocale: "en-US" },
+      '/about/signup': {
+        page: '/about/signup',
+        query: { __nextDefaultLocale: 'en-US' },
       },
-      "/privacy": { page: "/privacy", query: { __nextDefaultLocale: "en-US" } },
+      '/privacy': { page: '/privacy', query: { __nextDefaultLocale: 'en-US' } },
     };
   },
   experimental: {
     turbo: {
-      moduleIdStrategy: "deterministic",
+      moduleIdStrategy: 'deterministic',
     },
+  },
+  images: {
+    domains: ['i.scdn.co'],
   },
 };
 

@@ -1,13 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createRedisClientManualDispose } from "../../lib/clients/redis";
-import { HttpMethods, generateToken, hasToken } from "./methods";
-import { Playlist } from "../../lib/types/playlist";
+import { createRedisClientManualDispose } from "../../../lib/clients/redis";
+import { HttpMethods, generateToken, hasToken } from "../methods";
+import { Playlist } from "../../../lib/types/playlist";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!hasToken(req, res)) return;
-  if (req.method === HttpMethods.get) return getPlaylist(req, res);
-  if (req.method === HttpMethods.post) return createPlaylist(req, res);
-  if (req.method === HttpMethods.delete) return deletePlaylist(req, res);
+  const { query } = req.query;
+  if (req.method === HttpMethods.get && query === "getPlaylist")
+    return getPlaylist(req, res);
+  else if (req.method === HttpMethods.get && query === "getPlaylists")
+    return getPlaylists(req, res);
+  else if (req.method === HttpMethods.post && query === "createPlaylist")
+    return createPlaylist(req, res);
+  else if (req.method === HttpMethods.delete && query === "deletePlaylist")
+    return deletePlaylist(req, res);
   return res.status(405).send({ message: "405 Method Not Allowed" });
 }
 
@@ -64,6 +70,21 @@ const deletePlaylist = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await client.json.del(`playlists:${id}`, playlistId as string);
     res.status(204).end();
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+const getPlaylists = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    //await using redisClient = await createRedisClient(req);
+    const redisClient = await createRedisClientManualDispose(req);
+    const { client, id } = redisClient;
+    const playlists = (await client.json.get(`playlists:${id}`)) as {
+      [key: string]: Playlist;
+    } | null;
+    const items = Object.values(playlists);
+    res.status(200).send(items);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

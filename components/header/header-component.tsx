@@ -4,6 +4,7 @@ import React from "react";
 import { useAuth } from "../../lib/context/auth-context";
 import NoteIcon from "../../lib/ui/icons/note-icon";
 import ConnectorButton from "../connectors/connector-button-component";
+import ThemesButton from "../themes/themes-button-component";
 import styles from "./header.module.css";
 import UserProfileComponent from "./user-profile/user-profile-component";
 import { usePlaylist } from "../../lib/context/playlist-context";
@@ -41,6 +42,7 @@ export default function HeaderComponent() {
         </div>
       )}
       <div className="flex flex-1 items-center justify-end px-3">
+        <ThemesButton></ThemesButton>
         <ConnectorButton></ConnectorButton>
         {user ? (
           <UserProfileComponent></UserProfileComponent>

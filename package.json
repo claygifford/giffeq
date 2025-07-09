@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier . --write",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "knip": "knip"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.23.0",
@@ -23,7 +24,7 @@
     "@heroicons/react": "^2.0.15",
     "@next/bundle-analyzer": "15.1.6",
     "@types/lodash": "^4.14.194",
-    "@types/node": "18.11.17",
+    "@types/node": "^22.15.14",
     "@types/react": "19.0.8",
     "@types/request": "^2.48.8",
     "@types/spotify-web-playback-sdk": "^0.1.19",
@@ -32,6 +33,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.20.0",
     "eslint-config-next": "15.1.6",
+    "knip": "^5.54.1",
     "lodash": "^4.17.21",
     "postcss": "^8.4.31",
     "prettier": "3.4.2",
@@ -39,7 +41,7 @@
     "react-dom": "19.0.0",
     "request": "^2.88.2",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.7.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.18.1",
     "webpack-bundle-analyzer": "^4.9.0"
   },

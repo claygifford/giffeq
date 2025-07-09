@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useMemo, useState } from "react";
 import { createNextClient } from "../clients/next";
 import { Playlist } from "../types/playlist";
-import { Song } from "../types/song";
+import { HistoryData } from "../types/song";
 import { Action } from "../types/action";
 import { EmptyQuery, Query } from "../types/query";
 
@@ -9,14 +9,14 @@ type HistoryValue = {
   deleteEvent: (playlist: Playlist, index: number) => void;
   getHistory: (playlistId: string) => void;
   getHistoryAction: Action;
-  history: Query<Song>;
+  history: Query<HistoryData>;
 };
 
 const HistoryContext = createContext({} as HistoryValue);
 
 const HistoryProvider = (props) => {
   const client = createNextClient();
-  const [history, setHistory] = useState<Query<Song>>(EmptyQuery);
+  const [history, setHistory] = useState<Query<HistoryData>>(EmptyQuery);
   const [getHistoryAction, setGetHistoryAction] = useState<Action>({
     isBusy: false,
   });
@@ -29,7 +29,7 @@ const HistoryProvider = (props) => {
           isBusy: true,
           errorMessage: undefined,
         });
-        const result = await client.get<Query<Song>>("history/query", {
+        const result = await client.get<Query<HistoryData>>("history/query", {
           playlistId: playlistId,
           start: 0,
           count: 50,
@@ -52,13 +52,15 @@ const HistoryProvider = (props) => {
 
   const deleteEvent = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete("event", {
+      history.items.splice(index, 1);
+      setHistory({
+        ...history,
+      });
+
+      await client.delete("history/event", {
         playlistId: playlist.id,
         index: index,
       });
-
-      history.items.splice(index, 1);
-      setHistory(history);
     },
     [client, history],
   );

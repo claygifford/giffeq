@@ -2,21 +2,21 @@ import React, { createContext, useCallback, useMemo, useState } from "react";
 import { createNextClient } from "../clients/next";
 import { Action } from "../types/action";
 import { Query, EmptyQuery } from "../types/query";
-import { Decision } from "../types/song";
+import { DecisionData } from "../types/song";
 import { Playlist } from "../types/playlist";
 
 type DecisionValue = {
   deleteDecision: (playlist: Playlist, index: number) => void;
   getDecisions: (playlistId: string) => void;
   getDecisionsAction: Action;
-  decisions: Query<Decision>;
+  decisions: Query<DecisionData>;
 };
 
 const DecisionContext = createContext({} as DecisionValue);
 
 const DecisionProvider = (props) => {
   const client = createNextClient();
-  const [decisions, setDecisions] = useState<Query<Decision>>(EmptyQuery);
+  const [decisions, setDecisions] = useState<Query<DecisionData>>(EmptyQuery);
   const [getDecisionsAction, setGetDecisionsAction] = useState<Action>({
     isBusy: false,
   });
@@ -29,11 +29,14 @@ const DecisionProvider = (props) => {
           isBusy: true,
           errorMessage: undefined,
         });
-        const result = await client.get<Query<Decision>>("decisions/query", {
-          playlistId: playlistId,
-          start: 0,
-          count: 50,
-        });
+        const result = await client.get<Query<DecisionData>>(
+          "decisions/query",
+          {
+            playlistId: playlistId,
+            start: 0,
+            count: 50,
+          },
+        );
         setDecisions(result);
         setGetDecisionsAction({
           isBusy: false,
@@ -52,14 +55,14 @@ const DecisionProvider = (props) => {
 
   const deleteDecision = useCallback(
     async (playlist: Playlist, index: number) => {
-      await client.delete("decisions/decision", {
-        playlistId: playlist.id,
-        index: index,
-      });
-
       decisions.items.splice(index, 1);
       setDecisions({
         ...decisions,
+      });
+
+      await client.delete("decisions/decision", {
+        playlistId: playlist.id,
+        index: index,
       });
     },
     [client, decisions],

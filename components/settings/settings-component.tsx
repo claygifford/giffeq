@@ -27,7 +27,19 @@ export default function SettingsComponent() {
           label={"Auto play song"}
           value={preferences.AutoPlaySong}
           onChange={(event) =>
-            setPreference("AutoPlaySong", event.target.value)
+            setPreference("AutoPlaySong", event.target.checked)
+          }
+        />
+      </div>
+      <div className="px-4 py-2">Poll for status</div>
+      <div className="px-4 py-2">
+        <CheckboxInputComponent
+          id={"poll-for-status"}
+          name={"poll-for-status"}
+          label={"Poll for status"}
+          value={preferences.PollForStatus}
+          onChange={(event) =>
+            setPreference("PollForStatus", event.target.checked)
           }
         />
       </div>

@@ -34,6 +34,8 @@ type LayoutValue = {
   changeConnectorPane: (pane: PanelModeType) => void;
   sideBarPane: number;
   changeSideBarPane: (pane: PanelModeType) => void;
+  themesPane: number;
+  changeThemesPane: (pane: PanelModeType) => void;
   mainPane: number;
   showMainPane: (pane: MainModeType) => void;
   pageMode: number;
@@ -59,6 +61,9 @@ const LayoutProvider = (props) => {
   const [sideBarPane, setSideBarPane] = useState<PanelModeType>(
     PanelMode.Collapsed,
   );
+  const [themesPane, setThemesPane] = useState<PanelModeType>(
+    PanelMode.Collapsed,
+  );
   const [mainPane, setMainPane] = useState<MainModeType>(MainMode.Search);
   const [pageMode, setPageMode] = useState<PageModeType>(PageMode.Playlist);
   const [colors] = useState<string[]>([
@@ -74,6 +79,10 @@ const LayoutProvider = (props) => {
 
   const changeSideBarPane = useCallback((pane: PanelModeType) => {
     setSideBarPane(pane);
+  }, []);
+
+  const changeThemesPane = useCallback((pane: PanelModeType) => {
+    setThemesPane(pane);
   }, []);
 
   const showMainPane = useCallback(
@@ -97,6 +106,7 @@ const LayoutProvider = (props) => {
 
   const changePageMode = useCallback(
     (pane: PageModeType, list?: Playlist) => {
+      console.log("about to changePageMode");
       switch (pane) {
         case PageMode.Listening:
           if (!list) return;
@@ -123,7 +133,8 @@ const LayoutProvider = (props) => {
   );
 
   const initializeLayout = useCallback(async () => {
-    const [, path] = asPath.split("#");
+    let [, path] = asPath.split("#");
+    path = path ?? asPath;
     if (path) {
       const [firstPath, rest] = path.split("/");
       const mode =
@@ -132,6 +143,8 @@ const LayoutProvider = (props) => {
             (key) => key.toLowerCase() === firstPath.toLowerCase(),
           )
         ];
+      if (rest === "about") return;
+
       if (mode) {
         switch (mode) {
           case PageMode.Listening: {
@@ -163,6 +176,8 @@ const LayoutProvider = (props) => {
       changeConnectorPane,
       sideBarPane,
       changeSideBarPane,
+      themesPane,
+      changeThemesPane,
       mainPane,
       showMainPane,
       pageMode,
@@ -175,6 +190,8 @@ const LayoutProvider = (props) => {
       changeConnectorPane,
       sideBarPane,
       changeSideBarPane,
+      themesPane,
+      changeThemesPane,
       mainPane,
       showMainPane,
       pageMode,
