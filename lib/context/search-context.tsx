@@ -10,6 +10,8 @@ type SearchValue = {
   searchMusic: (search: string) => void;
   clearResults: () => void;
   currentResults: SearchItem[];
+  songSearch: string;
+  setSongSearch: (search: string) => void;
 };
 
 export type SearchItem = Album | Artist | Track;
@@ -31,6 +33,8 @@ const SearchContext = createContext({} as SearchValue);
 const SearchProvider = (props) => {
   const client = createNextClient();
   const dialog = useDialog();
+
+  const [songSearch, setSongSearch] = useState("");
 
   const [isSearchingMusic, setIsSearchingMusic] = useState<boolean>(false);
 
@@ -79,8 +83,17 @@ const SearchProvider = (props) => {
       isSearchingMusic,
       clearResults,
       currentResults,
+      songSearch,
+      setSongSearch,
     }),
-    [searchMusic, isSearchingMusic, clearResults, currentResults],
+    [
+      searchMusic,
+      isSearchingMusic,
+      clearResults,
+      currentResults,
+      songSearch,
+      setSongSearch,
+    ],
   );
 
   return (

@@ -1,5 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useMusic } from "../../lib/context/music-context";
 import BusyIcon from "../../lib/ui/icons/busy-icon";
 import InputComponent from "../../lib/ui/input/input-component";
@@ -65,10 +65,14 @@ export default function SearchComponent() {
   const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
-  const { isSearchingMusic, searchMusic, currentResults, clearResults } =
-    useSearch();
-
-  const [songSearch, setSongSearch] = useState("");
+  const {
+    isSearchingMusic,
+    searchMusic,
+    currentResults,
+    clearResults,
+    songSearch,
+    setSongSearch,
+  } = useSearch();
 
   const onItemClick = (song) => {
     playSong(song, playlist.id);

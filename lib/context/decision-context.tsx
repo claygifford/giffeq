@@ -10,12 +10,15 @@ type DecisionValue = {
   getDecisions: (playlistId: string) => void;
   getDecisionsAction: Action;
   decisions: Query<DecisionData>;
+  songSearch: string;
+  setSongSearch: (search: string) => void;
 };
 
 const DecisionContext = createContext({} as DecisionValue);
 
 const DecisionProvider = (props) => {
   const client = createNextClient();
+  const [songSearch, setSongSearch] = useState("");
   const [decisions, setDecisions] = useState<Query<DecisionData>>(EmptyQuery);
   const [getDecisionsAction, setGetDecisionsAction] = useState<Action>({
     isBusy: false,
@@ -74,8 +77,17 @@ const DecisionProvider = (props) => {
       getDecisions,
       getDecisionsAction,
       decisions,
+      songSearch,
+      setSongSearch,
     }),
-    [deleteDecision, getDecisions, getDecisionsAction, decisions],
+    [
+      deleteDecision,
+      getDecisions,
+      getDecisionsAction,
+      decisions,
+      songSearch,
+      setSongSearch,
+    ],
   );
 
   return (

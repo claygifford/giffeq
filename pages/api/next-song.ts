@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRedisClientManualDispose } from "../../lib/clients/redis";
 import { HttpMethods, hasToken } from "./methods";
-import { Song } from "../../lib/types/song";
 import { Playlist } from "../../lib/types/playlist";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -25,7 +24,7 @@ const getNextSong = async (req: NextApiRequest, res: NextApiResponse) => {
     })) as Playlist;
 
     if (playlist.history) {
-      res.send((playlist.history as Song[]).pop());
+      res.send((playlist.history).pop());
     } else {
       res.send({});
     }
