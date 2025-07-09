@@ -10,12 +10,15 @@ type HistoryValue = {
   getHistory: (playlistId: string) => void;
   getHistoryAction: Action;
   history: Query<HistoryData>;
+  songSearch: string;
+  setSongSearch: (search: string) => void;
 };
 
 const HistoryContext = createContext({} as HistoryValue);
 
 const HistoryProvider = (props) => {
   const client = createNextClient();
+  const [songSearch, setSongSearch] = useState("");
   const [history, setHistory] = useState<Query<HistoryData>>(EmptyQuery);
   const [getHistoryAction, setGetHistoryAction] = useState<Action>({
     isBusy: false,
@@ -71,8 +74,17 @@ const HistoryProvider = (props) => {
       getHistory,
       getHistoryAction,
       history,
+      songSearch,
+      setSongSearch,
     }),
-    [deleteEvent, getHistory, getHistoryAction, history],
+    [
+      deleteEvent,
+      getHistory,
+      getHistoryAction,
+      history,
+      songSearch,
+      setSongSearch,
+    ],
   );
 
   return (

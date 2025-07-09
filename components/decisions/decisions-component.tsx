@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./decisions.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import InputComponent from "../../lib/ui/input/input-component";
@@ -44,11 +44,12 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }: Item) => {
 };
 
 export default function DecisionsComponent() {
-  const { decisions, deleteDecision } = useDecision();
+  const { decisions, deleteDecision, songSearch, setSongSearch } =
+    useDecision();
   const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
-  const [songSearch, setSongSearch] = useState("");
+  //const [songSearch, setSongSearch] = useState("");
 
   const onPlay = (item) => {
     playSong(item, playlist.id, true);

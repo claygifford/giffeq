@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./history.module.css";
 import { usePlaylist } from "../../lib/context/playlist-context";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -46,11 +46,11 @@ const ItemTemplate = ({ item, onPlay, onDelete, isSelected }: Item) => {
 };
 
 export default function HistoryComponent() {
-  const { deleteEvent, history } = useHistory();
+  const { deleteEvent, history, songSearch, setSongSearch } = useHistory();
   const { playSong, currentSong } = useMusic();
   const { playlist } = usePlaylist();
 
-  const [songSearch, setSongSearch] = useState("");
+  //const [songSearch, setSongSearch] = useState("");
 
   const onPlay = (item: HistoryData) => {
     playSong(item, playlist.id, true);
